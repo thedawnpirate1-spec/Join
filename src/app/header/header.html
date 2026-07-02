@@ -1,9 +1,14 @@
+<div class="header-left">
+  <img src="Assets/icons/Join logo vector.svg" alt="Join" class="mobile-logo">
 <h1 class="header-title">Kanban Project Management Tool</h1>
+</div>
 <div class="header-right">
-  <a routerLink="/help" class="help-link" title="Help">
-    <img src="Assets/icons/help-default-icon.svg" alt="Help" class="help-default">
-    <img src="Assets/icons/help-hover-icon.svg" alt="Help" class="help-hover">
-  </a>
+  @if (showHelpButton()) {
+    <a routerLink="/help" class="help-link" title="Help">
+      <img src="Assets/icons/help-default-icon.svg" alt="Help" class="help-default">
+      <img src="Assets/icons/help-hover-icon.svg" alt="Help" class="help-hover">
+    </a>
+  }
   
   <div class="profile-container">
     <button class="profile-btn" (click)="toggleMenu($event)" title="User Profile">
