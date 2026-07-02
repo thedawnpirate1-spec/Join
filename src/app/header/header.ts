@@ -1,9 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header {}
+export class Header {
+  isMenuOpen = false;
+
+  toggleMenu(event: Event) {
+    event.stopPropagation();
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
+
+  @HostListener('document:click')
+  onDocumentClick() {
+    this.closeMenu();
+  }
+}
