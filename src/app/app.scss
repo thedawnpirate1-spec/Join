@@ -1,0 +1,28 @@
+app-header {
+    background-color: red;
+}
+app-navbar {
+    background-color: blue;
+}
+app-mainside {
+    background-color: green;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: auto 1fr;
+    height: 100dvh;
+}
+
+app-header {
+    grid-row: 1;
+    grid-column: 2;
+}
+app-navbar {
+    grid-row: 1/-1;
+    grid-column: 1;
+}
+app-mainside {
+    grid-row: 2;
+    grid-column: 2;
+}
