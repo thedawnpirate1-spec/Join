@@ -1,5 +1,6 @@
-import { Component, HostListener } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, HostListener, signal, OnInit } from '@angular/core';
+import { Router, RouterLink, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -7,8 +8,21 @@ import { RouterLink } from '@angular/router';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header {
+export class Header implements OnInit {
+  readonly showHelpButton = signal(true);
   isMenuOpen = false;
+
+  constructor(private readonly router: Router) {
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event) => {
+      this.showHelpButton.set(event.urlAfterRedirects !== '/help');
+    });
+  }
+
+  ngOnInit() {
+    this.showHelpButton.set(this.router.url !== '/help');
+  }
 
   toggleMenu(event: Event) {
     event.stopPropagation();
