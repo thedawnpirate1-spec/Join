@@ -1,13 +1,51 @@
 <div class="modal-backdrop" (click)="onClose()"></div>
 <div class="modal-window" (click)="$event.stopPropagation()">
-  <button class="modal-close-btn" (click)="onClose()">
-    <img src="Assets/icons/close-icon.svg" alt="Close">
-  </button>
-  <div class="modal-content">
-    <p>contact-dialog works!</p>
-    <p>Mode: {{ mode }}</p>
-    <div *ngIf="contact">
-      <p>Editing: {{ contact.first_name }} {{ contact.last_name }}</p>
+  <div class="left-panel">
+    <div class="left-content">
+      <img src="Assets/icons/Join logo vector.svg" alt="Join Logo" class="panel-logo">
+      <h2 class="panel-title">Add contact</h2>
+      <p class="panel-subtitle">Tasks are better with a team!</p>
+      <div class="panel-underline"></div>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <button class="modal-close-btn" (click)="onClose()" title="Close">
+      <img src="Assets/icons/close-icon.svg" alt="Close">
+    </button>
+    
+    <div class="right-content-grid">
+      <div class="avatar-container">
+        <img src="Assets/icons/profile-placeholder.svg" alt="Avatar Placeholder" class="avatar-img">
+      </div>
+
+      <form class="contact-form">
+        <div class="inputs-container">
+          <div class="input-group">
+            <input type="text" placeholder="Name" class="form-input">
+            <img src="Assets/icons/person-icon.svg" alt="Name Icon" class="input-icon">
+          </div>
+          <div class="input-group">
+            <input type="email" placeholder="Email" class="form-input">
+            <img src="Assets/icons/mail-icon.svg" alt="Email Icon" class="input-icon">
+          </div>
+          <div class="input-group">
+            <input type="tel" placeholder="Phone" class="form-input">
+            <img src="Assets/icons/phone-icon.svg" alt="Phone Icon" class="input-icon">
+          </div>
+        </div>
+
+        <div class="buttons-container">
+          <button type="button" class="btn btn-cancel" (click)="onClose()">
+            <span>Cancel</span>
+            <img src="Assets/icons/close-icon.svg" alt="Cancel" class="btn-icon">
+          </button>
+          <button type="submit" class="btn btn-create" (click)="$event.preventDefault(); onSave()">
+            <span>Create contact</span>
+            <img src="Assets/icons/check-icon.svg" alt="Create" class="btn-icon">
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

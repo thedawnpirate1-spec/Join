@@ -25,26 +25,79 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  max-width: 90vw;
-  height: 300px;
-  max-height: 80vh;
+  display: grid;
+  grid-template-columns: 467px 1fr;
+  width: 1212px;
+  height: 594px;
   background: #ffffff;
   border-radius: 30px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   z-index: 1000;
   overflow: hidden;
   animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  padding: 40px;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-family);
+}
+
+.left-panel {
+  width: 467px;
+  height: 594px;
+  background-color: var(--color-primary);
+  border-radius: 30px 0 0 30px;
+  display: grid;
+  align-content: center;
+  padding-left: 48px;
+  box-sizing: border-box;
+}
+
+.left-content {
+  display: grid;
+  justify-items: start;
+}
+
+.panel-logo {
+  height: 55px;
+  width: auto;
+  margin-bottom: 32px;
+}
+
+.panel-title {
+  color: #ffffff;
+  font-size: 61px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  line-height: 1.1;
+}
+
+.panel-subtitle {
+  color: #ffffff;
+  font-size: 27px;
+  font-weight: 400;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.panel-underline {
+  background-color: #29ABE2;
+  width: 90px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.right-panel {
+  position: relative;
+  width: 100%;
+  height: 594px;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  padding-left: 72px;
+  padding-right: 72px;
 }
 
 .modal-close-btn {
   position: absolute;
-  top: 24px;
-  right: 24px;
+  top: 48px;
+  right: 48px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -56,8 +109,8 @@
   transition: background-color 0.15s;
 
   img {
-    width: 14px;
-    height: 14px;
+    width: 20px;
+    height: 20px;
   }
 
   &:hover {
@@ -65,11 +118,142 @@
   }
 }
 
-.modal-content {
-  display: flex;
-  flex-direction: column;
+.right-content-grid {
+  display: grid;
+  grid-template-columns: 120px 422px;
+  gap: 72px;
+  align-items: center;
+}
+
+.avatar-container {
+  width: 120px;
+  height: 120px;
+  display: grid;
+  place-items: center;
+}
+
+.avatar-img {
+  width: 120px;
+  height: 120px;
+  display: block;
+  border-radius: 50%;
+}
+
+.contact-form {
+  display: grid;
+  grid-template-rows: auto auto;
+}
+
+.inputs-container {
+  display: grid;
+  grid-template-rows: repeat(3, 50px);
+  gap: 32px;
+  width: 422px;
+  margin-bottom: 32px;
+}
+
+.input-group {
+  position: relative;
+  width: 422px;
+  height: 50px;
+}
+
+.form-input {
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  border: 1px solid #D1D1D1;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 48px;
+  font-family: var(--font-family);
+  font-size: 20px;
+  color: var(--color-text-primary);
+  outline: none;
+  transition: border-color 100ms ease-in-out;
+
+  &::placeholder {
+    color: #D1D1D1;
+  }
+
+  &:focus {
+    border-color: #29ABE2;
+  }
+}
+
+.input-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
+.buttons-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: end;
   gap: 16px;
-  margin-top: 20px;
-  font-size: 18px;
-  color: #2a3647;
+  width: 422px;
+}
+
+.btn {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 10px;
+  font-family: var(--font-family);
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 100ms ease-in-out;
+}
+
+.btn-cancel {
+  width: 126px;
+  height: 56px;
+  background-color: #ffffff;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+
+  .btn-icon {
+    width: 14px;
+    height: 14px;
+    transition: filter 100ms ease-in-out;
+  }
+
+  &:hover {
+    border-color: #29ABE2;
+    color: #29ABE2;
+
+    .btn-icon {
+      filter: brightness(0) saturate(100%) invert(58%) sepia(87%) saturate(1917%) hue-rotate(167deg) brightness(94%) contrast(92%);
+    }
+  }
+}
+
+.btn-create {
+  width: 214px;
+  height: 57px;
+  background-color: var(--color-primary);
+  border: none;
+  color: #ffffff;
+  font-weight: 700;
+
+  .btn-icon {
+    width: 16px;
+    height: 12px;
+    filter: brightness(0) invert(1);
+    transition: filter 100ms ease-in-out;
+  }
+
+  &:hover {
+    background-color: #29ABE2;
+  }
 }
