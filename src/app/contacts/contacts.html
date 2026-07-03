@@ -1,0 +1,95 @@
+<div class="contacts-container">
+  <div class="contacts-sidebar" [class.mobile-hidden]="showDetailsMobile">
+    <div class="sidebar-header">
+      <button class="add-contact-btn-desktop" (click)="openAddModal()">
+        Add new contact
+        <img src="Assets/icons/contact-icon.svg" alt="" class="add-task-icon">
+      </button>
+    </div>
+
+    <div class="contacts-scroll-area">
+      <div class="contact-group" *ngFor="let letter of letters">
+        <div class="group-letter">{{ letter }}</div>
+        <div class="group-divider"></div>
+        
+        <div 
+          class="contact-card" 
+          *ngFor="let contact of groupedContacts[letter]"
+          [class.selected]="selectedContact?.id === contact.id"
+          (click)="selectContact(contact)"
+        >
+          <div class="avatar-badge" [style.background-color]="getColor(contact)">
+            {{ getInitials(contact) }}
+          </div>
+          <div class="contact-card-info">
+            <div class="contact-name">{{ contact.first_name }} {{ contact.last_name }}</div>
+            <div class="contact-email">{{ contact.email }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contacts-details-panel" [class.mobile-visible]="showDetailsMobile" [class.no-selection]="!selectedContact">
+    <button class="mobile-back-btn" (click)="closeDetailsMobile()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 12H4M4 12L10 18M4 12L10 6" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="empty-state" *ngIf="!selectedContact">
+      <h1 class="main-title">Contacts</h1>
+      <div class="title-divider"></div>
+      <p class="subtitle">Better with a team</p>
+    </div>
+
+    <div class="details-content-wrapper" *ngIf="selectedContact">
+      <div class="details-header">
+        <h1 class="main-title mobile-only-title">Contacts</h1>
+        <div class="title-divider mobile-only-divider"></div>
+        <p class="subtitle mobile-only-subtitle">Better with a team</p>
+        
+        <div class="header-main-info">
+          <div class="avatar-large" [style.background-color]="getColor(selectedContact)">
+            {{ getInitials(selectedContact) }}
+          </div>
+          <div class="header-text-block">
+            <h2 class="detail-name">{{ selectedContact.first_name }} {{ selectedContact.last_name }}</h2>
+            <div class="detail-actions">
+              <button class="action-btn edit-btn" (click)="openEditModal(selectedContact, $event)">
+                <img src="Assets/icons/pen-icon.svg" alt="" class="action-icon">
+                Edit
+              </button>
+              <button class="action-btn delete-btn" (click)="deleteSelectedContact()">
+                <img src="Assets/icons/delete-icon.svg" alt="" class="action-icon">
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="details-info-section">
+        <h3 class="info-heading">Contact Information</h3>
+        
+        <div class="info-group">
+          <div class="info-label">Email</div>
+          <a class="info-value email-link" href="mailto:{{selectedContact.email}}">
+            {{ selectedContact.email }}
+          </a>
+        </div>
+
+        <div class="info-group">
+          <div class="info-label">Phone</div>
+          <div class="info-value phone-number">
+            {{ selectedContact.phone || 'No phone number' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="add-contact-fab" (click)="openAddModal()" [class.hidden]="showDetailsMobile">
+    <img src="Assets/icons/contact-icon.svg" alt="Add Contact" class="fab-icon">
+  </button>
+</div>
