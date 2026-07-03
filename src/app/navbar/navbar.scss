@@ -115,3 +115,43 @@
     color: var(--color-footer-hover);
   }
 }
+
+@media (max-width: 800px) {
+  :host {
+    width: 100%;
+  }
+
+  .sidebar {
+    grid-template-rows: 1fr;
+  }
+
+  .logo-container,
+  .footer-container {
+    display: none;
+  }
+
+  .menu-container {
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    justify-items: center;
+    padding: 0 10px;
+    height: 100%;
+  }
+
+  .menu-item {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    place-items: center;
+    gap: 0;
+    padding-left: 0;
+    height: 76px;
+    width: 80px;
+    border-radius: 16px;
+
+    .menu-text {
+      font-size: 16px;
+      line-height: 120%;
+      margin-top: -20px;
+    }
+  }
+}
