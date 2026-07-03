@@ -1,9 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Contact } from '../core/contact.model';
 
 @Component({
   selector: 'app-contact-dialog',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './contact-dialog.html',
   styleUrl: './contact-dialog.scss',
 })
-export class ContactDialog {}
+export class ContactDialog {
+  @Input() mode: 'add' | 'edit' = 'add';
+  @Input() contact: Contact | null = null;
+  @Output() close = new EventEmitter<void>();
+  @Output() saved = new EventEmitter<void>();
+
+  onClose() {
+    this.close.emit();
+  }
+
+  onSave() {
+    this.saved.emit();
+  }
+}

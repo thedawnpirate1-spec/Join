@@ -33,9 +33,9 @@
         <span class="menu-text">Board</span>
       </a>
       <a
-        href="javascript:void(0)"
+        routerLink="/contacts"
+        routerLinkActive="active"
         class="menu-item"
-        [class.active]="activeLink === 'Contacts'"
         (click)="setActiveLink('Contacts')"
       >
         <img src="/Assets/icons/contact-icon.svg" alt="Contacts" class="menu-img" />
