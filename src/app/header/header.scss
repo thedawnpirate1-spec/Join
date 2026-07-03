@@ -123,3 +123,39 @@
     background-color: rgba(255, 255, 255, 0.1);
   }
 }
+
+.mobile-logo {
+  display: none;
+}
+
+.help-dropdown-item {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  :host {
+    padding: 0 16px;
+  }
+
+  .header-title {
+    display: none;
+  }
+
+  .mobile-logo {
+    display: block;
+    height: 39px;
+  }
+
+  .help-link {
+    display: none;
+  }
+
+  .help-dropdown-item {
+    display: block;
+  }
+
+  .dropdown-menu {
+    top: 80px;
+  }
+}
+
