@@ -1,5 +1,5 @@
 <div class="header-left">
-  <img src="Assets/icons/Join logo vector.svg" alt="Join" class="mobile-logo">
+  <img src="Assets/icons/mobile-join-icon.svg" alt="Join" class="mobile-logo">
 <h1 class="header-title">Kanban Project Management Tool</h1>
 </div>
 <div class="header-right">
@@ -16,6 +16,7 @@
     </button>
     
     <div class="dropdown-menu" [class.show]="isMenuOpen">
+      <a routerLink="/help" class="dropdown-item help-dropdown-item" (click)="closeMenu()">Help</a>
       <a routerLink="/legal" class="dropdown-item" (click)="closeMenu()">Legal Notice</a>
       <a routerLink="/privacy" class="dropdown-item" (click)="closeMenu()">Privacy Policy</a>
       <a routerLink="/logout" class="dropdown-item" (click)="closeMenu()">Log out</a>
