@@ -92,4 +92,12 @@
   <button class="add-contact-fab" (click)="openAddModal()" [class.hidden]="showDetailsMobile">
     <img src="Assets/icons/contact-icon.svg" alt="Add Contact" class="fab-icon">
   </button>
+
+  <app-contact-dialog 
+    *ngIf="isDialogOpen" 
+    [mode]="dialogMode" 
+    [contact]="dialogContact"
+    (close)="closeDialog()"
+    (saved)="onDialogSaved()"
+  ></app-contact-dialog>
 </div>

@@ -1,1 +1,13 @@
-<p>contact-dialog works!</p>
+<div class="modal-backdrop" (click)="onClose()"></div>
+<div class="modal-window" (click)="$event.stopPropagation()">
+  <button class="modal-close-btn" (click)="onClose()">
+    <img src="Assets/icons/close-icon.svg" alt="Close">
+  </button>
+  <div class="modal-content">
+    <p>contact-dialog works!</p>
+    <p>Mode: {{ mode }}</p>
+    <div *ngIf="contact">
+      <p>Editing: {{ contact.first_name }} {{ contact.last_name }}</p>
+    </div>
+  </div>
+</div>

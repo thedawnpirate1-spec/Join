@@ -5,11 +5,12 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ContactService } from '../core/contact.service';
 import { Contact, NewContact } from '../core/contact.model';
+import { ContactDialog } from '../contact-dialog/contact-dialog';
 
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ContactDialog],
   templateUrl: './contacts.html',
   styleUrl: './contacts.scss',
 })
@@ -21,6 +22,10 @@ export class Contacts implements OnInit {
   contacts: Contact[] = [];
   groupedContacts: { [key: string]: Contact[] } = {};
   letters: string[] = [];
+
+  isDialogOpen = false;
+  dialogMode: 'add' | 'edit' = 'add';
+  dialogContact: Contact | null = null;
 
   selectedContact: Contact | null = null;
   showDetailsMobile = false;
@@ -46,8 +51,6 @@ export class Contacts implements OnInit {
       if (this.selectedContact) {
         const fresh = this.contacts.find((c) => c.id === this.selectedContact!.id);
         this.selectedContact = fresh || null;
-      } else if (this.contacts.length > 0) {
-        this.selectedContact = this.contacts[0];
       }
       this.cdr.detectChanges();
     } catch (e) {
@@ -119,16 +122,31 @@ export class Contacts implements OnInit {
   }
 
   openAddModal() {
-    console.log('Open Add Contact Dialog triggered');
-    alert('Add Contact Dialog Placeholder (Colleague will implement this)');
+    this.dialogMode = 'add';
+    this.dialogContact = null;
+    this.isDialogOpen = true;
+    this.cdr.detectChanges();
   }
 
   openEditModal(contact: Contact, event?: Event) {
     if (event) {
       event.stopPropagation();
     }
-    console.log('Open Edit Contact Dialog triggered for contact:', contact);
-    alert(`Edit Contact Dialog Placeholder for ${contact.first_name} ${contact.last_name} (Colleague will implement this)`);
+    this.dialogMode = 'edit';
+    this.dialogContact = contact;
+    this.isDialogOpen = true;
+    this.cdr.detectChanges();
+  }
+
+  closeDialog() {
+    this.isDialogOpen = false;
+    this.cdr.detectChanges();
+  }
+
+  onDialogSaved() {
+    this.isDialogOpen = false;
+    this.loadContacts();
+    this.cdr.detectChanges();
   }
 
   async deleteSelectedContact() {
