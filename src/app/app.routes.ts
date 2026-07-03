@@ -9,4 +9,12 @@ export const routes: Routes = [
     path: 'help',
     loadComponent: () => import('./help/help').then((m) => m.Help),
   },
+  {
+    path: 'privacy-policy',
+    loadComponent: () => import('./privacy-policy/privacy-policy').then((m) => m.PrivacyPolicy),
+  },
+  {
+    path: 'legal-notice',
+    loadComponent: () => import('./legal-notice/legal-notice').then((m) => m.LegalNotice),
+  },
 ];

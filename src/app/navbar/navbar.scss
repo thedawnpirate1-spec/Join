@@ -1,18 +1,12 @@
 :host {
   display: block;
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 232px;
-  height: 100vh;
-  z-index: 100;
-  box-sizing: border-box;
+  width: 200px;
 
   --color-sidebar-bg: var(--color-primary);
-  --color-menu-hover: #2A3D59;
+  --color-menu-hover: #2a3d59;
   --color-menu-active: #091931;
-  --color-footer-text: #A8A8A8;
-  --color-footer-hover: #29ABE2;
+  --color-footer-text: #a8a8a8;
+  --color-footer-hover: #29abe2;
   --font-family-sidebar: 'Inter', sans-serif;
 }
 
