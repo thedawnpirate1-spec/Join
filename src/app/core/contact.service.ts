@@ -10,7 +10,7 @@ export class ContactService {
   async getContacts(): Promise<Contact[]> {
     const { data, error } = await this.table
       .select('*')
-      .order('last_name', { ascending: true });
+      .order('first_name', { ascending: true });
     if (error) throw error;
     return data as Contact[];
   }
