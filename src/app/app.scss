@@ -36,3 +36,32 @@ app-header {
   overflow-y: auto;
   background-color: var(--color-background);
 }
+
+@media (max-width: 800px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 80px 1fr 80px;
+  }
+
+  app-navbar {
+    grid-column: 1;
+    grid-row: 3;
+    width: 100%;
+    height: 100%;
+  }
+
+  app-header {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: 100%;
+  }
+
+  .main-content {
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    height: auto;
+    overflow-y: auto;
+  }
+}
