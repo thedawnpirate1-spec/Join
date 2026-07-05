@@ -1,11 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Contact } from '../core/contact.model';
 
 @Component({
   selector: 'app-contact-dialog',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './contact-dialog.html',
   styleUrl: './contact-dialog.scss',
 })
