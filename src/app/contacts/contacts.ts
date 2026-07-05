@@ -1,5 +1,4 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -10,7 +9,7 @@ import { ContactDialog } from '../contact-dialog/contact-dialog';
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [CommonModule, FormsModule, ContactDialog],
+  imports: [FormsModule, ContactDialog],
   templateUrl: './contacts.html',
   styleUrl: './contacts.scss',
 })
@@ -31,13 +30,13 @@ export class Contacts implements OnInit {
   showDetailsMobile = false;
 
   constructor() {
-    this.router.events.pipe(
-      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
-    ).subscribe((event) => {
-      if (event.urlAfterRedirects === '/contacts') {
-        this.showDetailsMobile = false;
-      }
-    });
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        if (event.urlAfterRedirects === '/contacts') {
+          this.showDetailsMobile = false;
+        }
+      });
   }
 
   ngOnInit() {
@@ -61,9 +60,7 @@ export class Contacts implements OnInit {
   groupContacts() {
     const groups: { [key: string]: Contact[] } = {};
     this.contacts.forEach((contact) => {
-      const firstLetter = contact.first_name
-        ? contact.first_name.charAt(0).toUpperCase()
-        : '#';
+      const firstLetter = contact.first_name ? contact.first_name.charAt(0).toUpperCase() : '#';
       if (!groups[firstLetter]) {
         groups[firstLetter] = [];
       }
@@ -143,10 +140,27 @@ export class Contacts implements OnInit {
     this.cdr.detectChanges();
   }
 
-  onDialogSaved() {
-    this.isDialogOpen = false;
-    this.loadContacts();
-    this.cdr.detectChanges();
+  async onDialogSaved(contactData: NewContact) {
+    try {
+      if (this.dialogMode === 'add') {
+        await this.contactService.addContact(contactData);
+      }
+
+      if (this.dialogMode === 'edit' && this.dialogContact) {
+        const updatedContact = await this.contactService.updateContact(
+          this.dialogContact.id,
+          contactData,
+        );
+
+        this.selectedContact = updatedContact;
+      }
+
+      this.isDialogOpen = false;
+      await this.loadContacts();
+      this.cdr.detectChanges();
+    } catch (e) {
+      console.error('Error saving contact:', e);
+    }
   }
 
   async deleteSelectedContact() {
