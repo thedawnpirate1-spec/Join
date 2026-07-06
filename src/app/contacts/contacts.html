@@ -3,7 +3,7 @@
     <div class="sidebar-header">
       <button class="add-contact-btn-desktop" (click)="openAddModal()">
         Add new contact
-        <img src="Assets/icons/contact-icon.svg" alt="" class="add-task-icon" />
+        <img src="Assets/icons/add-contact-icon.svg" alt="" class="add-task-icon" />
       </button>
     </div>
 
@@ -72,8 +72,8 @@
       <div class="details-content-wrapper">
         <div class="details-header">
           <h1 class="main-title mobile-only-title">Contacts</h1>
-          <div class="title-divider mobile-only-divider"></div>
           <p class="subtitle mobile-only-subtitle">Better with a team</p>
+          <div class="title-divider mobile-only-divider"></div>
 
           <div class="header-main-info">
             <div class="avatar-large" [style.background-color]="getColor(selectedContact)">
@@ -122,8 +122,30 @@
   </div>
 
   <button class="add-contact-fab" (click)="openAddModal()" [class.hidden]="showDetailsMobile">
-    <img src="Assets/icons/contact-icon.svg" alt="Add Contact" class="fab-icon" />
+    <img src="Assets/icons/add-contact-icon.svg" alt="Add Contact" class="fab-icon" />
   </button>
+
+  <button class="options-fab" (click)="toggleMobileMenu($event)" [class.visible]="showDetailsMobile">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="5" r="2.5" fill="white"/>
+      <circle cx="12" cy="12" r="2.5" fill="white"/>
+      <circle cx="12" cy="19" r="2.5" fill="white"/>
+    </svg>
+  </button>
+
+  @if (isMobileMenuOpen && showDetailsMobile) {
+    <div class="mobile-menu-backdrop" (click)="closeMobileMenu()"></div>
+    <div class="mobile-options-menu">
+      <button class="menu-item" (click)="openEditModal(selectedContact!, $event)">
+        <img src="Assets/icons/pen-icon.svg" alt="" class="menu-icon" />
+        <span>Edit</span>
+      </button>
+      <button class="menu-item" (click)="deleteSelectedContact()">
+        <img src="Assets/icons/delete-icon.svg" alt="" class="menu-icon" />
+        <span>Delete</span>
+      </button>
+    </div>
+  }
 
   @if (isDialogOpen) {
     <app-contact-dialog

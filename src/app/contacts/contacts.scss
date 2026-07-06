@@ -22,6 +22,11 @@
   to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 
+@keyframes slideUpMenu {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
 .contacts-container {
   display: flex;
   width: 100%;
@@ -99,7 +104,7 @@
   font-weight: 400;
   color: #000000;
   margin-bottom: 8px;
-  padding-left: 16px;
+  padding-left: 24px;
 }
 
 .group-divider {
@@ -112,7 +117,7 @@
   display: flex;
   align-items: center;
   gap: 35px;
-  padding: 15px 24px;
+  padding: 15px 12px;
   border-radius: 10px;
   cursor: pointer;
   margin-bottom: 8px;
@@ -344,6 +349,12 @@
 }
 
 .add-contact-fab {
+  display: none;
+}
+
+.options-fab,
+.mobile-menu-backdrop,
+.mobile-options-menu {
   display: none;
 }
 
@@ -656,14 +667,14 @@
       width: 64px;
       height: 3px;
       background-color: #29abe2;
-      margin-top: -16px;
+      margin-top: -8px;
     }
 
     .mobile-only-subtitle {
       display: block;
       font-size: 20px;
       color: var(--color-primary);
-      margin-top: -8px;
+      margin-top: -16px;
     }
   }
 
@@ -683,7 +694,7 @@
   }
 
   .detail-actions {
-    margin-top: 4px;
+    display: none;
   }
 
   .add-contact-fab {
@@ -719,6 +730,88 @@
 
     &.hidden {
       display: none;
+    }
+  }
+
+  .options-fab {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 99;
+    transition: background-color 0.15s, transform 0.1s;
+
+    &.visible {
+      display: flex;
+    }
+
+    &:hover {
+      background-color: #29abe2;
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  .mobile-menu-backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 98;
+    background: rgba(0, 0, 0, 0.15);
+  }
+
+  .mobile-options-menu {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 165px;
+    right: 20px;
+    background-color: #ffffff;
+    border-radius: 20px 20px 0px 20px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    padding: 10px 0;
+    z-index: 99;
+    min-width: 130px;
+    animation: slideUpMenu 0.15s ease-out;
+
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      background: transparent;
+      border: none;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--color-primary);
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      box-sizing: border-box;
+      transition: background-color 0.15s;
+
+      .menu-icon {
+        width: 18px;
+        height: 18px;
+      }
+
+      &:hover {
+        background-color: #f0f4f8;
+      }
     }
   }
 

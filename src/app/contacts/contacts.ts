@@ -28,6 +28,7 @@ export class Contacts implements OnInit {
 
   selectedContact: Contact | null = null;
   showDetailsMobile = false;
+  isMobileMenuOpen = false;
 
   constructor() {
     this.router.events
@@ -35,6 +36,8 @@ export class Contacts implements OnInit {
       .subscribe((event) => {
         if (event.urlAfterRedirects === '/contacts') {
           this.showDetailsMobile = false;
+          this.isMobileMenuOpen = false;
+          this.selectedContact = null;
         }
       });
   }
@@ -89,16 +92,16 @@ export class Contacts implements OnInit {
   getColor(contact: Contact | NewContact | null): string {
     if (!contact) return '#FF7A00';
     const colors = [
-      '#FF7A00', // orange
-      '#FF5EB2', // pink
-      '#6E52FF', // purple
-      '#9327FF', // dark purple
-      '#00BEE8', // light blue
-      '#1FD7C1', // teal
-      '#FFC700', // yellow
-      '#FF4646', // red
-      '#462FFF', // indigo
-      '#0038FF', // blue
+      '#FF7A00',
+      '#FF5EB2',
+      '#6E52FF',
+      '#9327FF',
+      '#00BEE8',
+      '#1FD7C1',
+      '#FFC700',
+      '#FF4646',
+      '#462FFF',
+      '#0038FF',
     ];
     const name = (contact.first_name || '') + (contact.last_name || '');
     let hash = 0;
@@ -112,10 +115,13 @@ export class Contacts implements OnInit {
   selectContact(contact: Contact) {
     this.selectedContact = contact;
     this.showDetailsMobile = true;
+    this.isMobileMenuOpen = false;
   }
 
   closeDetailsMobile() {
     this.showDetailsMobile = false;
+    this.isMobileMenuOpen = false;
+    this.selectedContact = null;
   }
 
   openAddModal() {
@@ -132,6 +138,7 @@ export class Contacts implements OnInit {
     this.dialogMode = 'edit';
     this.dialogContact = contact;
     this.isDialogOpen = true;
+    this.isMobileMenuOpen = false;
     this.cdr.detectChanges();
   }
 
@@ -169,10 +176,24 @@ export class Contacts implements OnInit {
       await this.contactService.deleteContact(this.selectedContact.id);
       this.selectedContact = null;
       this.showDetailsMobile = false;
+      this.isMobileMenuOpen = false;
       await this.loadContacts();
       this.cdr.detectChanges();
     } catch (e) {
       console.error('Error deleting contact:', e);
     }
+  }
+
+  toggleMobileMenu(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    this.cdr.detectChanges();
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+    this.cdr.detectChanges();
   }
 }
