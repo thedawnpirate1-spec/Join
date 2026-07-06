@@ -7,7 +7,7 @@
         {{ mode === 'edit' ? 'Edit contact' : 'Add contact' }}
       </h2>
       @if (mode === 'add') {
-        <p class="panel-subtitle">Tasks are better with a team!</p>
+      <p class="panel-subtitle">Tasks are better with a team!</p>
       }
       <div class="panel-underline"></div>
     </div>
@@ -20,47 +20,23 @@
 
     <div class="right-content-grid">
       <div class="avatar-container">
-        <img
-          src="Assets/icons/profile-placeholder.svg"
-          alt="Avatar Placeholder"
-          class="avatar-img"
-        />
+        <img src="Assets/icons/profile-placeholder.svg" alt="Avatar Placeholder" class="avatar-img" />
       </div>
 
       <form class="contact-form" (ngSubmit)="onSave()">
         <div class="inputs-container">
           <div class="input-group">
-            <input
-              type="text"
-              placeholder="Name"
-              class="form-input"
-              name="name"
-              [(ngModel)]="name"
-              required
-            />
+            <input type="text" placeholder="Name" class="form-input" name="name" [(ngModel)]="name" required />
             <img src="Assets/icons/person-icon.svg" alt="Name Icon" class="input-icon" />
           </div>
 
           <div class="input-group">
-            <input
-              type="email"
-              placeholder="Email"
-              class="form-input"
-              name="email"
-              [(ngModel)]="email"
-              required
-            />
+            <input type="email" placeholder="Email" class="form-input" name="email" [(ngModel)]="email" required />
             <img src="Assets/icons/mail-icon.svg" alt="Email Icon" class="input-icon" />
           </div>
 
           <div class="input-group">
-            <input
-              type="tel"
-              placeholder="Phone"
-              class="form-input"
-              name="phone"
-              [(ngModel)]="phone"
-            />
+            <input type="tel" placeholder="Phone" class="form-input" name="phone" [(ngModel)]="phone" />
             <img src="Assets/icons/phone-icon.svg" alt="Phone Icon" class="input-icon" />
           </div>
         </div>
