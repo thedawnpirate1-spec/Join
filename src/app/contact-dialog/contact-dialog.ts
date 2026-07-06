@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Contact, NewContact } from '../core/contact.model';
+import { getContactColor, getContactInitials } from '../core/contact-utils';
 
 @Component({
   selector: 'app-contact-dialog',
@@ -15,10 +16,19 @@ export class ContactDialog implements OnInit {
 
   @Output() close = new EventEmitter<void>();
   @Output() saved = new EventEmitter<NewContact>();
+  @Output() deleted = new EventEmitter<void>();
 
   name = '';
   email = '';
   phone = '';
+
+  get avatarInitials(): string {
+    return getContactInitials(this.contact);
+  }
+
+  get avatarColor(): string {
+    return getContactColor(this.contact);
+  }
 
   ngOnInit(): void {
     if (this.mode === 'edit' && this.contact) {
@@ -32,7 +42,17 @@ export class ContactDialog implements OnInit {
     this.close.emit();
   }
 
+  onSecondaryAction(): void {
+    if (this.mode === 'edit') {
+      this.deleted.emit();
+    } else {
+      this.close.emit();
+    }
+  }
+
   onSave(): void {
+    if (!this.name.trim() || !this.email.trim()) return;
+
     const nameParts = this.name.trim().split(' ');
     const firstName = nameParts[0] || '';
     const lastName = nameParts.slice(1).join(' ');

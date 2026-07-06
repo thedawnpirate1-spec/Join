@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ContactService } from '../core/contact.service';
 import { Contact, NewContact } from '../core/contact.model';
+import { getContactColor, getContactInitials } from '../core/contact-utils';
 import { ContactDialog } from '../contact-dialog/contact-dialog';
 
 @Component({
@@ -83,33 +84,11 @@ export class Contacts implements OnInit {
   }
 
   getInitials(contact: Contact | NewContact | null): string {
-    if (!contact) return '';
-    const f = contact.first_name ? contact.first_name.charAt(0).toUpperCase() : '';
-    const l = contact.last_name ? contact.last_name.charAt(0).toUpperCase() : '';
-    return f + l;
+    return getContactInitials(contact);
   }
 
   getColor(contact: Contact | NewContact | null): string {
-    if (!contact) return '#FF7A00';
-    const colors = [
-      '#FF7A00',
-      '#FF5EB2',
-      '#6E52FF',
-      '#9327FF',
-      '#00BEE8',
-      '#1FD7C1',
-      '#FFC700',
-      '#FF4646',
-      '#462FFF',
-      '#0038FF',
-    ];
-    const name = (contact.first_name || '') + (contact.last_name || '');
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-      hash = name.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    const index = Math.abs(hash) % colors.length;
-    return colors[index];
+    return getContactColor(contact);
   }
 
   selectContact(contact: Contact) {
@@ -172,8 +151,19 @@ export class Contacts implements OnInit {
 
   async deleteSelectedContact() {
     if (!this.selectedContact) return;
+    await this.removeContact(this.selectedContact.id);
+  }
+
+  async onDialogDeleted() {
+    if (!this.dialogContact) return;
+    this.isDialogOpen = false;
+    this.cdr.detectChanges();
+    await this.removeContact(this.dialogContact.id);
+  }
+
+  private async removeContact(id: string) {
     try {
-      await this.contactService.deleteContact(this.selectedContact.id);
+      await this.contactService.deleteContact(id);
       this.selectedContact = null;
       this.showDetailsMobile = false;
       this.isMobileMenuOpen = false;

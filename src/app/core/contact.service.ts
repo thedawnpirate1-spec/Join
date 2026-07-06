@@ -39,13 +39,3 @@ export class ContactService {
     if (error) throw error;
   }
 }
-
-
-// Use it in a component like:
-
-
-// private contacts = inject(ContactService);
-
-// async delete(id: string) {
-//   await this.contacts.deleteContact(id);
-// }

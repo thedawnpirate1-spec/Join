@@ -1,16 +1,14 @@
 <div class="modal-backdrop" (click)="onClose()"></div>
-<div class="modal-window" (click)="$event.stopPropagation()">
+<div class="modal-window" [class.mode-add]="mode === 'add'" (click)="$event.stopPropagation()">
   <div class="left-panel">
-    <div class="left-content">
-      <img src="Assets/icons/Join logo vector.svg" alt="Join Logo" class="panel-logo" />
-      <h2 class="panel-title">
-        {{ mode === 'edit' ? 'Edit contact' : 'Add contact' }}
-      </h2>
-      @if (mode === 'add') {
-      <p class="panel-subtitle">Tasks are better with a team!</p>
-      }
-      <div class="panel-underline"></div>
-    </div>
+    <img src="Assets/icons/Join logo vector.svg" alt="Join Logo" class="panel-logo" />
+    <h2 class="panel-title">
+      {{ mode === 'edit' ? 'Edit contact' : 'Add contact' }}
+    </h2>
+    @if (mode === 'add') {
+    <p class="panel-subtitle">Tasks are better with a team!</p>
+    }
+    <div class="panel-underline"></div>
   </div>
 
   <div class="right-panel">
@@ -20,7 +18,13 @@
 
     <div class="right-content-grid">
       <div class="avatar-container">
+        @if (mode === 'edit' && contact) {
+        <div class="avatar-circle" [style.background-color]="avatarColor">
+          {{ avatarInitials }}
+        </div>
+        } @else {
         <img src="Assets/icons/profile-placeholder.svg" alt="Avatar Placeholder" class="avatar-img" />
+        }
       </div>
 
       <form class="contact-form" (ngSubmit)="onSave()">
@@ -42,9 +46,11 @@
         </div>
 
         <div class="buttons-container">
-          <button type="button" class="btn btn-cancel" (click)="onClose()">
-            <span>Cancel</span>
-            <img src="Assets/icons/close-icon.svg" alt="Cancel" class="btn-icon" />
+          <button type="button" class="btn btn-cancel" (click)="onSecondaryAction()">
+            <span>{{ mode === 'edit' ? 'Delete' : 'Cancel' }}</span>
+            @if (mode === 'add') {
+            <img src="Assets/icons/close-icon.svg" alt="" class="btn-icon" />
+            }
           </button>
 
           <button type="submit" class="btn btn-create">
