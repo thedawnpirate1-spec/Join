@@ -60,13 +60,11 @@
       </svg>
     </button>
 
-    @if (!selectedContact) {
-      <div class="empty-state">
-        <h1 class="main-title">Contacts</h1>
-        <div class="title-divider"></div>
-        <p class="subtitle">Better with a team</p>
-      </div>
-    }
+    <div class="empty-state">
+      <h1 class="main-title">Contacts</h1>
+      <div class="title-divider"></div>
+      <p class="subtitle">Better with a team</p>
+    </div>
 
     @if (selectedContact) {
       <div class="details-content-wrapper">
@@ -125,11 +123,15 @@
     <img src="Assets/icons/add-contact-icon.svg" alt="Add Contact" class="fab-icon" />
   </button>
 
-  <button class="options-fab" (click)="toggleMobileMenu($event)" [class.visible]="showDetailsMobile">
+  <button
+    class="options-fab"
+    (click)="toggleMobileMenu($event)"
+    [class.visible]="showDetailsMobile"
+  >
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="5" r="2.5" fill="white"/>
-      <circle cx="12" cy="12" r="2.5" fill="white"/>
-      <circle cx="12" cy="19" r="2.5" fill="white"/>
+      <circle cx="12" cy="5" r="2.5" fill="white" />
+      <circle cx="12" cy="12" r="2.5" fill="white" />
+      <circle cx="12" cy="19" r="2.5" fill="white" />
     </svg>
   </button>
 
