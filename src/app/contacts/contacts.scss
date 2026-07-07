@@ -8,18 +8,34 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideIn {
-  from { transform: translateX(20px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 @keyframes slideUpMenu {
-  from { transform: translateY(10px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .contacts-container {
@@ -65,7 +81,10 @@
   gap: 16px;
   width: 100%;
   box-sizing: border-box;
-  transition: background-color 0.15s, transform 0.1s, box-shadow 0.15s;
+  transition:
+    background-color 0.15s,
+    transform 0.1s,
+    box-shadow 0.15s;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   .add-task-icon {
@@ -116,7 +135,9 @@
   border-radius: 10px;
   cursor: pointer;
   margin-bottom: 8px;
-  transition: background-color 0.15s, transform 0.1s;
+  transition:
+    background-color 0.15s,
+    transform 0.1s;
 
   &:hover {
     background-color: #f0f4f8;
@@ -289,12 +310,9 @@
   gap: 8px;
   padding: 6px 10px;
   border-radius: 8px;
-  transition: background-color 0.15s, color 0.15s;
-
-  .action-icon {
-    width: 18px;
-    height: 18px;
-  }
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 
   &:hover {
     background-color: rgba(42, 54, 71, 0.08);
@@ -407,7 +425,7 @@
     transition: background-color 0.15s;
 
     &:hover {
-      background-color: rgba(0,0,0,0.05);
+      background-color: rgba(0, 0, 0, 0.05);
     }
   }
 
@@ -479,7 +497,9 @@
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     z-index: 9;
-    transition: background-color 0.15s, transform 0.1s;
+    transition:
+      background-color 0.15s,
+      transform 0.1s;
 
     .fab-icon {
       width: 24px;
@@ -515,7 +535,9 @@
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     z-index: 99;
-    transition: background-color 0.15s, transform 0.1s;
+    transition:
+      background-color 0.15s,
+      transform 0.1s;
 
     &.visible {
       display: flex;
@@ -581,5 +603,4 @@
       }
     }
   }
-
 }
