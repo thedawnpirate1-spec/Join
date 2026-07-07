@@ -3,9 +3,39 @@
   min-height: 100%;
 }
 
+main {
+  position: relative;
+}
+
+.back-btn {
+  display: none;
+  position: absolute;
+  top: 48px;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 0.2s ease-in-out,
+    transform 0.2s ease-in-out;
+
+  svg path {
+    transition: stroke 0.2s;
+  }
+
+  &:hover {
+    background-color: rgba(41, 171, 226, 0.15);
+    transform: translateX(-4px);
+  }
+}
+
 .privacy-policy {
   min-height: 100vh;
-  padding: 64px 80px 96px;
+  padding: 64px 32px 64px;
   background-color: var(--color-background);
   color: var(--color-text);
 
@@ -75,5 +105,11 @@
   &__date {
     margin-top: 20px;
     font-weight: bold;
+  }
+}
+
+@media (max-width: 768px) {
+  .back-btn {
+    display: block;
   }
 }
