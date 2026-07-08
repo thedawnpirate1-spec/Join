@@ -1,8 +1,9 @@
+@import '../../styles/variables';
+
 :host {
   display: block;
   width: 100%;
   height: 100%;
-  overflow: hidden;
   font-family: var(--font-family);
   background-color: var(--color-background);
 }
@@ -16,9 +17,9 @@
   }
 }
 
-@keyframes slideIn {
+@keyframes slideInFromRight {
   from {
-    transform: translateX(20px);
+    transform: translateX(1200px);
     opacity: 0;
   }
   to {
@@ -43,12 +44,11 @@
   width: 100%;
   height: 100%;
   position: relative;
-  overflow: hidden;
 }
 
 .contacts-sidebar {
   width: 450px;
-  min-width: 350px;
+  min-width: 300px;
   height: 100%;
   background: #ffffff;
   box-shadow: 4px 0px 6px rgba(0, 0, 0, 0.04);
@@ -197,14 +197,16 @@
 
 .contacts-details-panel {
   flex-grow: 1;
+  min-width: 0;
   height: 100%;
   background: var(--color-background);
-  padding: 80px 60px;
+  padding: 80px clamp(24px, 4vw, 60px);
   display: flex;
   flex-direction: column;
   gap: 32px;
   z-index: 1;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .mobile-back-btn {
@@ -213,12 +215,13 @@
 
 .empty-state {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 30px;
   animation: fadeIn 0.3s ease-out;
 
   .main-title {
-    font-size: 61px;
+    font-size: clamp(40px, 5vw, 61px);
     font-weight: 700;
     color: #000000;
   }
@@ -239,7 +242,7 @@
   display: flex;
   flex-direction: column;
   gap: 48px;
-  animation: slideIn 0.25s ease-out;
+  animation: slideInFromRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .details-header {
@@ -256,8 +259,9 @@
 
 .header-main-info {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 54px;
+  gap: clamp(20px, 3vw, 54px);
 }
 
 .avatar-large {
@@ -282,11 +286,12 @@
 }
 
 .detail-name {
-  font-size: 47px;
+  font-size: clamp(32px, 4vw, 47px);
   font-weight: 500;
   color: #000000;
   margin: 0;
   line-height: 1.1;
+  overflow-wrap: anywhere;
 }
 
 .detail-actions {
@@ -367,7 +372,7 @@
   display: none;
 }
 
-@media (max-width: 800px) {
+@media (max-width: $global-mobile-breakpoint) {
   .contacts-container {
     flex-direction: column;
   }

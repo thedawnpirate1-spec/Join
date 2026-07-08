@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 :host {
   display: block;
   height: 100%;
@@ -20,7 +22,6 @@
   transform: rotate(0deg);
   opacity: 1;
   background-color: var(--color-sidebar-bg);
-  overflow: hidden;
 }
 
 .logo-container {
@@ -118,7 +119,7 @@
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: $global-mobile-breakpoint) {
   :host {
     width: 100%;
   }
@@ -139,7 +140,7 @@
     grid-template-columns: repeat(4, 1fr);
     align-items: center;
     justify-items: center;
-    padding: 0 10px;
+    padding: 0 4px;
     height: 100%;
     width: 100%;
   }
@@ -151,7 +152,8 @@
     gap: 0;
     padding-left: 0;
     height: 76px;
-    width: 80px;
+    width: 100%;
+    max-width: 80px;
     border-radius: 16px;
 
     .menu-text {
@@ -159,5 +161,11 @@
       line-height: 120%;
       margin-top: -20px;
     }
+  }
+}
+
+@media (max-width: 340px) {
+  .menu-item .menu-text {
+    font-size: 15px;
   }
 }

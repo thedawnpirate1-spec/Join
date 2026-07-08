@@ -1,21 +1,14 @@
 :host {
   display: block;
   width: 100%;
-  min-height: 100%;
 }
-main {
-  position: relative;
-}
-
 .back-btn {
   display: none;
-  position: absolute;
-  top: 48px;
-  right: 8px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 8px;
+  margin-top: -8px;
   border-radius: 50%;
   align-items: center;
   justify-content: center;
@@ -35,18 +28,25 @@ main {
 
 .legal-notice {
   width: 100%;
-  min-height: 100%;
-  padding: 64px 32px 64px;
+  padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
+  box-sizing: border-box;
   background-color: var(--color-background, #f6f7f8);
   color: #000;
 
   &__container {
     width: 100%;
-    max-width: 1200px;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 28px;
   }
 
   &__title {
-    margin: 0 0 28px;
+    margin: 0;
     font-size: clamp(42px, 5vw, 64px);
     font-weight: 700;
     line-height: 1.1;
@@ -105,6 +105,6 @@ main {
 
 @media (max-width: 768px) {
   .back-btn {
-    display: block;
+    display: flex;
   }
 }
