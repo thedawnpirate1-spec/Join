@@ -67,3 +67,21 @@ body {
   margin: 0;
   font-family: var(--font-family);
 }
+
+@media (max-width: 800px) {
+  :root {
+    --padding-left: 32px;
+    --padding-right: 32px;
+    --padding-top: 48px;
+    --padding-bottom: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --padding-left: 16px;
+    --padding-right: 16px;
+    --padding-top: 24px;
+    --padding-bottom: 24px;
+  }
+} 
