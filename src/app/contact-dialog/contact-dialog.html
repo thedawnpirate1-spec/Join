@@ -6,7 +6,7 @@
       {{ mode === 'edit' ? 'Edit contact' : 'Add contact' }}
     </h2>
     @if (mode === 'add') {
-    <p class="panel-subtitle">Tasks are better with a team!</p>
+      <p class="panel-subtitle">Tasks are better with a team!</p>
     }
     <div class="panel-underline"></div>
   </div>
@@ -19,11 +19,15 @@
     <div class="right-content-grid">
       <div class="avatar-container">
         @if (mode === 'edit' && contact) {
-        <div class="avatar-circle" [style.background-color]="avatarColor">
-          {{ avatarInitials }}
-        </div>
+          <div class="avatar-circle" [style.background-color]="avatarColor">
+            {{ avatarInitials }}
+          </div>
         } @else {
-        <img src="Assets/icons/profile-placeholder.svg" alt="Avatar Placeholder" class="avatar-img" />
+          <img
+            src="Assets/icons/profile-placeholder.svg"
+            alt="Avatar Placeholder"
+            class="avatar-img"
+          />
         }
       </div>
 
@@ -81,11 +85,16 @@
           <button type="button" class="btn btn-cancel" (click)="onSecondaryAction()">
             <span>{{ mode === 'edit' ? 'Delete' : 'Cancel' }}</span>
             @if (mode === 'add') {
-            <img src="Assets/icons/close-icon.svg" alt="" class="btn-icon" />
+              <img src="Assets/icons/close-icon.svg" alt="" class="btn-icon" />
             }
           </button>
 
-          <button type="submit" class="btn btn-create">
+          <button
+            type="submit"
+            class="btn"
+            [class.save-btn]="mode === 'edit'"
+            [class.btn-create]="mode !== 'edit'"
+          >
             <span>{{ mode === 'edit' ? 'Save' : 'Create contact' }}</span>
             <img src="Assets/icons/check-icon.svg" alt="" class="btn-icon" />
           </button>

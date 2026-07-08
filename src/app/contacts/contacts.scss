@@ -93,11 +93,6 @@
     filter: brightness(0) invert(1);
   }
 
-  &:hover {
-    background-color: #29abe2;
-    box-shadow: 0 6px 14px rgba(41, 171, 226, 0.3);
-  }
-
   &:active {
     transform: scale(0.98);
   }
@@ -316,7 +311,8 @@
 
   &:hover {
     background-color: rgba(42, 54, 71, 0.08);
-    color: #29abe2;
+    color: #124658;
+    font-weight: 700;
   }
 }
 

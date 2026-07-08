@@ -1,16 +1,28 @@
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideInRight {
-  from { transform: translate(100vw, -50%); }
-  to { transform: translate(-50%, -50%); }
+  from {
+    transform: translate(100vw, -50%);
+  }
+  to {
+    transform: translate(-50%, -50%);
+  }
 }
 
 @keyframes slideInUp {
-  from { transform: translate(-50%, 100vh); }
-  to { transform: translate(-50%, -50%); }
+  from {
+    transform: translate(-50%, 100vh);
+  }
+  to {
+    transform: translate(-50%, -50%);
+  }
 }
 
 .modal-backdrop {
@@ -200,7 +212,7 @@
   }
 
   &:focus {
-    border-color: #29abe2;
+    border-color: #124658;
   }
 }
 
@@ -263,19 +275,15 @@
   border: 1px solid var(--color-primary);
   color: var(--color-primary);
 
+  &:hover {
+    border: 2px solid #124658;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
   .btn-icon {
     width: 14px;
     height: 14px;
     transition: filter 100ms ease-in-out;
-  }
-
-  &:hover {
-    border-color: #29abe2;
-    color: #29abe2;
-
-    .btn-icon {
-      filter: brightness(0) saturate(100%) invert(58%) sepia(87%) saturate(1917%) hue-rotate(167deg) brightness(94%) contrast(92%);
-    }
   }
 }
 
@@ -295,7 +303,29 @@
   }
 
   &:hover {
-    background-color: #29abe2;
+    background-color: #124658;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.save-btn {
+  width: 126px;
+  height: 56px;
+  background-color: var(--color-primary);
+  border: none;
+  color: #ffffff;
+  font-weight: 700;
+
+  .btn-icon {
+    width: 16px;
+    height: 12px;
+    filter: brightness(0) invert(1);
+    transition: filter 100ms ease-in-out;
+  }
+
+  &:hover {
+    background-color: #124658;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 }
 
