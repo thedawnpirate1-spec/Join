@@ -1,6 +1,6 @@
 :host {
   display: block;
-  min-height: 100%;
+  width: 100%;
 }
 
 main {
@@ -34,15 +34,14 @@ main {
 }
 
 .privacy-policy {
-  min-height: 100vh;
-  padding: 64px 32px 64px;
+  width: 100%;
+  padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
+  box-sizing: border-box;
   background-color: var(--color-background);
   color: var(--color-text);
 
   &__container {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
   }
 
   &__title {

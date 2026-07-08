@@ -1,7 +1,6 @@
 :host {
   display: block;
   width: 100%;
-  min-height: 100%;
 }
 main {
   position: relative;
@@ -35,14 +34,13 @@ main {
 
 .legal-notice {
   width: 100%;
-  min-height: 100%;
-  padding: 64px 32px 64px;
+  padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
+  box-sizing: border-box;
   background-color: var(--color-background, #f6f7f8);
   color: #000;
 
   &__container {
     width: 100%;
-    max-width: 1200px;
   }
 
   &__title {
