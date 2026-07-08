@@ -27,15 +27,18 @@
 }
 
 .back-btn {
+  display: flex;
   background: none;
   border: none;
   cursor: pointer;
   padding: 8px;
+  margin-top: -8px;
   border-radius: 50%;
-  display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transition:
+    background-color 0.2s ease-in-out,
+    transform 0.2s ease-in-out;
 
   svg path {
     transition: stroke 0.2s;
@@ -46,6 +49,7 @@
     transform: translateX(-4px);
   }
 }
+
 
 h2 {
   font-size: 27px;
