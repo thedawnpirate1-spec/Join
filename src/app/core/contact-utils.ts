@@ -4,9 +4,9 @@ const GOLDEN_ANGLE = 137.508;
 
 export function getContactInitials(contact: Contact | NewContact | null): string {
   if (!contact) return '';
-  const f = contact.first_name ? contact.first_name.charAt(0).toUpperCase() : '';
-  const l = contact.last_name ? contact.last_name.charAt(0).toUpperCase() : '';
-  return f + l;
+  const firstname_initial = contact.first_name ? contact.first_name.charAt(0).toUpperCase() : '';
+  const lastname_initial = contact.last_name ? contact.last_name.charAt(0).toUpperCase() : '';
+  return firstname_initial + lastname_initial;
 }
 
 export function getContactColor(contact: Contact | NewContact | null): string {
