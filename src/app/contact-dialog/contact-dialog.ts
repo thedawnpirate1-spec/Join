@@ -28,7 +28,7 @@ export class ContactDialog implements OnInit {
 
   private readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,}$/;
   private readonly emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  private readonly phonePattern = /^\+?[0-9]{6,20}$/;
+  private readonly phonePattern = /^\+?[0-9 ]{6,20}$/;
 
   get avatarInitials(): string {
     return getContactInitials(this.contact);
@@ -55,7 +55,7 @@ export class ContactDialog implements OnInit {
     if (!value) {
       this.nameError = 'Please enter a name.';
     } else if (!this.namePattern.test(value)) {
-      this.nameError = 'Name may only contain letters and must be at least 2 characters long.';
+      this.nameError = 'Letters only, at least 2 characters.';
     } else {
       this.nameError = '';
     }
