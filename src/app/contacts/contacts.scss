@@ -15,9 +15,9 @@
   }
 }
 
-@keyframes slideIn {
+@keyframes slideInFromRight {
   from {
-    transform: translateX(20px);
+    transform: translateX(1200px);
     opacity: 0;
   }
   to {
@@ -209,6 +209,7 @@
   gap: 32px;
   z-index: 1;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .mobile-back-btn {
@@ -244,7 +245,7 @@
   display: flex;
   flex-direction: column;
   gap: 48px;
-  animation: slideIn 0.25s ease-out;
+  animation: slideInFromRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .details-header {
