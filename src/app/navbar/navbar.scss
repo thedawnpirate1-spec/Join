@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 :host {
   display: block;
   height: 100%;
@@ -117,7 +119,7 @@
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: $global-mobile-breakpoint) {
   :host {
     width: 100%;
   }

@@ -1,3 +1,5 @@
+@import 'styles/variables';
+
 /* Inter (variable font, self-hosted from Google Fonts) */
 @font-face {
   font-family: 'Inter';
@@ -68,7 +70,7 @@ body {
   font-family: var(--font-family);
 }
 
-@media (max-width: 800px) {
+@media (max-width: $global-tablet-breakpoint) {
   :root {
     --padding-left: 32px;
     --padding-right: 32px;
@@ -84,4 +86,4 @@ body {
     --padding-top: 24px;
     --padding-bottom: 24px;
   }
-} 
+}
