@@ -30,18 +30,50 @@
       <form class="contact-form" (ngSubmit)="onSave()">
         <div class="inputs-container">
           <div class="input-group">
-            <input type="text" placeholder="Name" class="form-input" name="name" [(ngModel)]="name" required />
+            <input
+              type="text"
+              placeholder="Name"
+              class="form-input"
+              [class.form-input-invalid]="nameError"
+              name="name"
+              [(ngModel)]="name"
+              (blur)="validateName()"
+              (ngModelChange)="nameError && validateName()"
+              required
+            />
             <img src="Assets/icons/person-icon.svg" alt="Name Icon" class="input-icon" />
+            <span class="input-error">{{ nameError }}</span>
           </div>
 
           <div class="input-group">
-            <input type="email" placeholder="Email" class="form-input" name="email" [(ngModel)]="email" required />
+            <input
+              type="email"
+              placeholder="Email"
+              class="form-input"
+              [class.form-input-invalid]="emailError"
+              name="email"
+              [(ngModel)]="email"
+              (blur)="validateEmail()"
+              (ngModelChange)="emailError && validateEmail()"
+              required
+            />
             <img src="Assets/icons/mail-icon.svg" alt="Email Icon" class="input-icon" />
+            <span class="input-error">{{ emailError }}</span>
           </div>
 
           <div class="input-group">
-            <input type="tel" placeholder="Phone" class="form-input" name="phone" [(ngModel)]="phone" />
+            <input
+              type="tel"
+              placeholder="Phone"
+              class="form-input"
+              [class.form-input-invalid]="phoneError"
+              name="phone"
+              [(ngModel)]="phone"
+              (blur)="validatePhone()"
+              (ngModelChange)="phoneError && validatePhone()"
+            />
             <img src="Assets/icons/phone-icon.svg" alt="Phone Icon" class="input-icon" />
+            <span class="input-error">{{ phoneError }}</span>
           </div>
         </div>
 

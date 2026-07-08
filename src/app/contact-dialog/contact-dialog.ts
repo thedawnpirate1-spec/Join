@@ -22,6 +22,14 @@ export class ContactDialog implements OnInit {
   email = '';
   phone = '';
 
+  nameError = '';
+  emailError = '';
+  phoneError = '';
+
+  private readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,}$/;
+  private readonly emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  private readonly phonePattern = /^\+?[0-9 ()-]{6,20}$/;
+
   get avatarInitials(): string {
     return getContactInitials(this.contact);
   }
@@ -42,6 +50,42 @@ export class ContactDialog implements OnInit {
     this.close.emit();
   }
 
+  validateName(): boolean {
+    const value = this.name.trim();
+    if (!value) {
+      this.nameError = 'Please enter a name.';
+    } else if (!this.namePattern.test(value)) {
+      this.nameError = 'Name may only contain letters and must be at least 2 characters long.';
+    } else {
+      this.nameError = '';
+    }
+    return !this.nameError;
+  }
+
+  validateEmail(): boolean {
+    const value = this.email.trim();
+    if (!value) {
+      this.emailError = 'Please enter an email address.';
+    } else if (!this.emailPattern.test(value)) {
+      this.emailError = 'Please enter a valid email address.';
+    } else {
+      this.emailError = '';
+    }
+    return !this.emailError;
+  }
+
+  validatePhone(): boolean {
+    const value = this.phone.trim();
+    if (!value) {
+      this.phoneError = '';
+    } else if (!this.phonePattern.test(value)) {
+      this.phoneError = 'Please enter a valid phone number.';
+    } else {
+      this.phoneError = '';
+    }
+    return !this.phoneError;
+  }
+
   onSecondaryAction(): void {
     if (this.mode === 'edit') {
       this.deleted.emit();
@@ -51,7 +95,10 @@ export class ContactDialog implements OnInit {
   }
 
   onSave(): void {
-    if (!this.name.trim() || !this.email.trim()) return;
+    const isNameValid = this.validateName();
+    const isEmailValid = this.validateEmail();
+    const isPhoneValid = this.validatePhone();
+    if (!isNameValid || !isEmailValid || !isPhoneValid) return;
 
     const nameParts = this.name.trim().split(' ');
     const firstName = nameParts[0] || '';
