@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 :host {
   display: block;
   width: 100%;
@@ -374,7 +376,7 @@
   display: none;
 }
 
-@media (max-width: 812px) {
+@media (max-width: $global-mobile-breakpoint) {
   .contacts-container {
     flex-direction: column;
   }
