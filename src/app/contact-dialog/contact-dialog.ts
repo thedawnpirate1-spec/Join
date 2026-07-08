@@ -28,7 +28,7 @@ export class ContactDialog implements OnInit {
 
   private readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,}$/;
   private readonly emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  private readonly phonePattern = /^\+?[0-9 ()-]{6,20}$/;
+  private readonly phonePattern = /^\+?[0-9]{6,20}$/;
 
   get avatarInitials(): string {
     return getContactInitials(this.contact);
