@@ -96,6 +96,11 @@
   &:active {
     transform: scale(0.98);
   }
+
+  &:hover {
+    background-color: #29abe2;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .contacts-scroll-area {
