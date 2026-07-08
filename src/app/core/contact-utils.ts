@@ -1,17 +1,6 @@
 import { Contact, NewContact } from './contact.model';
 
-const AVATAR_COLORS = [
-  '#FF7A00',
-  '#FF5EB2',
-  '#6E52FF',
-  '#9327FF',
-  '#00BEE8',
-  '#1FD7C1',
-  '#FFC700',
-  '#FF4646',
-  '#462FFF',
-  '#0038FF',
-];
+const GOLDEN_ANGLE = 137.508;
 
 export function getContactInitials(contact: Contact | NewContact | null): string {
   if (!contact) return '';
@@ -21,11 +10,15 @@ export function getContactInitials(contact: Contact | NewContact | null): string
 }
 
 export function getContactColor(contact: Contact | NewContact | null): string {
-  if (!contact) return AVATAR_COLORS[0];
+  if (!contact) return `hsl(0, 70%, 50%)`;
+  if ('color_index' in contact) {
+    const hue = (contact.color_index * GOLDEN_ANGLE) % 360;
+    return `hsl(${hue}, 70%, 50%)`;
+  }
   const name = (contact.first_name || '') + (contact.last_name || '');
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     hash = name.charCodeAt(i) + ((hash << 5) - hash);
   }
-  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
+  return `hsl(${Math.abs(hash) % 360}, 70%, 50%)`;
 }

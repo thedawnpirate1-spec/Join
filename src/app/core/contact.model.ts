@@ -5,6 +5,7 @@ export interface Contact {
   email: string;
   phone: string;
   created_at: string;
+  color_index: number;
 }
 
-export type NewContact = Omit<Contact, 'id' | 'created_at'>;
+export type NewContact = Omit<Contact, 'id' | 'created_at' | 'color_index'>;
