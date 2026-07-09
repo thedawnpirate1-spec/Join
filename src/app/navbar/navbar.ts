@@ -28,6 +28,8 @@ export class Navbar implements OnInit {
   updateActiveLink(url: string) {
     if (url.includes('/contacts')) {
       this.activeLink = 'Contacts';
+    } else if (url.includes('/board')) {
+      this.activeLink = 'Board';
     } else if (url === '/' || url.includes('/summary')) {
       this.activeLink = 'Summary';
     } else {
