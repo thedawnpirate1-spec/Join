@@ -1,5 +1,6 @@
 export type Priority = 'urgent' | 'medium' | 'low';
 export type TaskStatus = 'todo' | 'in_progress' | 'await_feedback' | 'done';
+export type Category = 'user_story' | 'technical_task';
 
 export interface Task {
   id: string;
@@ -8,7 +9,7 @@ export interface Task {
   due_date: string | null;
   priority: Priority;
   status: TaskStatus;
-  category: string | null;
+  category: Category | null;
   created_at: string;
 }
 
