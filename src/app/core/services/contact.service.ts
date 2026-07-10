@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { SupabaseService } from './supabase.service';
-import { Contact, NewContact } from './contact.model';
+import { SupabaseService } from '../services/supabase.service';
+import { Contact, NewContact } from '../models/contact.model';
 
 @Injectable({ providedIn: 'root' })
 export class ContactService {
@@ -8,28 +8,19 @@ export class ContactService {
   private table = this.supabase.client.from('contacts');
 
   async getContacts(): Promise<Contact[]> {
-    const { data, error } = await this.table
-      .select('*')
-      .order('first_name', { ascending: true });
+    const { data, error } = await this.table.select('*').order('first_name', { ascending: true });
     if (error) throw error;
     return data as Contact[];
   }
 
   async addContact(contact: NewContact): Promise<Contact> {
-    const { data, error } = await this.table
-      .insert(contact)
-      .select()
-      .single();
+    const { data, error } = await this.table.insert(contact).select().single();
     if (error) throw error;
     return data as Contact;
   }
 
   async updateContact(id: string, changes: Partial<NewContact>): Promise<Contact> {
-    const { data, error } = await this.table
-      .update(changes)
-      .eq('id', id)
-      .select()
-      .single();
+    const { data, error } = await this.table.update(changes).eq('id', id).select().single();
     if (error) throw error;
     return data as Contact;
   }

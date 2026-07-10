@@ -2,9 +2,9 @@ import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { ContactService } from '../core/contact.service';
-import { Contact, NewContact } from '../core/contact.model';
-import { getContactColor, getContactInitials } from '../core/contact-utils';
+import { ContactService } from '../core/services/contact.service';
+import { Contact, NewContact } from '../core/models/contact.model';
+import { getContactColor, getContactInitials } from '../core/utils/contact-utils';
 import { ContactDialog } from '../contact-dialog/contact-dialog';
 
 @Component({

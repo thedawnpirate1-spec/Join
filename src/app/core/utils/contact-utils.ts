@@ -1,4 +1,4 @@
-import { Contact, NewContact } from './contact.model';
+import { Contact, NewContact } from '../models/contact.model';
 
 const GOLDEN_ANGLE = 137.508;
 

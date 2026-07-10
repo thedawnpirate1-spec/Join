@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Contact, NewContact } from '../core/contact.model';
-import { getContactColor, getContactInitials } from '../core/contact-utils';
+import { Contact, NewContact } from '../core/models/contact.model';
+import { getContactColor, getContactInitials } from '../core/utils/contact-utils';
 
 @Component({
   selector: 'app-contact-dialog',

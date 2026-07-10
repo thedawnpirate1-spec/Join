@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { SupabaseService } from './supabase.service';
-import { Subtask, NewSubtask } from './subtask.model';
+import { SupabaseService } from '../services/supabase.service';
+import { Subtask, NewSubtask } from '../models/subtask.model';
 
 @Injectable({ providedIn: 'root' })
 export class SubtaskService {
@@ -23,11 +23,7 @@ export class SubtaskService {
   }
 
   async updateSubtask(id: string, changes: Partial<NewSubtask>): Promise<Subtask> {
-    const { data, error } = await this.table
-      .update(changes)
-      .eq('id', id)
-      .select()
-      .single();
+    const { data, error } = await this.table.update(changes).eq('id', id).select().single();
     if (error) throw error;
     return data as Subtask;
   }

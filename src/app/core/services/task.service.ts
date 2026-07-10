@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { SupabaseService } from './supabase.service';
-import { Task, NewTask } from './task.model';
-import { Contact } from './contact.model';
+import { Task, NewTask } from '../models/task.model';
+import { Contact } from '../models/contact.model';
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
@@ -9,9 +9,7 @@ export class TaskService {
   private table = this.supabase.client.from('tasks');
 
   async getTasks(): Promise<Task[]> {
-    const { data, error } = await this.table
-      .select('*')
-      .order('due_date', { ascending: true });
+    const { data, error } = await this.table.select('*').order('due_date', { ascending: true });
     if (error) throw error;
     return data as Task[];
   }
@@ -33,11 +31,7 @@ export class TaskService {
   }
 
   async updateTask(id: string, changes: Partial<NewTask>): Promise<Task> {
-    const { data, error } = await this.table
-      .update(changes)
-      .eq('id', id)
-      .select()
-      .single();
+    const { data, error } = await this.table.update(changes).eq('id', id).select().single();
     if (error) throw error;
     return data as Task;
   }
