@@ -59,6 +59,14 @@ export class Task implements OnChanges {
     return this.subtasks.length ? (this.completedSubtaskCount / this.subtasks.length) * 100 : 0;
   }
 
+  get visibleAssignedContacts(): Contact[] {
+    return this.assignedContacts.slice(0, 3);
+  }
+
+  get hiddenAssignedContactsCount(): number {
+    return Math.max(this.assignedContacts.length - 3, 0);
+  }
+
   getAvatarInitials(contact: Contact): string {
     return getContactInitials(contact);
   }
