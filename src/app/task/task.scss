@@ -124,9 +124,48 @@
   }
 }
 
-@media (max-width: $global-mobile-breakpoint) {
+@container (max-width: 200px) {
   .task-card {
-    width: 220px;
-    height: 230px;
+    padding: 8px;
+    gap: 6px;
+    border-radius: 12px;
+  }
+
+  .category-pill {
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .task-title {
+    font-size: 11px;
+  }
+
+  .task-description {
+    font-size: 10px;
+  }
+
+  .subtask-progress {
+    gap: 4px;
+  }
+
+  .progress-bar {
+    height: 4px;
+  }
+
+  .subtask-count {
+    font-size: 8px;
+  }
+
+  .avatars .avatar {
+    width: 20px;
+    height: 20px;
+    font-size: 8px;
+    margin-left: -6px;
+  }
+
+  .priority-icon {
+    width: 12px;
+    height: 12px;
   }
 }
