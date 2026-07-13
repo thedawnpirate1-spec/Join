@@ -9,6 +9,7 @@ import { Contact } from '../core/models/contact.model';
 import { Priority, Category, NewTask } from '../core/models/task.model';
 import { getContactColor, getContactInitials } from '../core/utils/contact-utils';
 
+/** Component for creating and adding tasks. */
 @Component({
   selector: 'app-add-task',
   standalone: true,
@@ -112,6 +113,7 @@ export class AddTask implements OnInit {
     return getContactColor(contact);
   }
 
+  /** Adds a new subtask to the list. */
   addSubtask() {
     if (this.subtaskInput.trim()) {
       this.subtasks.push({
@@ -126,16 +128,19 @@ export class AddTask implements OnInit {
     this.subtaskInput = '';
   }
 
+  /** Removes a subtask by index. */
   removeSubtask(index: number) {
     this.subtasks.splice(index, 1);
   }
 
+  /** Starts editing a subtask. */
   startEditSubtask(index: number, event: MouseEvent) {
     event.stopPropagation();
     this.isEditingSubtask = index;
     this.editedSubtaskTitle = this.subtasks[index].title;
   }
 
+  /** Saves the edited subtask title. */
   saveEditSubtask(index: number) {
     if (this.editedSubtaskTitle.trim()) {
       this.subtasks[index].title = this.editedSubtaskTitle.trim();
@@ -147,11 +152,13 @@ export class AddTask implements OnInit {
     }
   }
 
+  /** Cancels subtask editing. */
   cancelEditSubtask() {
     this.isEditingSubtask = null;
     this.editedSubtaskTitle = '';
   }
 
+  /** Resets the task form. */
   clearForm() {
     this.title = '';
     this.description = '';
@@ -165,10 +172,12 @@ export class AddTask implements OnInit {
     this.showValidationErrors = false;
   }
 
+  /** Checks if the required form fields are valid. */
   isFormValid(): boolean {
     return !!this.title.trim() && !!this.due_date && !!this.category;
   }
 
+  /** Saves the task and all its subtasks. */
   async onSubmit() {
     this.showValidationErrors = true;
 
@@ -214,6 +223,7 @@ export class AddTask implements OnInit {
     }
   }
 
+  /** Closes dropdowns on document-wide click events. */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
