@@ -30,6 +30,8 @@ export class Navbar implements OnInit {
       this.activeLink = 'Contacts';
     } else if (url.includes('/board')) {
       this.activeLink = 'Board';
+    } else if (url.includes('/add-task')) {
+      this.activeLink = 'Add Task';
     } else if (url === '/' || url.includes('/summary')) {
       this.activeLink = 'Summary';
     } else {

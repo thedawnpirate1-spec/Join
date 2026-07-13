@@ -21,13 +21,13 @@ export class TaskService {
   }
 
   async addTask(task: NewTask, assignedContactIds: string[] = []): Promise<Task> {
-    const { data, error } = await this.table.insert(task).select().single();
+    const payload = {
+      ...task,
+      contact_ids: assignedContactIds.length ? assignedContactIds : null
+    };
+    const { data, error } = await this.table.insert(payload).select().single();
     if (error) throw error;
-    const created = data as Task;
-    if (assignedContactIds.length) {
-      await this.setAssignedContacts(created.id, assignedContactIds);
-    }
-    return created;
+    return data as Task;
   }
 
   async updateTask(id: string, changes: Partial<NewTask>): Promise<Task> {
@@ -42,26 +42,21 @@ export class TaskService {
   }
 
   async getAssignedContacts(taskId: string): Promise<Contact[]> {
+    const task = await this.getTask(taskId);
+    if (!task || !task.contact_ids || !task.contact_ids.length) return [];
+    
     const { data, error } = await this.supabase.client
-      .from('task_contacts')
-      .select('contact:contacts(*)')
-      .eq('task_id', taskId);
+      .from('contacts')
+      .select('*')
+      .in('id', task.contact_ids);
     if (error) throw error;
-    return (data ?? []).map((row: any) => row.contact as Contact);
+    return data as Contact[];
   }
 
   async setAssignedContacts(taskId: string, contactIds: string[]): Promise<void> {
-    const { error: deleteError } = await this.supabase.client
-      .from('task_contacts')
-      .delete()
-      .eq('task_id', taskId);
-    if (deleteError) throw deleteError;
-
-    if (!contactIds.length) return;
-
-    const { error: insertError } = await this.supabase.client
-      .from('task_contacts')
-      .insert(contactIds.map((contactId) => ({ task_id: taskId, contact_id: contactId })));
-    if (insertError) throw insertError;
+    const { error } = await this.table
+      .update({ contact_ids: contactIds.length ? contactIds : null })
+      .eq('id', taskId);
+    if (error) throw error;
   }
 }

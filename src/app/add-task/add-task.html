@@ -1,1 +1,310 @@
-<p>add-task works!</p>
+<div class="add-task-container">
+  <h1 class="page-title">Add Task</h1>
+
+  <form (ngSubmit)="onSubmit()" #taskForm="ngForm" novalidate class="task-form">
+    <div class="form-content">
+      <div class="form-column left-column">
+        <div class="form-group">
+          <label for="task-title" class="form-label">Title<span class="required-asterisk">*</span></label>
+          <input
+            type="text"
+            id="task-title"
+            name="title"
+            [(ngModel)]="title"
+            placeholder="Enter a title"
+            class="form-input title-input"
+            [class.input-error]="showValidationErrors && !title.trim()"
+            required
+          />
+          @if (showValidationErrors && !title.trim()) {
+            <span class="error-message">This field is required</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="task-description" class="form-label">Description</label>
+          <textarea
+            id="task-description"
+            name="description"
+            [(ngModel)]="description"
+            placeholder="Enter a Description"
+            class="form-textarea"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="task-due-date" class="form-label">Due date<span class="required-asterisk">*</span></label>
+          <div class="date-input-wrapper">
+            <input
+              type="date"
+              id="task-due-date"
+              name="due_date"
+              [(ngModel)]="due_date"
+              [min]="today"
+              class="form-input date-input"
+              [class.input-error]="showValidationErrors && !due_date"
+              required
+            />
+          </div>
+          @if (showValidationErrors && !due_date) {
+            <span class="error-message">This field is required</span>
+          }
+        </div>
+      </div>
+
+      <div class="vertical-divider"></div>
+
+      <div class="form-column right-column">
+        <div class="form-group">
+          <label class="form-label">Priority</label>
+          <div class="priority-buttons">
+            <button
+              type="button"
+              class="priority-btn btn-urgent"
+              [class.active]="priority === 'urgent'"
+              (click)="selectPriority('urgent')"
+            >
+              Urgent
+              <svg class="prio-icon urgent-svg" width="20" height="20" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle class="circle-part" cx="30" cy="30" r="30" />
+                <g clip-path="url(#clip_urgent)">
+                  <path class="arrow-part" d="M44.8714 41.1631C44.4704 41.1638 44.0797 41.0342 43.7568 40.7934L29.6516 30.2635L15.5463 40.7934C15.3483 40.9415 15.1234 41.0487 14.8844 41.1089C14.6455 41.169 14.3971 41.181 14.1536 41.144C13.9101 41.107 13.6761 41.0219 13.4651 40.8934C13.2541 40.765 13.0702 40.5957 12.9238 40.3954C12.7775 40.195 12.6715 39.9674 12.6121 39.7255C12.5527 39.4837 12.5409 39.2324 12.5774 38.986C12.6512 38.4883 12.9173 38.0407 13.3172 37.7416L28.537 26.3681C28.8596 26.1265 29.2503 25.9961 29.6516 25.9961C30.0529 25.9961 30.4436 26.1265 30.7661 26.3681L45.986 37.7416C46.3037 37.9786 46.5394 38.3111 46.6593 38.6917C46.7792 39.0723 46.7773 39.4815 46.6537 39.8609C46.5301 40.2403 46.2912 40.5705 45.9711 40.8044C45.6511 41.0382 45.2662 41.1637 44.8714 41.1631Z" />
+                  <path class="arrow-part" d="M44.8714 31.2111C44.4704 31.2118 44.0797 31.0823 43.7568 30.8415L29.6516 20.3116L15.5463 30.8415C15.1464 31.1406 14.6454 31.2668 14.1536 31.1921C13.6618 31.1174 13.2194 30.8481 12.9238 30.4434C12.6282 30.0387 12.5036 29.5318 12.5774 29.0341C12.6512 28.5364 12.9173 28.0888 13.3172 27.7896L28.537 16.4162C28.8596 16.1746 29.2503 16.0442 29.6516 16.0442C30.0529 16.0442 30.4436 16.1746 30.7661 16.4162L45.986 27.7896C46.3038 28.0267 46.5394 28.3592 46.6593 28.7398C46.7793 29.1204 46.7773 29.5296 46.6537 29.909C46.5301 30.2884 46.2912 30.6186 45.9711 30.8525C45.6511 31.0863 45.2662 31.2118 44.8714 31.2111Z" />
+                </g>
+                <defs>
+                  <clipPath id="clip_urgent">
+                    <rect width="34.186" height="25.1163" transform="translate(12.5586 16.0466)" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="priority-btn btn-medium"
+              [class.active]="priority === 'medium'"
+              (click)="selectPriority('medium')"
+            >
+              Medium
+              <img src="/Assets/icons/equal-orange-icon.svg" alt="Medium" class="prio-icon" />
+            </button>
+            <button
+              type="button"
+              class="priority-btn btn-low"
+              [class.active]="priority === 'low'"
+              (click)="selectPriority('low')"
+            >
+              Low
+              <img src="/Assets/icons/arrow-down-green-icon.svg" alt="Low" class="prio-icon" />
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group custom-dropdown-assigned">
+          <label class="form-label">Assigned to</label>
+          <div class="dropdown-wrapper">
+            <div
+              class="dropdown-trigger"
+              (click)="toggleAssignedDropdown()"
+              [class.open]="isAssignedDropdownOpen"
+            >
+              <input
+                type="text"
+                class="dropdown-search-input"
+                placeholder="Select contacts to assign"
+                [(ngModel)]="searchTerm"
+                name="searchTerm"
+                (click)="$event.stopPropagation(); isAssignedDropdownOpen = true"
+              />
+              <span class="dropdown-arrow"></span>
+            </div>
+
+            @if (isAssignedDropdownOpen) {
+              <div class="dropdown-menu scrollbar-style">
+                @for (contact of getFilteredContacts(); track contact.id) {
+                  <div
+                    class="dropdown-item contact-item"
+                    [class.selected]="isContactSelected(contact)"
+                    (click)="toggleContact(contact, $event)"
+                  >
+                    <div class="contact-left">
+                      <div
+                        class="contact-avatar"
+                        [style.background-color]="getBgColor(contact)"
+                      >
+                        {{ getInitials(contact) }}
+                      </div>
+                      <span class="contact-name">
+                        {{ contact.first_name }} {{ contact.last_name }}
+                        @if (contact.first_name === 'Sofia' && contact.last_name === 'Müller') {
+                          (You)
+                        }
+                      </span>
+                    </div>
+                    <div class="contact-checkbox">
+                      <img
+                        [src]="isContactSelected(contact) ? '/Assets/icons/checkbox-checked.svg' : '/Assets/icons/checkbox-default.svg'"
+                        alt="checkbox"
+                      />
+                    </div>
+                  </div>
+                }
+                @if (getFilteredContacts().length === 0) {
+                  <div class="dropdown-empty">No contacts found</div>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="selected-badges-container">
+            @for (contact of selectedContacts.slice(0, 3); track contact.id) {
+              <div
+                class="selected-contact-badge"
+                [style.background-color]="getBgColor(contact)"
+                [title]="contact.first_name + ' ' + contact.last_name"
+              >
+                {{ getInitials(contact) }}
+              </div>
+            }
+            @if (selectedContacts.length > 3) {
+              <div
+                class="selected-contact-badge plus-badge"
+                [title]="(selectedContacts.length - 3) + ' more'"
+              >
+                +{{ selectedContacts.length - 3 }}
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="form-group custom-dropdown-category">
+          <label class="form-label">Category<span class="required-asterisk">*</span></label>
+          <div class="dropdown-wrapper">
+            <div
+              class="dropdown-trigger"
+              (click)="toggleCategoryDropdown()"
+              [class.open]="isCategoryDropdownOpen"
+              [class.input-error]="showValidationErrors && !category"
+            >
+              <span class="selected-category-text">
+                {{ category === 'user_story' ? 'User Story' : category === 'technical_task' ? 'Technical Task' : 'Select task category' }}
+              </span>
+              <span class="dropdown-arrow"></span>
+            </div>
+
+            @if (isCategoryDropdownOpen) {
+              <div class="dropdown-menu">
+                <div class="dropdown-item" (click)="selectCategory('user_story')">
+                  User Story
+                </div>
+                <div class="dropdown-item" (click)="selectCategory('technical_task')">
+                  Technical Task
+                </div>
+              </div>
+            }
+          </div>
+          @if (showValidationErrors && !category) {
+            <span class="error-message">This field is required</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="subtask-input" class="form-label">Subtasks</label>
+          <div class="subtask-input-container" [class.focused]="subtaskInput.trim().length > 0">
+            <input
+              type="text"
+              id="subtask-input"
+              name="subtaskInput"
+              [(ngModel)]="subtaskInput"
+              placeholder="Add new subtask"
+              class="form-input subtask-input"
+              (keydown.enter)="$event.preventDefault(); addSubtask()"
+            />
+            <div class="subtask-icons-wrapper">
+              @if (subtaskInput.trim().length === 0) {
+                <button type="button" class="subtask-icon-btn add-btn" (click)="addSubtask()" title="Add subtask">
+                  <img src="/Assets/icons/add-icon.svg" alt="Add" />
+                </button>
+              } @else {
+                <button type="button" class="subtask-icon-btn" (click)="clearSubtaskInput()" title="Cancel">
+                  <img src="/Assets/icons/close-icon.svg" alt="Cancel" />
+                </button>
+                <div class="icon-divider"></div>
+                <button type="button" class="subtask-icon-btn" (click)="addSubtask()" title="Confirm">
+                  <img src="/Assets/icons/check-icon.svg" alt="Confirm" />
+                </button>
+              }
+            </div>
+          </div>
+    <div class="required-info-mobile">
+        <span class="required-asterisk">*</span>This field is required
+      </div>
+          <ul class="subtasks-list scrollbar-style">
+            @for (sub of subtasks; track $index) {
+              <li class="subtask-item" [class.editing]="isEditingSubtask === $index">
+                @if (isEditingSubtask === $index) {
+                  <div class="subtask-edit-wrapper">
+                    <input
+                      type="text"
+                      class="subtask-edit-input"
+                      [(ngModel)]="editedSubtaskTitle"
+                      [name]="'subtask-edit-' + $index"
+                      (keydown.enter)="$event.preventDefault(); saveEditSubtask($index)"
+                      (keydown.escape)="cancelEditSubtask()"
+                      focus
+                    />
+                    <div class="subtask-edit-icons">
+                      <button type="button" class="subtask-icon-btn" (click)="cancelEditSubtask()" title="Cancel">
+                        <img src="/Assets/icons/close-icon.svg" alt="Cancel" />
+                      </button>
+                      <div class="icon-divider"></div>
+                      <button type="button" class="subtask-icon-btn" (click)="saveEditSubtask($index)" title="Save">
+                        <img src="/Assets/icons/check-icon.svg" alt="Save" />
+                      </button>
+                    </div>
+                  </div>
+                } @else {
+                  <div class="subtask-display" (dblclick)="startEditSubtask($index, $event)">
+                    <span class="subtask-bullet"></span>
+                    <span class="subtask-title-text">{{ sub.title }}</span>
+                    <div class="subtask-actions">
+                      <button type="button" class="subtask-action-btn edit" (click)="startEditSubtask($index, $event)" title="Edit">
+                        <img src="/Assets/icons/pen-icon.svg" alt="Edit" />
+                      </button>
+                      <div class="action-divider"></div>
+                      <button type="button" class="subtask-action-btn delete" (click)="removeSubtask($index)" title="Delete">
+                        <img src="/Assets/icons/delete-icon.svg" alt="Delete" />
+                      </button>
+                    </div>
+                  </div>
+                }
+              </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <div class="required-info-desktop">
+        <span class="required-asterisk">*</span>This field is required
+      </div>
+      <div class="action-buttons">
+        <button type="button" class="btn btn-secondary clear-btn" (click)="clearForm()">
+          Clear
+          <img src="/Assets/icons/close-icon.svg" alt="Clear" class="btn-icon" />
+        </button>
+        <button type="submit" class="btn btn-primary create-btn">
+          Create Task
+          <img src="/Assets/icons/check-icon.svg" alt="Create" class="btn-icon check-white" />
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="success-toast-overlay" [class.show]="showSuccessToast">
+    <div class="success-toast">
+      <span>Task added to board</span>
+      <img src="/Assets/icons/board-icon.svg" alt="Board" class="toast-icon" />
+    </div>
+  </div>
+</div>
