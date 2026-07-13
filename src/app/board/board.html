@@ -1,63 +1,139 @@
-<div class="example-container">
-  <h2>To do</h2>
-  <div
-    cdkDropList
-    #todoList="cdkDropList"
-    [cdkDropListData]="todo"
-    [cdkDropListConnectedTo]="[doneList, awaitFeedbackList, inProgressList, todoList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)"
-  >
-    @for (item of todo; track item) {
-      <div class="example-box" cdkDrag>{{ item }}</div>
-    }
-  </div>
-</div>
+<div class="board">
+  <div class="board-header">
+    <h1 class="board-title">Board</h1>
 
-<div class="example-container">
-  <h2>In Progress</h2>
-  <div
-    cdkDropList
-    #inProgressList="cdkDropList"
-    [cdkDropListData]="inProgress"
-    [cdkDropListConnectedTo]="[todoList, doneList, awaitFeedbackList, inProgressList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)"
-  >
-    @for (item of inProgress; track item) {
-      <div class="example-box" cdkDrag>{{ item }}</div>
-    }
-  </div>
-</div>
+    <div class="board-actions">
+      <div class="search-box">
+        <input type="text" placeholder="Find Task" [(ngModel)]="searchTerm" />
+        <div class="search-divider"></div>
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15.5 15.5L21 21M18 10.5C18 14.6421 14.6421 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5Z"
+            stroke="#2A3647"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
 
-<div class="example-container">
-  <h2>Await Feedback</h2>
-  <div
-    cdkDropList
-    #awaitFeedbackList="cdkDropList"
-    [cdkDropListData]="awaitFeedback"
-    [cdkDropListConnectedTo]="[todoList, doneList, inProgressList, awaitFeedbackList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)"
-  >
-    @for (item of awaitFeedback; track item) {
-      <div class="example-box" cdkDrag>{{ item }}</div>
-    }
+      <button class="add-task-btn">
+        Add task
+        <img src="/Assets/icons/add-icon.svg" alt="" class="add-task-icon" />
+      </button>
+    </div>
   </div>
-</div>
 
-<div class="example-container">
-  <h2>Done</h2>
-  <div
-    cdkDropList
-    #doneList="cdkDropList"
-    [cdkDropListData]="done"
-    [cdkDropListConnectedTo]="[todoList, inProgressList, awaitFeedbackList, doneList]"
-    class="example-list"
-    (cdkDropListDropped)="drop($event)"
-  >
-    @for (item of done; track item) {
-      <div class="example-box" cdkDrag>{{ item }}</div>
-    }
+  <div class="board-columns">
+    <div class="board-column">
+      <div class="column-header">
+        <h2>To do</h2>
+        <button class="add-column-btn">
+          <img src="/Assets/icons/add-icon.svg" alt="Add task" />
+        </button>
+      </div>
+
+      <div
+        cdkDropList
+        #todoList="cdkDropList"
+        [cdkDropListData]="todoTasks"
+        [cdkDropListConnectedTo]="[todoList, inProgressList, awaitFeedbackList, doneList]"
+        class="task-list"
+        (cdkDropListDropped)="onTaskDropped($event, 'todo')"
+      >
+        @for (task of todoTasks; track task.id) {
+          <div class="task-wrapper" cdkDrag [class.hidden]="!matchesSearch(task)">
+            <app-task [task]="task"></app-task>
+          </div>
+        }
+        @if (!hasVisibleTasks(todoTasks)) {
+          <div class="empty-column">No tasks To do</div>
+        }
+      </div>
+    </div>
+
+    <div class="board-column">
+      <div class="column-header">
+        <h2>In progress</h2>
+        <button class="add-column-btn">
+          <img src="/Assets/icons/add-icon.svg" alt="Add task" />
+        </button>
+      </div>
+
+      <div
+        cdkDropList
+        #inProgressList="cdkDropList"
+        [cdkDropListData]="inProgressTasks"
+        [cdkDropListConnectedTo]="[todoList, inProgressList, awaitFeedbackList, doneList]"
+        class="task-list"
+        (cdkDropListDropped)="onTaskDropped($event, 'in_progress')"
+      >
+        @for (task of inProgressTasks; track task.id) {
+          <div class="task-wrapper" cdkDrag [class.hidden]="!matchesSearch(task)">
+            <app-task [task]="task"></app-task>
+          </div>
+        }
+        @if (!hasVisibleTasks(inProgressTasks)) {
+          <div class="empty-column">No tasks In Progress</div>
+        }
+      </div>
+    </div>
+
+    <div class="board-column">
+      <div class="column-header">
+        <h2>Await feedback</h2>
+        <button class="add-column-btn">
+          <img src="/Assets/icons/add-icon.svg" alt="Add task" />
+        </button>
+      </div>
+
+      <div
+        cdkDropList
+        #awaitFeedbackList="cdkDropList"
+        [cdkDropListData]="awaitFeedbackTasks"
+        [cdkDropListConnectedTo]="[todoList, inProgressList, awaitFeedbackList, doneList]"
+        class="task-list"
+        (cdkDropListDropped)="onTaskDropped($event, 'await_feedback')"
+      >
+        @for (task of awaitFeedbackTasks; track task.id) {
+          <div class="task-wrapper" cdkDrag [class.hidden]="!matchesSearch(task)">
+            <app-task [task]="task"></app-task>
+          </div>
+        }
+        @if (!hasVisibleTasks(awaitFeedbackTasks)) {
+          <div class="empty-column">No tasks Await Feedback</div>
+        }
+      </div>
+    </div>
+
+    <div class="board-column">
+      <div class="column-header">
+        <h2>Done</h2>
+      </div>
+
+      <div
+        cdkDropList
+        #doneList="cdkDropList"
+        [cdkDropListData]="doneTasks"
+        [cdkDropListConnectedTo]="[todoList, inProgressList, awaitFeedbackList, doneList]"
+        class="task-list"
+        (cdkDropListDropped)="onTaskDropped($event, 'done')"
+      >
+        @for (task of doneTasks; track task.id) {
+          <div class="task-wrapper" cdkDrag [class.hidden]="!matchesSearch(task)">
+            <app-task [task]="task"></app-task>
+          </div>
+        }
+        @if (!hasVisibleTasks(doneTasks)) {
+          <div class="empty-column">No tasks Done</div>
+        }
+      </div>
+    </div>
   </div>
 </div>

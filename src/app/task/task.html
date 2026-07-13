@@ -1,1 +1,57 @@
-<p>task works!</p>
+<div class="task-card">
+  <span
+    class="category-pill"
+    [class.user-story]="task.category === 'user_story'"
+    [class.technical-task]="task.category === 'technical_task'"
+  >
+    {{ categoryLabel }}
+  </span>
+
+  <h3 class="task-title">{{ task.title }}</h3>
+
+  @if (task.description) {
+    <p class="task-description">{{ task.description }}</p>
+  }
+
+  @if (subtasks.length) {
+    <div class="subtask-progress">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="subtaskProgressPercent"></div>
+      </div>
+      <span class="subtask-count">{{ completedSubtaskCount }}/{{ subtasks.length }} Subtasks</span>
+    </div>
+  }
+
+  <div class="task-footer">
+    <div class="avatars">
+      @for (contact of assignedContacts; track contact.id) {
+        <div class="avatar" [style.background-color]="getAvatarColor(contact)">
+          {{ getAvatarInitials(contact) }}
+        </div>
+      }
+    </div>
+
+    <div class="priority-icon" [class]="task.priority">
+      @switch (task.priority) {
+        @case ('urgent') {
+          <svg width="20" height="15" viewBox="0 0 20 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M10 6.24923C9.7654 6.24882 9.53687 6.32366 9.34802 6.46274L0.444913 13.0325C0.329075 13.118 0.231235 13.2256 0.15698 13.3489C0.0827245 13.4722 0.033508 13.609 0.0121402 13.7513C-0.031014 14.0388 0.0418855 14.3316 0.214802 14.5654C0.387718 14.7992 0.646486 14.9547 0.934181 14.9979C1.22188 15.041 1.51493 14.9682 1.74888 14.7954L10 8.71288L18.2511 14.7954C18.367 14.8809 18.4985 14.9428 18.6383 14.9776C18.7781 15.0123 18.9234 15.0192 19.0658 14.9979C19.2083 14.9765 19.3451 14.9273 19.4685 14.8531C19.592 14.7789 19.6996 14.6812 19.7852 14.5654C19.8708 14.4497 19.9328 14.3182 19.9676 14.1785C20.0023 14.0388 20.0092 13.8937 19.9879 13.7513C19.9665 13.609 19.9173 13.4722 19.843 13.3489C19.7688 13.2256 19.6709 13.118 19.5551 13.0325L10.652 6.46274C10.4631 6.32366 10.2346 6.24882 10 6.24923Z"
+              fill="#FF3D00"
+            />
+            <path
+              d="M10 0.490706C9.7654 0.490261 9.53687 0.565094 9.34802 0.703935L0.444913 7.27394C0.210967 7.44673 0.0552944 7.70531 0.0121402 7.99279C-0.031014 8.28027 0.0418855 8.57311 0.214802 8.80688C0.387718 9.04065 0.646486 9.19621 0.934181 9.23933C1.22188 9.28246 1.51493 9.20961 1.74888 9.03682L10 2.95434L18.2511 9.03682C18.4851 9.20961 18.7781 9.28246 19.0658 9.23933C19.3535 9.19621 19.6123 9.04065 19.7852 8.80688C19.9581 8.57311 20.031 8.28027 19.9879 7.99279C19.9447 7.70531 19.789 7.44673 19.5551 7.27394L10.652 0.703935C10.4631 0.565094 10.2346 0.490261 10 0.490706Z"
+              fill="#FF3D00"
+            />
+          </svg>
+        }
+        @case ('low') {
+          <img src="/Assets/icons/arrow-down-green-icon.svg" alt="Low priority" />
+        }
+        @default {
+          <img src="/Assets/icons/equal-orange-icon.svg" alt="Medium priority" />
+        }
+      }
+    </div>
+  </div>
+</div>
