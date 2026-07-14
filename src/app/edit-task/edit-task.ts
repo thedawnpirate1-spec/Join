@@ -214,7 +214,7 @@ export class EditTask implements OnInit {
         priority: this.editPriority,
         contact_ids: this.editContactIds,
       });
-      this.assignedContacts = await this.taskService.getContactsByIds(this.editContactIds);
+      this.assignedContacts = await this.taskService.getAssignedContacts(this.task.id);
       this.isEditMode = false;
       this.changed.emit();
       this.changeDetectorRef.detectChanges();
