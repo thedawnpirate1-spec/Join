@@ -1,3 +1,5 @@
+@use '../styles/variables' as *;
+
 :host {
   display: block;
   width: 100%;
@@ -36,7 +38,7 @@ app-header {
   background-color: var(--color-background);
 }
 
-@media (max-width: 812px) {
+@media (max-width: $global-tablet-breakpoint) {
   .grid-container {
     grid-template-columns: 1fr;
     grid-template-rows: 80px 1fr 80px;
