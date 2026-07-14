@@ -48,7 +48,13 @@
         (cdkDropListDropped)="onTaskDropped($event, 'todo')"
       >
         @for (task of todoTasks; track task.id) {
-          <div class="task-wrapper" cdkDrag [class.hidden]="!matchesSearch(task)">
+          <div
+            class="task-wrapper"
+            cdkDrag
+            [class.hidden]="!matchesSearch(task)"
+            (cdkDragStarted)="onDragStarted()"
+            (click)="openTaskDialog(task)"
+          >
             <app-task [task]="task"></app-task>
           </div>
         }
@@ -75,7 +81,13 @@
         (cdkDropListDropped)="onTaskDropped($event, 'in_progress')"
       >
         @for (task of inProgressTasks; track task.id) {
-          <div class="task-wrapper" cdkDrag [class.hidden]="!matchesSearch(task)">
+          <div
+            class="task-wrapper"
+            cdkDrag
+            [class.hidden]="!matchesSearch(task)"
+            (cdkDragStarted)="onDragStarted()"
+            (click)="openTaskDialog(task)"
+          >
             <app-task [task]="task"></app-task>
           </div>
         }
@@ -102,7 +114,13 @@
         (cdkDropListDropped)="onTaskDropped($event, 'await_feedback')"
       >
         @for (task of awaitFeedbackTasks; track task.id) {
-          <div class="task-wrapper" cdkDrag [class.hidden]="!matchesSearch(task)">
+          <div
+            class="task-wrapper"
+            cdkDrag
+            [class.hidden]="!matchesSearch(task)"
+            (cdkDragStarted)="onDragStarted()"
+            (click)="openTaskDialog(task)"
+          >
             <app-task [task]="task"></app-task>
           </div>
         }
@@ -126,7 +144,13 @@
         (cdkDropListDropped)="onTaskDropped($event, 'done')"
       >
         @for (task of doneTasks; track task.id) {
-          <div class="task-wrapper" cdkDrag [class.hidden]="!matchesSearch(task)">
+          <div
+            class="task-wrapper"
+            cdkDrag
+            [class.hidden]="!matchesSearch(task)"
+            (cdkDragStarted)="onDragStarted()"
+            (click)="openTaskDialog(task)"
+          >
             <app-task [task]="task"></app-task>
           </div>
         }
@@ -136,4 +160,12 @@
       </div>
     </div>
   </div>
+
+  @if (selectedTaskId) {
+    <app-edit-task
+      [taskId]="selectedTaskId"
+      (close)="closeTaskDialog()"
+      (changed)="loadTasks()"
+    ></app-edit-task>
+  }
 </div>

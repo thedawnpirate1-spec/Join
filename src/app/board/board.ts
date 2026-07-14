@@ -10,10 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { TaskService } from '../core/services/task.service';
 import { Task, TaskStatus } from '../core/models/task.model';
 import { Task as TaskCard } from '../task/task';
+import { EditTask } from '../edit-task/edit-task';
 
 @Component({
   selector: 'app-board',
-  imports: [CdkDrag, CdkDropList, FormsModule, TaskCard],
+  imports: [CdkDrag, CdkDropList, FormsModule, TaskCard, EditTask],
   templateUrl: './board.html',
   styleUrl: './board.scss',
 })
@@ -22,6 +23,8 @@ export class Board implements OnInit {
   private changeDetectorRef = inject(ChangeDetectorRef);
 
   searchTerm = '';
+  selectedTaskId: string | null = null;
+  private isDragging = false;
 
   todoTasks: Task[] = [];
   inProgressTasks: Task[] = [];
@@ -67,6 +70,27 @@ export class Board implements OnInit {
     this.taskService
       .updateTask(movedTask.id, { status: newStatus })
       .catch((e) => console.error('Error updating task status:', e));
+  }
+
+  onDragStarted() {
+    this.isDragging = true;
+  }
+
+  /**
+   * Opens the task dialog, unless the click came from a finished drag.
+   */
+  openTaskDialog(task: Task) {
+    if (this.isDragging) {
+      this.isDragging = false;
+      return;
+    }
+    this.selectedTaskId = task.id;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  closeTaskDialog() {
+    this.selectedTaskId = null;
+    this.changeDetectorRef.detectChanges();
   }
 
   matchesSearch(task: Task): boolean {
