@@ -15,9 +15,13 @@ export class App {
   protected readonly title = signal('Join');
   private readonly mainContent = viewChild<ElementRef<HTMLElement>>('mainContent');
 
-  constructor(router: Router) {
+  constructor(public router: Router) {
     router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
       this.mainContent()?.nativeElement.scrollTo({ top: 0 });
     });
+  }
+
+  get isAuthPage(): boolean {
+    return this.router.url === '/login' || this.router.url === '/signup';
   }
 }

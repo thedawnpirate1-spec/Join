@@ -1,0 +1,313 @@
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100dvh;
+  font-family: var(--font-family);
+}
+
+.login-page {
+  position: relative;
+  min-height: 100dvh;
+  background-color: var(--color-background, #f6f7f8);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.login-header {
+  position: absolute;
+  top: 48px;
+  left: 64px;
+  right: 64px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.join-logo {
+  width: 100px;
+  height: auto;
+}
+
+.signup-area {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+
+  font-size: 16px;
+  color: #000000;
+}
+
+.signup-btn {
+  height: 48px;
+  padding: 0 18px;
+
+  background-color: var(--color-primary, #2a3647);
+  color: #ffffff;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
+  transition:
+    background-color 100ms ease-in-out,
+    box-shadow 100ms ease-in-out,
+    transform 100ms ease-in-out;
+
+  &:hover {
+    background-color: #29abe2;
+    box-shadow: 0 4px 12px rgba(41, 171, 226, 0.35);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.login-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 652px;
+  min-height: 449px;
+  padding: 48px 88px;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: #ffffff;
+  border-radius: 30px;
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.12);
+
+  box-sizing: border-box;
+}
+
+.login-title {
+  margin: 0;
+
+  font-size: 61px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: #000000;
+}
+
+.title-underline {
+  width: 150px;
+  height: 3px;
+  margin-top: 12px;
+  margin-bottom: 32px;
+
+  background-color: #29abe2;
+  border-radius: 2px;
+}
+
+.login-form {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-group {
+  position: relative;
+
+  width: 422px;
+  height: 48px;
+  margin-bottom: 24px;
+}
+
+.login-input {
+  width: 100%;
+  height: 100%;
+
+  padding: 0 48px 0 20px;
+
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+
+  font-size: 20px;
+  font-family: inherit;
+  color: var(--color-text-primary, #2a3647);
+
+  outline: none;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: #d1d1d1;
+  }
+
+  &:focus {
+    border-color: #29abe2;
+  }
+}
+
+.input-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+
+  width: 22px;
+  height: 22px;
+
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.error-message {
+  width: 422px;
+  margin: -12px 0 16px;
+
+  color: #ff4646;
+  font-size: 14px;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 35px;
+
+  margin-top: 8px;
+}
+
+.login-btn,
+.guest-btn {
+  height: 48px;
+  padding: 0 24px;
+
+  border-radius: 8px;
+
+  font-size: 18px;
+  font-weight: 700;
+  font-family: inherit;
+
+  cursor: pointer;
+  transition:
+    background-color 100ms ease-in-out,
+    color 100ms ease-in-out,
+    border-color 100ms ease-in-out,
+    box-shadow 100ms ease-in-out,
+    transform 100ms ease-in-out;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.login-btn {
+  background-color: var(--color-primary, #2a3647);
+  color: #ffffff;
+  border: none;
+
+  &:hover {
+    background-color: #29abe2;
+    box-shadow: 0 4px 12px rgba(41, 171, 226, 0.35);
+  }
+}
+
+.guest-btn {
+  background-color: #ffffff;
+  color: var(--color-primary, #2a3647);
+  border: 1px solid var(--color-primary, #2a3647);
+
+  &:hover {
+    color: #29abe2;
+    border-color: #29abe2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  }
+}
+
+.login-footer {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+
+  display: flex;
+  gap: 32px;
+
+  transform: translateX(-50%);
+
+  a {
+    color: #a8a8a8;
+    font-size: 16px;
+    text-decoration: none;
+    transition: color 100ms ease-in-out;
+
+    &:hover {
+      color: #29abe2;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .login-page {
+    overflow-y: auto;
+  }
+
+  .login-header {
+    position: static;
+    padding: 32px 32px 0;
+
+    .signup-area {
+      display: none;
+    }
+  }
+
+  .join-logo {
+    width: 72px;
+  }
+
+  .login-card {
+    position: static;
+    transform: none;
+
+    width: calc(100% - 32px);
+    min-height: auto;
+
+    margin: 96px auto 120px;
+    padding: 32px 24px;
+
+    border-radius: 30px;
+  }
+
+  .login-title {
+    font-size: 47px;
+  }
+
+  .title-underline {
+    width: 88px;
+    margin-bottom: 32px;
+  }
+
+  .input-group,
+  .error-message {
+    width: 100%;
+    max-width: 422px;
+  }
+
+  .button-row {
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .login-btn,
+  .guest-btn {
+    width: 180px;
+  }
+
+  .login-footer {
+    position: fixed;
+    bottom: 24px;
+  }
+}

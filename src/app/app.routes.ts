@@ -3,7 +3,16 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./mainside/mainside').then((m) => m.Mainside),
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login').then((m) => m.Login),
+  },
+  {
+    path: 'summary',
+    loadComponent: () => import('./summary/summary').then((m) => m.Summary),
   },
   {
     path: 'contacts',
@@ -28,5 +37,9 @@ export const routes: Routes = [
   {
     path: 'legal-notice',
     loadComponent: () => import('./legal-notice/legal-notice').then((m) => m.LegalNotice),
+  },
+  {
+    path: '**',
+    redirectTo: 'login',
   },
 ];

@@ -1,0 +1,59 @@
+<main class="login-page">
+  <header class="login-header">
+    <img src="Assets/icons/Join logo vector.svg" alt="Join Logo" class="join-logo" />
+
+    <div class="signup-area">
+      <span>Not a Join user?</span>
+
+      <button type="button" class="signup-btn" (click)="goToSignup()">Sign up</button>
+    </div>
+  </header>
+
+  <section class="login-card">
+    <h1 class="login-title">Log in</h1>
+    <div class="title-underline"></div>
+
+    <form class="login-form" (ngSubmit)="onLogin()">
+      <div class="input-group">
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          [(ngModel)]="email"
+          class="login-input"
+          required
+        />
+
+        <img src="Assets/icons/mail-icon.svg" alt="" class="input-icon" />
+      </div>
+
+      <div class="input-group">
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+          class="login-input"
+          required
+        />
+
+        <img src="Assets/icons/lock-icon.svg" alt="" class="input-icon" />
+      </div>
+
+      @if (errorMessage) {
+        <p class="error-message">{{ errorMessage }}</p>
+      }
+
+      <div class="button-row">
+        <button type="submit" class="login-btn">Log in</button>
+
+        <button type="button" class="guest-btn" (click)="onGuestLogin()">Guest Log in</button>
+      </div>
+    </form>
+  </section>
+
+  <footer class="login-footer">
+    <a routerLink="/privacy-policy">Privacy Policy</a>
+    <a routerLink="/legal-notice">Legal notice</a>
+  </footer>
+</main>
