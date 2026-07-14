@@ -7,6 +7,7 @@ import { Contact, NewContact } from '../core/models/contact.model';
 import { getContactColor, getContactInitials } from '../core/utils/contact-utils';
 import { ContactDialog } from '../contact-dialog/contact-dialog';
 
+/** Component for managing and displaying contacts. */
 @Component({
   selector: 'app-contacts',
   standalone: true,
@@ -47,6 +48,7 @@ export class Contacts implements OnInit {
     this.loadContacts();
   }
 
+  /** Loads all contacts and groups them alphabetically. */
   async loadContacts() {
     try {
       this.contacts = await this.contactService.getContacts();
@@ -61,6 +63,7 @@ export class Contacts implements OnInit {
     }
   }
 
+  /** Groups contacts alphabetically. */
   groupContacts() {
     const groups: { [key: string]: Contact[] } = {};
     this.contacts.forEach((contact) => {
@@ -83,26 +86,31 @@ export class Contacts implements OnInit {
     this.groupedContacts = groups;
   }
 
+  /** Returns initials of the contact. */
   getInitials(contact: Contact | NewContact | null): string {
     return getContactInitials(contact);
   }
 
+  /** Returns contact badge color. */
   getColor(contact: Contact | NewContact | null): string {
     return getContactColor(contact);
   }
 
+  /** Selects a contact to display details. */
   selectContact(contact: Contact) {
     this.selectedContact = contact;
     this.showDetailsMobile = true;
     this.isMobileMenuOpen = false;
   }
 
+  /** Closes mobile contact details view. */
   closeDetailsMobile() {
     this.showDetailsMobile = false;
     this.isMobileMenuOpen = false;
     this.selectedContact = null;
   }
 
+  /** Opens dialog modal in 'add' mode. */
   openAddModal() {
     this.dialogMode = 'add';
     this.dialogContact = null;
@@ -110,6 +118,7 @@ export class Contacts implements OnInit {
     this.cdr.detectChanges();
   }
 
+  /** Opens dialog modal in 'edit' mode. */
   openEditModal(contact: Contact, event?: Event) {
     if (event) {
       event.stopPropagation();
@@ -121,11 +130,13 @@ export class Contacts implements OnInit {
     this.cdr.detectChanges();
   }
 
+  /** Closes the active dialog modal. */
   closeDialog() {
     this.isDialogOpen = false;
     this.cdr.detectChanges();
   }
 
+  /** Handles saving a new or updated contact from the dialog. */
   async onDialogSaved(contactData: NewContact) {
     try {
       if (this.dialogMode === 'add') {
@@ -149,11 +160,13 @@ export class Contacts implements OnInit {
     }
   }
 
+  /** Deletes the selected contact. */
   async deleteSelectedContact() {
     if (!this.selectedContact) return;
     await this.removeContact(this.selectedContact.id);
   }
 
+  /** Handles contact deletion from the dialog. */
   async onDialogDeleted() {
     if (!this.dialogContact) return;
     this.isDialogOpen = false;
@@ -161,6 +174,7 @@ export class Contacts implements OnInit {
     await this.removeContact(this.dialogContact.id);
   }
 
+  /** Deletes contact and updates state. */
   private async removeContact(id: string) {
     try {
       await this.contactService.deleteContact(id);
@@ -174,6 +188,7 @@ export class Contacts implements OnInit {
     }
   }
 
+  /** Toggles mobile options menu. */
   toggleMobileMenu(event?: Event) {
     if (event) {
       event.stopPropagation();
@@ -182,6 +197,7 @@ export class Contacts implements OnInit {
     this.cdr.detectChanges();
   }
 
+  /** Closes mobile options menu. */
   closeMobileMenu() {
     this.isMobileMenuOpen = false;
     this.cdr.detectChanges();

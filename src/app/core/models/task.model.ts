@@ -11,7 +11,7 @@ export interface Task {
   status: TaskStatus;
   category: Category | null;
   created_at: string;
-  contact_ids: string[] | null;
+  contact_ids?: string[] | null;
 }
 
 export type NewTask = Omit<Task, 'id' | 'created_at' | 'status'> & {

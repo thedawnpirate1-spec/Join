@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadComponent: () => import('./board/board').then((m) => m.Board),
   },
   {
+    path: 'add-task',
+    loadComponent: () => import('./add-task/add-task').then((m) => m.AddTask),
+  },
+  {
     path: 'help',
     loadComponent: () => import('./help/help').then((m) => m.Help),
   },
