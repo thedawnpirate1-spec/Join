@@ -293,7 +293,7 @@
           Clear
           <img src="/Assets/icons/close-icon.svg" alt="Clear" class="btn-icon" />
         </button>
-        <button type="submit" class="btn btn-primary create-btn">
+        <button type="submit" class="btn btn-primary create-btn" [disabled]="!isFormValid()">
           Create Task
           <img src="/Assets/icons/check-icon.svg" alt="Create" class="btn-icon check-white" />
         </button>

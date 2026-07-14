@@ -802,6 +802,10 @@
   transition: all 0.15s ease-in-out;
   border: 1px solid transparent;
 
+  &:disabled {
+    cursor: not-allowed;
+  }
+
   .btn-icon {
     width: 16px;
     height: 16px;
@@ -833,9 +837,20 @@
   background-color: var(--color-primary);
   color: #ffffff;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: #29abe2;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  &:disabled {
+    background-color: #cccccc;
+    color: #888888;
+    border-color: #cccccc;
+    box-shadow: none;
+
+    .check-white {
+      filter: brightness(0) invert(0.6);
+    }
   }
 
   .check-white {
