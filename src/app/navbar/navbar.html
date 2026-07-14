@@ -4,7 +4,7 @@
   </div>
 
   <div class="menu-container">
-    @if (isLoggedIn) {
+    @if (authService.isLoggedIn()) {
       <a
         routerLink="/summary"
         routerLinkActive="active"

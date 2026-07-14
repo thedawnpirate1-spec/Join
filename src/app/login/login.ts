@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../core/services/auth-service';
 
 @Component({
   selector: 'app-login',
@@ -9,13 +10,15 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './login.scss',
 })
 export class Login {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   email = '';
   password = '';
   errorMessage = '';
+  isLoading = false;
 
-  constructor(private router: Router) {}
-
-  onLogin(): void {
+  async onLogin(): Promise<void> {
     this.errorMessage = '';
 
     if (!this.email.trim() || !this.password.trim()) {
@@ -23,12 +26,18 @@ export class Login {
       return;
     }
 
-    console.log('Login:', {
-      email: this.email,
-      password: this.password,
-    });
+    try {
+      this.isLoading = true;
 
-    this.router.navigateByUrl('/summary');
+      await this.authService.login(this.email.trim(), this.password);
+
+      await this.router.navigateByUrl('/summary');
+    } catch (error) {
+      console.error('Login error:', error);
+      this.errorMessage = 'Login failed. Please check your email and password.';
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   onGuestLogin(): void {

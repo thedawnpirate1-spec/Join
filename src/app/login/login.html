@@ -45,7 +45,9 @@
       }
 
       <div class="button-row">
-        <button type="submit" class="login-btn">Log in</button>
+        <button type="submit" class="login-btn" [disabled]="isLoading">
+          {{ isLoading ? 'Logging in...' : 'Log in' }}
+        </button>
 
         <button type="button" class="guest-btn" (click)="onGuestLogin()">Guest Log in</button>
       </div>
