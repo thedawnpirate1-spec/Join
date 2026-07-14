@@ -58,7 +58,7 @@ export class EditTask implements OnInit {
     try {
       this.task = await this.taskService.getTask(this.taskId);
       this.subtasks = await this.subtaskService.getSubtasks(this.taskId);
-      this.assignedContacts = await this.taskService.getContactsByIds(this.task.contact_ids ?? []);
+      this.assignedContacts = await this.taskService.getAssignedContacts(this.task.id);
       this.changeDetectorRef.detectChanges();
     } catch (e) {
       console.error('Error loading task:', e);
