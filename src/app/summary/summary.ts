@@ -6,4 +6,13 @@ import { Component } from '@angular/core';
   templateUrl: './summary.html',
   styleUrl: './summary.scss',
 })
-export class Summary {}
+export class Summary {
+  todoCount = 1;
+  doneCount = 1;
+  urgentCount = 1;
+  boardCount = 5;
+  progressCount = 2;
+  feedbackCount = 2;
+  upcomingDeadline = 'October 16, 2026';
+  userName = 'Sofia Müller';
+}
