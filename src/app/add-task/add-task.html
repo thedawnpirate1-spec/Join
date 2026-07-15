@@ -113,7 +113,7 @@
                 placeholder="Select contacts to assign"
                 [(ngModel)]="searchTerm"
                 name="searchTerm"
-                (click)="$event.stopPropagation(); isAssignedDropdownOpen = true"
+                (click)="$event.stopPropagation(); isAssignedDropdownOpen = true; isCategoryDropdownOpen = false"
               />
               <span class="dropdown-arrow"></span>
             </div>
