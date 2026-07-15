@@ -6,7 +6,7 @@
   <div class="menu-container">
     @if (isLoggedIn) {
       <a
-        href="javascript:void(0)"
+        routerLink="/"
         class="menu-item"
         [class.active]="activeLink === 'Summary'"
         (click)="setActiveLink('Summary')"
@@ -15,7 +15,7 @@
         <span class="menu-text">Summary</span>
       </a>
       <a
-        href="javascript:void(0)"
+        routerLink="/add-task"
         class="menu-item"
         [class.active]="activeLink === 'Add Task'"
         (click)="setActiveLink('Add Task')"

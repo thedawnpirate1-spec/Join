@@ -2,6 +2,7 @@ import { Component, HostListener, signal, OnInit } from '@angular/core';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
+/** Component representing the application header. */
 @Component({
   selector: 'app-header',
   imports: [RouterLink],
@@ -24,15 +25,18 @@ export class Header implements OnInit {
     this.showHelpButton.set(this.router.url !== '/help');
   }
 
+  /** Toggles the user profile menu. */
   toggleMenu(event: Event) {
     event.stopPropagation();
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  /** Closes the user profile menu. */
   closeMenu() {
     this.isMenuOpen = false;
   }
 
+  /** Closes the user profile menu on outside clicks. */
   @HostListener('document:click')
   onDocumentClick() {
     this.closeMenu();

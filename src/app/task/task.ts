@@ -40,7 +40,7 @@ export class Task implements OnChanges {
   private async loadAssignedContacts() {
     if (!this.task) return;
     try {
-      this.assignedContacts = await this.taskService.getContactsByIds(this.task.contact_ids ?? []);
+      this.assignedContacts = await this.taskService.getAssignedContacts(this.task.id);
       this.changeDetectorRef.detectChanges();
     } catch (e) {
       console.error('Error loading assigned contacts:', e);

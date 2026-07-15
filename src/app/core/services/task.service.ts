@@ -20,8 +20,12 @@ export class TaskService {
     return data as Task;
   }
 
-  async addTask(task: NewTask): Promise<Task> {
-    const { data, error } = await this.table.insert(task).select().single();
+  async addTask(task: NewTask, assignedContactIds: string[] = []): Promise<Task> {
+    const payload = {
+      ...task,
+      contact_ids: assignedContactIds.length ? assignedContactIds : null
+    };
+    const { data, error } = await this.table.insert(payload).select().single();
     if (error) throw error;
     return data as Task;
   }
@@ -37,13 +41,22 @@ export class TaskService {
     if (error) throw error;
   }
 
-  async getContactsByIds(contactIds: string[]): Promise<Contact[]> {
-    if (!contactIds.length) return [];
+  async getAssignedContacts(taskId: string): Promise<Contact[]> {
+    const task = await this.getTask(taskId);
+    if (!task || !task.contact_ids || !task.contact_ids.length) return [];
+    
     const { data, error } = await this.supabase.client
       .from('contacts')
       .select('*')
-      .in('id', contactIds);
+      .in('id', task.contact_ids);
     if (error) throw error;
     return data as Contact[];
+  }
+
+  async setAssignedContacts(taskId: string, contactIds: string[]): Promise<void> {
+    const { error } = await this.table
+      .update({ contact_ids: contactIds.length ? contactIds : null })
+      .eq('id', taskId);
+    if (error) throw error;
   }
 }
