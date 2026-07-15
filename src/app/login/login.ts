@@ -40,10 +40,23 @@ export class Login {
     }
   }
 
-  onGuestLogin(): void {
-    console.log('Guest login');
+  async onGuestLogin(): Promise<void> {
+    this.errorMessage = '';
 
-    this.router.navigateByUrl('/summary');
+    this.email = 'guest@guest.com';
+    this.password = '123456';
+    try {
+      this.isLoading = true;
+
+      await this.authService.login(this.email.trim(), this.password);
+
+      await this.router.navigateByUrl('/summary');
+    } catch (error) {
+      console.error('Login error:', error);
+      this.errorMessage = 'Login failed. Please check your email and password.';
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   goToSignup(): void {
