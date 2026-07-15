@@ -1,6 +1,7 @@
-import { Component, HostListener, signal, OnInit } from '@angular/core';
+import { Component, HostListener, signal, OnInit, inject } from '@angular/core';
 import { Router, RouterLink, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { AuthService } from '../core/services/auth-service';
 
 /** Component representing the application header. */
 @Component({
@@ -12,13 +13,14 @@ import { filter } from 'rxjs/operators';
 export class Header implements OnInit {
   readonly showHelpButton = signal(true);
   isMenuOpen = false;
+  authService = inject(AuthService);
 
   constructor(private readonly router: Router) {
-    this.router.events.pipe(
-      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
-    ).subscribe((event) => {
-      this.showHelpButton.set(event.urlAfterRedirects !== '/help');
-    });
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        this.showHelpButton.set(event.urlAfterRedirects !== '/help');
+      });
   }
 
   ngOnInit() {
@@ -34,6 +36,11 @@ export class Header implements OnInit {
   /** Closes the user profile menu. */
   closeMenu() {
     this.isMenuOpen = false;
+  }
+
+  logout() {
+    this.closeMenu();
+    this.authService.logout();
   }
 
   /** Closes the user profile menu on outside clicks. */

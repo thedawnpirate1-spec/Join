@@ -1,9 +1,13 @@
-<div class="grid-container">
-  <app-navbar></app-navbar>
+@if (isAuthPage) {
+  <router-outlet></router-outlet>
+} @else {
+  <div class="grid-container">
+    <app-navbar></app-navbar>
 
-  <app-header></app-header>
+    <app-header></app-header>
 
-  <main class="main-content" #mainContent>
-    <router-outlet></router-outlet>
-  </main>
-</div>
+    <main class="main-content" #mainContent>
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+}
