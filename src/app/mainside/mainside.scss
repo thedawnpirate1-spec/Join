@@ -1,0 +1,386 @@
+@use '../../styles/variables' as *;
+
+.summary-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  min-height: 100%;
+  width: 100%;
+  padding: 80px 64px 48px 64px;
+  gap: 48px;
+  background-color: var(--color-background);
+  box-sizing: border-box;
+}
+
+.summary-left {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-header {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 48px;
+
+  .summary-title {
+    font-size: 61px;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+  }
+
+  .header-divider {
+    height: 59px;
+    width: 3px;
+    background-color: #29abe2;
+  }
+
+  .summary-subtitle {
+    font-size: 27px;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+}
+
+.metrics-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 560px;
+  width: 100%;
+}
+
+.metrics-row-double {
+  display: flex;
+  gap: 24px;
+}
+
+.metrics-row-triple {
+  display: flex;
+  gap: 18px;
+}
+
+/* Card Styles */
+.metric-card, .metric-card-full {
+  background-color: #ffffff;
+  border-radius: 30px;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.metric-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.card-half {
+  flex: 1;
+  padding: 28px 32px;
+  gap: 24px;
+  justify-content: flex-start;
+
+  .card-icon-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    transition: all 0.2s ease-in-out;
+
+    .metric-icon {
+      transition: all 0.2s ease-in-out;
+      .icon-path {
+        transition: all 0.2s ease-in-out;
+        fill: #ffffff;
+      }
+    }
+  }
+
+  /* Specific Hover for Half Cards */
+  &:hover {
+    background-color: var(--color-primary);
+    
+    .card-icon-circle {
+      background-color: #ffffff;
+      
+      .metric-icon {
+        .icon-path {
+          fill: var(--color-primary);
+        }
+      }
+    }
+
+    .card-number, .card-label {
+      color: #ffffff;
+    }
+  }
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-number {
+  font-size: 48px;
+  font-weight: 700;
+  color: #000000;
+  line-height: 1;
+  transition: color 0.2s ease-in-out;
+}
+
+.card-label {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+  transition: color 0.2s ease-in-out;
+}
+
+/* Full Width Urgent Card */
+.metric-card-full {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 48px;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.15);
+  }
+
+  .urgent-left {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+
+    .urgent-prio-icon {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .urgent-divider {
+    width: 2px;
+    height: 80px;
+    background-color: #d1d1d1;
+    margin: 0 16px;
+  }
+
+  .urgent-right {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .deadline-date {
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--color-text-secondary);
+    }
+
+    .deadline-label {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+    }
+  }
+}
+
+/* Triple cards at the bottom */
+.card-third {
+  flex: 1;
+  flex-direction: column;
+  padding: 20px 10px;
+  gap: 12px;
+
+  .card-number {
+    font-size: 48px;
+  }
+
+  .text-center {
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  &:hover {
+    background-color: var(--color-primary);
+
+    .card-number, .card-label {
+      color: #ffffff;
+    }
+  }
+}
+
+/* Right Section - Greeting */
+.summary-right {
+  flex: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 24px;
+}
+
+.greeting-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .greeting-message {
+    font-size: 48px;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .greeting-user {
+    font-size: 64px;
+    font-weight: 700;
+    color: #29abe2;
+    margin: 0;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .summary-container {
+    padding: 64px 32px;
+    gap: 32px;
+  }
+
+  .greeting-wrapper {
+    .greeting-message {
+      font-size: 36px;
+    }
+    .greeting-user {
+      font-size: 48px;
+    }
+  }
+}
+
+@media (max-width: $global-tablet-breakpoint) {
+  .summary-container {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 48px 24px;
+    gap: 40px;
+    overflow-y: auto;
+  }
+
+  .summary-left {
+    width: 100%;
+    align-items: center;
+  }
+
+  .metrics-grid {
+    max-width: 500px;
+  }
+
+  .summary-right {
+    width: 100%;
+    justify-content: center;
+    padding-left: 0;
+    margin-bottom: 12px;
+  }
+
+  .greeting-wrapper {
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .summary-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 32px;
+    width: 100%;
+
+    .header-divider {
+      height: 3px;
+      width: 90px;
+    }
+
+    .summary-title {
+      font-size: 48px;
+    }
+
+    .summary-subtitle {
+      font-size: 20px;
+    }
+  }
+
+  .metrics-grid {
+    gap: 16px;
+  }
+
+  .metrics-row-double {
+    gap: 16px;
+  }
+
+  .card-half {
+    padding: 20px 16px;
+    gap: 16px;
+
+    .card-icon-circle {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  .card-number {
+    font-size: 36px;
+  }
+
+  .card-label {
+    font-size: 14px;
+  }
+
+  .metric-card-full {
+    padding: 20px 24px;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+
+    .urgent-divider {
+      width: 80%;
+      height: 2px;
+      margin: 8px 0;
+    }
+
+    .urgent-right {
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  .metrics-row-triple {
+    gap: 10px;
+  }
+
+  .card-third {
+    padding: 16px 8px;
+    
+    .card-number {
+      font-size: 36px;
+    }
+    
+    .card-label {
+      font-size: 12px;
+    }
+  }
+}
