@@ -210,8 +210,8 @@
   flex-direction: column;
   gap: 32px;
   z-index: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
+  max-width: ($global-max-width);
+  
 }
 
 .mobile-back-btn {

@@ -4,12 +4,13 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
-  min-height: 100%;
+  
   width: 100%;
   padding: 80px 64px 48px 64px;
   gap: 48px;
   background-color: var(--color-background);
   box-sizing: border-box;
+  max-width: ($global-max-width);
 }
 
 .summary-left {

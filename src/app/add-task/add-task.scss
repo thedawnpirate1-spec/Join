@@ -3,7 +3,7 @@
 .add-task-container {
   padding: 40px var(--padding-right) 24px var(--padding-left);
   width: 100%;
-  max-width: 1200px;
+  max-width: ($global-max-width);
   min-height: auto;
   display: flex;
   flex-direction: column;
