@@ -1,5 +1,6 @@
 <div class="dialog-backdrop" (click)="onClose()"></div>
 <div class="dialog-window" (click)="$event.stopPropagation()">
+  <div class="dialog-scroll">
   @if (task && !isEditMode) {
     <div class="dialog-head">
       <span
@@ -117,7 +118,13 @@
 
       <label class="form-field">
         <span class="form-label">Due date</span>
-        <input type="date" class="form-input" name="dueDate" [(ngModel)]="editDueDate" />
+        <input
+          type="date"
+          class="form-input"
+          name="dueDate"
+          [min]="todayIso"
+          [(ngModel)]="editDueDate"
+        />
       </label>
 
       <div class="form-field">
@@ -130,7 +137,10 @@
             (click)="setPriority('urgent')"
           >
             Urgent
-            <img src="/Assets/icons/red-arrows-up-icon.svg" alt="" />
+            <svg class="prio-icon" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 11 12 5 20 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M4 16 12 10 20 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           </button>
           <button
             type="button"
@@ -139,7 +149,10 @@
             (click)="setPriority('medium')"
           >
             Medium
-            <img src="/Assets/icons/equal-orange-icon.svg" alt="" />
+            <svg class="prio-icon" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 8H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+              <path d="M4 13H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
           </button>
           <button
             type="button"
@@ -148,7 +161,10 @@
             (click)="setPriority('low')"
           >
             Low
-            <img src="/Assets/icons/arrow-down-green-icon.svg" alt="" />
+            <svg class="prio-icon" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 4 12 10 20 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M4 9 12 15 20 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           </button>
         </div>
       </div>
@@ -223,4 +239,5 @@
       </div>
     </form>
   }
+  </div>
 </div>
