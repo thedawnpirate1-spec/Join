@@ -65,6 +65,16 @@ export class EditTask implements OnInit {
     }
   }
 
+  /**
+   * Returns today's date as an ISO string (yyyy-mm-dd) in local time.
+   * Used as the minimum selectable value for the due date input.
+   */
+  get todayIso(): string {
+    const now = new Date();
+    const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+    return localTime.toISOString().split('T')[0];
+  }
+
   get categoryLabel(): string {
     return this.task?.category === 'technical_task' ? 'Technical Task' : 'User Story';
   }
