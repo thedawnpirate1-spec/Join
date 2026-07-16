@@ -34,7 +34,7 @@
     <div class="board-column">
       <div class="column-header">
         <h2>To do</h2>
-        <button class="add-task-collums">
+        <button class="add-task-collums" (click)="openAddTaskDialog('todo')">
           <img src="/Assets/icons/add-icon.svg" alt="Add task" />
         </button>
       </div>
@@ -67,7 +67,7 @@
     <div class="board-column">
       <div class="column-header">
         <h2>In progress</h2>
-        <button class="add-task-collums">
+        <button class="add-task-collums" (click)="openAddTaskDialog('in_progress')">
           <img src="/Assets/icons/add-icon.svg" alt="Add task" />
         </button>
       </div>
@@ -100,7 +100,7 @@
     <div class="board-column">
       <div class="column-header">
         <h2>Await feedback</h2>
-        <button class="add-task-collums">
+        <button class="add-task-collums" (click)="openAddTaskDialog('await_feedback')">
           <img src="/Assets/icons/add-icon.svg" alt="Add task" />
         </button>
       </div>
@@ -133,6 +133,9 @@
     <div class="board-column">
       <div class="column-header">
         <h2>Done</h2>
+        <button class="add-task-collums" (click)="openAddTaskDialog('done')">
+          <img src="/Assets/icons/add-icon.svg" alt="Add task" />
+        </button>
       </div>
 
       <div
@@ -162,7 +165,11 @@
   </div>
 
   @if (showAddTaskDialog) {
-    <app-add-task [isDialog]="true" (close)="closeAddTaskDialog()"></app-add-task>
+    <app-add-task
+      [isDialog]="true"
+      [initialStatus]="addTaskStatus"
+      (close)="closeAddTaskDialog()"
+    ></app-add-task>
   }
 
   @if (selectedTaskId) {

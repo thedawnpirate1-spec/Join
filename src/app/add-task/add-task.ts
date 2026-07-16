@@ -6,7 +6,7 @@ import { TaskService } from '../core/services/task.service';
 import { SubtaskService } from '../core/services/subtask.service';
 import { ContactService } from '../core/services/contact.service';
 import { Contact } from '../core/models/contact.model';
-import { Priority, Category, NewTask } from '../core/models/task.model';
+import { Priority, Category, NewTask, TaskStatus } from '../core/models/task.model';
 import { getContactColor, getContactInitials } from '../core/utils/contact-utils';
 
 /** Component for creating and adding tasks. */
@@ -25,6 +25,8 @@ export class AddTask implements OnInit {
 
   /** Set when rendered inside a dialog overlay instead of as a routed page. */
   @Input() isDialog = false;
+  /** Status the new task is created with, e.g. when opened from a specific board column. */
+  @Input() initialStatus: TaskStatus = 'todo';
   @Output() close = new EventEmitter<void>();
 
   title = '';
@@ -196,7 +198,7 @@ export class AddTask implements OnInit {
         due_date: this.due_date || null,
         priority: this.priority,
         category: this.category,
-        status: 'todo',
+        status: this.initialStatus,
       };
 
       const created = await this.taskService.addTask(
