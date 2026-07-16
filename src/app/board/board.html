@@ -23,7 +23,7 @@
         </svg>
       </div>
 
-      <button class="add-task-btn">
+      <button class="add-task-btn" (click)="openAddTaskDialog()">
         <span class="add-task-label">Add task</span>
         <img src="/Assets/icons/add-icon.svg" alt="" class="add-task-icon" />
       </button>
@@ -160,6 +160,10 @@
       </div>
     </div>
   </div>
+
+  @if (showAddTaskDialog) {
+    <app-add-task [isDialog]="true" (close)="closeAddTaskDialog()"></app-add-task>
+  }
 
   @if (selectedTaskId) {
     <app-edit-task
