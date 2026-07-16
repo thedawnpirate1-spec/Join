@@ -25,6 +25,7 @@ export class Board implements OnInit {
 
   searchTerm = '';
   showAddTaskDialog = false;
+  addTaskStatus: TaskStatus = 'todo';
   selectedTaskId: string | null = null;
   private isDragging = false;
 
@@ -111,7 +112,8 @@ export class Board implements OnInit {
     return tasks.some((task) => this.matchesSearch(task));
   }
 
-  openAddTaskDialog() {
+  openAddTaskDialog(status: TaskStatus = 'todo') {
+    this.addTaskStatus = status;
     this.showAddTaskDialog = true;
   }
 
