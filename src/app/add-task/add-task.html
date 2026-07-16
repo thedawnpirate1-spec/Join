@@ -1,7 +1,7 @@
 @if (isDialog) {
   <div class="modal-backdrop" (click)="close.emit()"></div>
 }
-<div class="add-task-container" [class.dialog-mode]="isDialog" (click)="isDialog && $event.stopPropagation()">
+<div class="add-task-container" [class.dialog-mode]="isDialog">
   @if (isDialog) {
     <button type="button" class="modal-close-btn" (click)="close.emit()" title="Close">
       <img src="/Assets/icons/close-icon.svg" alt="Close" />
