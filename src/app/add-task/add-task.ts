@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, inject, HostListener } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, inject, HostListener, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,6 +22,7 @@ export class AddTask implements OnInit {
   private subtaskService = inject(SubtaskService);
   private contactService = inject(ContactService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
   /** Set when rendered inside a dialog overlay instead of as a routed page. */
   @Input() isDialog = false;
@@ -215,9 +216,11 @@ export class AddTask implements OnInit {
       }
 
       this.showSuccessToast = true;
+      this.cdr.detectChanges();
 
       setTimeout(() => {
         this.showSuccessToast = false;
+        this.cdr.detectChanges();
         if (this.isDialog) {
           this.close.emit();
         } else {

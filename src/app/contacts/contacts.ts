@@ -31,6 +31,7 @@ export class Contacts implements OnInit {
   selectedContact: Contact | null = null;
   showDetailsMobile = false;
   isMobileMenuOpen = false;
+  showSuccessToast = false;
 
   constructor() {
     this.router.events
@@ -144,11 +145,15 @@ export class Contacts implements OnInit {
     this.cdr.detectChanges();
   }
 
-  /** Handles saving a new or updated contact from the dialog. */
   async onDialogSaved(contactData: NewContact) {
     try {
       if (this.dialogMode === 'add') {
         await this.contactService.addContact(contactData);
+        this.showSuccessToast = true;
+        setTimeout(() => {
+          this.showSuccessToast = false;
+          this.cdr.detectChanges();
+        }, 1500);
       }
 
       if (this.dialogMode === 'edit' && this.dialogContact) {

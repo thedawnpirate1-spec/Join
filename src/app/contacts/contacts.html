@@ -158,4 +158,10 @@
       (deleted)="onDialogDeleted()"
     ></app-contact-dialog>
   }
+
+  <div class="success-toast-overlay" [class.show]="showSuccessToast">
+    <div class="success-toast">
+      <span>Contact successfully created</span>
+    </div>
+  </div>
 </div>
