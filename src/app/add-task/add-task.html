@@ -1,4 +1,12 @@
-<div class="add-task-container">
+@if (isDialog) {
+  <div class="modal-backdrop" (click)="close.emit()"></div>
+}
+<div class="add-task-container" [class.dialog-mode]="isDialog" (click)="isDialog && $event.stopPropagation()">
+  @if (isDialog) {
+    <button type="button" class="modal-close-btn" (click)="close.emit()" title="Close">
+      <img src="/Assets/icons/close-icon.svg" alt="Close" />
+    </button>
+  }
   <h1 class="page-title">Add Task</h1>
 
   <form (ngSubmit)="onSubmit()" #taskForm="ngForm" novalidate class="task-form">

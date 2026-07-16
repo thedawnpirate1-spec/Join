@@ -10,10 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { TaskService } from '../core/services/task.service';
 import { Task, TaskStatus } from '../core/models/task.model';
 import { Task as TaskCard } from '../task/task';
+import { AddTask } from '../add-task/add-task';
 
 @Component({
   selector: 'app-board',
-  imports: [CdkDrag, CdkDropList, FormsModule, TaskCard],
+  imports: [CdkDrag, CdkDropList, FormsModule, TaskCard, AddTask],
   templateUrl: './board.html',
   styleUrl: './board.scss',
 })
@@ -22,6 +23,7 @@ export class Board implements OnInit {
   private changeDetectorRef = inject(ChangeDetectorRef);
 
   searchTerm = '';
+  showAddTaskDialog = false;
 
   todoTasks: Task[] = [];
   inProgressTasks: Task[] = [];
@@ -80,5 +82,14 @@ export class Board implements OnInit {
 
   hasVisibleTasks(tasks: Task[]): boolean {
     return tasks.some((task) => this.matchesSearch(task));
+  }
+
+  openAddTaskDialog() {
+    this.showAddTaskDialog = true;
+  }
+
+  closeAddTaskDialog() {
+    this.showAddTaskDialog = false;
+    this.loadTasks();
   }
 }

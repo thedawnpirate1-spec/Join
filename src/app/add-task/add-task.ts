@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, HostListener } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, inject, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,6 +22,10 @@ export class AddTask implements OnInit {
   private subtaskService = inject(SubtaskService);
   private contactService = inject(ContactService);
   private router = inject(Router);
+
+  /** Set when rendered inside a dialog overlay instead of as a routed page. */
+  @Input() isDialog = false;
+  @Output() close = new EventEmitter<void>();
 
   title = '';
   description = '';
@@ -83,7 +87,7 @@ export class AddTask implements OnInit {
 
   toggleContact(contact: Contact, event: Event) {
     event.stopPropagation();
-    
+
     const idx = this.selectedContacts.findIndex((c) => c.id === contact.id);
     if (idx > -1) {
       this.selectedContacts.splice(idx, 1);
@@ -214,7 +218,11 @@ export class AddTask implements OnInit {
 
       setTimeout(() => {
         this.showSuccessToast = false;
-        this.router.navigate(['/board']);
+        if (this.isDialog) {
+          this.close.emit();
+        } else {
+          this.router.navigate(['/board']);
+        }
       }, 1500);
 
     } catch (error) {
