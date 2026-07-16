@@ -9,7 +9,7 @@
     <div class="metrics-grid">
       <!-- Row 1: To-do & Done -->
       <div class="metrics-row-double">
-        <div class="metric-card card-half card-todo">
+        <div class="metric-card card-half card-todo" routerLink="/board">
           <div class="card-icon-circle">
             <svg
               class="metric-icon"
@@ -45,7 +45,7 @@
           </div>
         </div>
 
-        <div class="metric-card card-half card-done">
+        <div class="metric-card card-half card-done" routerLink="/board">
           <div class="card-icon-circle">
             <svg
               class="metric-icon"
@@ -70,7 +70,7 @@
       </div>
 
       <!-- Row 2: Urgent -->
-      <div class="metric-card-full card-urgent">
+      <div class="metric-card-full card-urgent" routerLink="/board">
         <div class="urgent-left">
           <img src="/Assets/icons/red-arrows-up-icon.svg" alt="Urgent" class="urgent-prio-icon" />
           <div class="card-info">
@@ -87,15 +87,15 @@
 
       <!-- Row 3: Board, Progress, Feedback -->
       <div class="metrics-row-triple">
-        <div class="metric-card card-third">
+        <div class="metric-card card-third" routerLink="/board">
           <span class="card-number">{{ boardCount }}</span>
           <span class="card-label text-center">Tasks in<br />Board</span>
         </div>
-        <div class="metric-card card-third">
+        <div class="metric-card card-third" routerLink="/board">
           <span class="card-number">{{ progressCount }}</span>
           <span class="card-label text-center">Tasks In<br />Progress</span>
         </div>
-        <div class="metric-card card-third">
+        <div class="metric-card card-third" routerLink="/board">
           <span class="card-number">{{ feedbackCount }}</span>
           <span class="card-label text-center">Awaiting<br />Feedback</span>
         </div>

@@ -39,7 +39,10 @@ export class Board implements OnInit {
 
   async loadTasks() {
     try {
-      const tasks = await this.taskService.getTasks();
+      const tasks = await this.taskService.getTasks((freshTasks) => {
+        this.groupTasksByStatus(freshTasks);
+        this.changeDetectorRef.detectChanges();
+      });
       this.groupTasksByStatus(tasks);
       this.changeDetectorRef.detectChanges();
     } catch (e) {

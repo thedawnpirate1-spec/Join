@@ -48,10 +48,18 @@ export class Contacts implements OnInit {
     this.loadContacts();
   }
 
-  /** Loads all contacts and groups them alphabetically. */
   async loadContacts() {
     try {
-      this.contacts = await this.contactService.getContacts();
+      const contacts = await this.contactService.getContacts((freshContacts) => {
+        this.contacts = freshContacts;
+        this.groupContacts();
+        if (this.selectedContact) {
+          const fresh = this.contacts.find((c) => c.id === this.selectedContact!.id);
+          this.selectedContact = fresh || null;
+        }
+        this.cdr.detectChanges();
+      });
+      this.contacts = contacts;
       this.groupContacts();
       if (this.selectedContact) {
         const fresh = this.contacts.find((c) => c.id === this.selectedContact!.id);
