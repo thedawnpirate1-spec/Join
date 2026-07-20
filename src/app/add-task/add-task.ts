@@ -261,7 +261,6 @@ export class AddTask implements OnInit {
 
     } catch (error) {
       console.error('Error saving task:', error);
-      alert('Error creating task. Please try again.');
     }
   }
 

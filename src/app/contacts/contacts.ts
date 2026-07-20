@@ -33,6 +33,11 @@ export class Contacts implements OnInit {
   isMobileMenuOpen = false;
   showSuccessToast = false;
 
+  isOwnContact(contact: Contact | null): boolean {
+    if (!contact) return false;
+    return (contact.first_name === 'Sofia' && contact.last_name === 'Müller') || contact.email === 'sofia@mueller.de';
+  }
+
   constructor() {
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))

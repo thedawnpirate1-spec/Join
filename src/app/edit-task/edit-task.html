@@ -86,7 +86,7 @@
   }
 
   @if (task && isEditMode) {
-    <form class="edit-form" (ngSubmit)="saveTask()">
+    <form class="edit-form" (ngSubmit)="saveTask()" novalidate>
       <label class="form-field">
         <span class="form-label">Title</span>
         <input

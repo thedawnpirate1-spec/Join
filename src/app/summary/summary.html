@@ -105,8 +105,10 @@
 
   <div class="summary-right">
     <div class="greeting-wrapper">
-      <h2 class="greeting-message">Good morning,</h2>
-      <p class="greeting-user">{{ userName }}</p>
+      <h2 class="greeting-message">{{ greetingText }},</h2>
+      @if (userName !== 'Guest User' && userName !== 'Guest') {
+        <p class="greeting-user">{{ userName }}</p>
+      }
     </div>
   </div>
 </div>

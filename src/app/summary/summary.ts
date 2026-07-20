@@ -24,6 +24,13 @@ export class Summary implements OnInit {
   upcomingDeadline = 'No upcoming deadline';
   userName = 'User';
 
+  get greetingText(): string {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
+  }
+
   async ngOnInit() {
     await Promise.all([
       this.loadMetrics(),
