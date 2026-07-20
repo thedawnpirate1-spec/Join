@@ -38,9 +38,10 @@ export class Header implements OnInit {
     this.isMenuOpen = false;
   }
 
-  logout() {
+  async logout(): Promise<void> {
     this.closeMenu();
-    this.authService.logout();
+    await this.authService.logout();
+    await this.router.navigateByUrl('/login');
   }
 
   /** Closes the user profile menu on outside clicks. */

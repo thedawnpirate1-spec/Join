@@ -11,13 +11,15 @@
   }
 
   <div class="profile-container">
-    <button class="profile-btn" (click)="toggleMenu($event)" title="User Profile">SM</button>
+    <button class="profile-btn" (click)="toggleMenu($event)" title="User Profile">
+      {{ authService.userInitials() }}
+    </button>
 
     <div class="dropdown-menu" [class.show]="isMenuOpen">
       <a routerLink="/help" class="dropdown-item help-dropdown-item" (click)="closeMenu()">Help</a>
       <a routerLink="/legal-notice" class="dropdown-item" (click)="closeMenu()">Legal Notice</a>
       <a routerLink="/privacy-policy" class="dropdown-item" (click)="closeMenu()">Privacy Policy</a>
-      <a routerLink="/logout" class="dropdown-item" (click)="logout()">Log out</a>
+      <button type="button" class="dropdown-item logout-btn" (click)="logout()">Log out</button>
     </div>
   </div>
 </div>

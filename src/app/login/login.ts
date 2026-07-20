@@ -60,6 +60,7 @@ export class Login {
   }
 
   goToSignup(): void {
+    console.log('signup');
     this.router.navigateByUrl('/signup');
   }
 }

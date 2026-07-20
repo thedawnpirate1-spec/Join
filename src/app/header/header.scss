@@ -133,6 +133,14 @@
   display: none;
 }
 
+.logout-btn {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
 @media (max-width: 800px) {
   :host {
     padding: 0 16px;
