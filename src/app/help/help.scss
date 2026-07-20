@@ -66,7 +66,7 @@ p, .note-text, .contact-text {
 }
 
 .highlight-blue {
-  color: #29ABE2;
+  color: var(--color-button-hover);
   font-weight: 700;
   
   &.link {

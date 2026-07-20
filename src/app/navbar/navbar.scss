@@ -3,13 +3,6 @@
 :host {
   display: block;
   height: 100%;
-
-  --color-sidebar-bg: var(--color-primary);
-  --color-menu-hover: #2a3d59;
-  --color-menu-active: #091931;
-  --color-footer-text: #a8a8a8;
-  --color-footer-hover: #29abe2;
-  --font-family-sidebar: 'Inter', sans-serif;
 }
 
 .sidebar {
@@ -21,7 +14,7 @@
   padding-bottom: 64px;
   transform: rotate(0deg);
   opacity: 1;
-  background-color: var(--color-sidebar-bg);
+  background-color: var(--color-primary);
 }
 
 .logo-container {
@@ -65,7 +58,7 @@
   }
 
   .menu-text {
-    font-family: var(--font-family-sidebar);
+    font-family: var(--font-family);
     font-size: 16px;
     font-weight: 400;
     line-height: 120%;
@@ -74,7 +67,7 @@
   }
 
   &:hover {
-    background-color: var(--color-menu-hover);
+    background-color: var(--color-button-hover);
 
     .menu-img {
       filter: brightness(1);
@@ -86,7 +79,7 @@
   }
 
   &.active {
-    background-color: var(--color-menu-active);
+    background-color: var(--color-button-active);
 
     .menu-img {
       filter: brightness(1);
@@ -106,15 +99,15 @@
 }
 
 .footer-link {
-  color: var(--color-footer-text);
-  font-family: var(--font-family-sidebar);
+  color: #a8a8a8;
+  font-family: var(--font-family);
   font-size: 16px;
   text-decoration: none;
   transition: color 100ms ease-in-out;
   cursor: pointer;
 
   &:hover {
-    color: var(--color-footer-hover);
+    color: var(--color-button-hover);
   }
 }
 

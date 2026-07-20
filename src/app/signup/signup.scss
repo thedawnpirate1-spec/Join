@@ -4,13 +4,12 @@
   display: block;
   width: 100%;
   min-height: 100dvh;
-  font-family: var(--font-family);
 }
 
 .signup-page {
   position: relative;
   min-height: 100dvh;
-  background-color: var(--color-background, #f6f7f8);
+  background-color: var(--color-background);
   overflow: hidden;
 }
 
@@ -88,7 +87,7 @@
 .signup-title {
   margin: 0;
 
-  font-size: 61px;
+  font-size: 64px;
   font-weight: 700;
   line-height: 1.1;
   color: #000000;
@@ -131,7 +130,7 @@
 
   font-size: 20px;
   font-family: inherit;
-  color: var(--color-text-primary, #2a3647);
+  color: var(--color-text-primary);
 
   outline: none;
   box-sizing: border-box;
@@ -208,7 +207,7 @@
   height: 48px;
   padding: 0 24px;
 
-  background-color: var(--color-primary, #2a3647);
+  background-color: var(--color-primary);
   color: #ffffff;
 
   border: none;
@@ -228,8 +227,8 @@
     opacity 100ms ease-in-out;
 
   &:hover:not(:disabled) {
-    background-color: #29abe2;
-    box-shadow: 0 4px 12px rgba(41, 171, 226, 0.35);
+    background-color: var(--color-button-hover);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   &:active:not(:disabled) {
@@ -260,7 +259,7 @@
     transition: color 100ms ease-in-out;
 
     &:hover {
-      color: #29abe2;
+      color: var(--color-button-hover);
     }
   }
 }

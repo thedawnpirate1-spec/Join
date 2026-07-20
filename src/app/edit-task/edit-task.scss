@@ -280,7 +280,7 @@
   }
 
   &:hover {
-    color: #29abe2;
+    color: var(--color-button-hover);
   }
 }
 
@@ -567,11 +567,11 @@
   }
 
   &:hover {
-    background-color: var(--color-button-hover, #124658);
+    background-color: var(--color-button-hover);
   }
 
   &:active {
-    background-color: var(--color-button-active, #091931);
+    background-color: var(--color-button-active);
   }
 }
 

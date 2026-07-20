@@ -4,8 +4,6 @@
   display: block;
   width: 100%;
   height: 100%;
-  font-family: var(--font-family);
-  background-color: var(--color-background);
 }
 
 @keyframes fadeIn {
@@ -98,7 +96,7 @@
   }
 
   &:hover {
-    background-color: #29abe2;
+    background-color: var(--color-button-hover);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
 }
@@ -226,7 +224,7 @@
   animation: fadeIn 0.3s ease-out;
 
   .main-title {
-    font-size: clamp(40px, 5vw, 61px);
+    font-size: 64px;
     font-weight: 700;
     color: #000000;
   }
@@ -321,7 +319,7 @@
 
   &:hover {
     background-color: rgba(42, 54, 71, 0.08);
-    color: #124658;
+    color: var(--color-button-hover);
     font-weight: 700;
   }
 }
@@ -514,7 +512,7 @@
     }
 
     &:hover {
-      background-color: #29abe2;
+      background-color: var(--color-button-hover);
     }
 
     &:active {
@@ -550,7 +548,7 @@
     }
 
     &:hover {
-      background-color: #29abe2;
+      background-color: var(--color-button-hover);
     }
 
     &:active {

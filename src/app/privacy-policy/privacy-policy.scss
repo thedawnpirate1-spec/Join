@@ -82,7 +82,7 @@
     }
 
     a {
-      color: #29abe2;
+      color: var(--color-button-hover);
       text-decoration: none;
       overflow-wrap: anywhere;
 
@@ -91,7 +91,7 @@
       }
 
       &:focus-visible {
-        outline: 2px solid #29abe2;
+        outline: 2px solid var(--color-button-hover);
         outline-offset: 3px;
         border-radius: 2px;
       }
