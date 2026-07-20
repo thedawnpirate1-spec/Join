@@ -19,14 +19,17 @@
             id="task-title"
             name="title"
             [(ngModel)]="title"
+            (blur)="markAsTouched('title')"
             placeholder="Enter a title"
             class="form-input title-input"
-            [class.input-error]="showValidationErrors && !title.trim()"
+            [class.input-error]="isFieldInvalid('title')"
             required
           />
-          @if (showValidationErrors && !title.trim()) {
-            <span class="error-message">This field is required</span>
-          }
+          <div class="form-error-slot">
+            @if (isFieldInvalid('title')) {
+              <span class="error-message">This field is required</span>
+            }
+          </div>
         </div>
 
         <div class="form-group">
@@ -48,15 +51,18 @@
               id="task-due-date"
               name="due_date"
               [(ngModel)]="due_date"
+              (blur)="markAsTouched('due_date')"
               [min]="today"
               class="form-input date-input"
-              [class.input-error]="showValidationErrors && !due_date"
+              [class.input-error]="isFieldInvalid('due_date')"
               required
             />
           </div>
-          @if (showValidationErrors && !due_date) {
-            <span class="error-message">This field is required</span>
-          }
+          <div class="form-error-slot">
+            @if (isFieldInvalid('due_date')) {
+              <span class="error-message">This field is required</span>
+            }
+          </div>
         </div>
       </div>
 
@@ -191,7 +197,7 @@
               class="dropdown-trigger"
               (click)="toggleCategoryDropdown()"
               [class.open]="isCategoryDropdownOpen"
-              [class.input-error]="showValidationErrors && !category"
+              [class.input-error]="isFieldInvalid('category')"
             >
               <span class="selected-category-text">
                 {{ category === 'user_story' ? 'User Story' : category === 'technical_task' ? 'Technical Task' : 'Select task category' }}
@@ -210,9 +216,11 @@
               </div>
             }
           </div>
-          @if (showValidationErrors && !category) {
-            <span class="error-message">This field is required</span>
-          }
+          <div class="form-error-slot">
+            @if (isFieldInvalid('category')) {
+              <span class="error-message">This field is required</span>
+            }
+          </div>
         </div>
 
         <div class="form-group">

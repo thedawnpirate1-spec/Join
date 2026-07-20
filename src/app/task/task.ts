@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, OnDestroy, inject } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Task as TaskModel } from '../core/models/task.model';
 import { Subtask } from '../core/models/subtask.model';
 import { Contact } from '../core/models/contact.model';
@@ -12,15 +13,28 @@ import { getContactColor, getContactInitials } from '../core/utils/contact-utils
   templateUrl: './task.html',
   styleUrl: './task.scss',
 })
-export class Task implements OnChanges {
+export class Task implements OnChanges, OnInit, OnDestroy {
   private subtaskService = inject(SubtaskService);
   private taskService = inject(TaskService);
   private changeDetectorRef = inject(ChangeDetectorRef);
+  private subtaskSub?: Subscription;
 
   @Input({ required: true }) task!: TaskModel;
 
   subtasks: Subtask[] = [];
   assignedContacts: Contact[] = [];
+
+  ngOnInit() {
+    this.subtaskSub = this.subtaskService.subtasksChanged.subscribe((taskId) => {
+      if (this.task && taskId === this.task.id) {
+        this.loadSubtasks();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.subtaskSub?.unsubscribe();
+  }
 
   ngOnChanges() {
     this.loadSubtasks();

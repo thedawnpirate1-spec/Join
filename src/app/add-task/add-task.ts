@@ -52,6 +52,29 @@ export class AddTask implements OnInit {
   showSuccessToast = false;
   today = '';
 
+  touchedFields = {
+    title: false,
+    due_date: false,
+    category: false,
+  };
+
+  markAsTouched(field: 'title' | 'due_date' | 'category') {
+    this.touchedFields[field] = true;
+  }
+
+  isFieldInvalid(field: 'title' | 'due_date' | 'category'): boolean {
+    if (field === 'title') {
+      return (this.touchedFields.title || this.showValidationErrors) && !this.title.trim();
+    }
+    if (field === 'due_date') {
+      return (this.touchedFields.due_date || this.showValidationErrors) && !this.due_date;
+    }
+    if (field === 'category') {
+      return (this.touchedFields.category || this.showValidationErrors) && !this.category;
+    }
+    return false;
+  }
+
   ngOnInit() {
     this.loadContacts();
     const date = new Date();
@@ -85,6 +108,7 @@ export class AddTask implements OnInit {
 
   selectCategory(cat: Category) {
     this.category = cat;
+    this.touchedFields.category = true;
     this.isCategoryDropdownOpen = false;
   }
 
@@ -177,6 +201,11 @@ export class AddTask implements OnInit {
     this.subtaskInput = '';
     this.searchTerm = '';
     this.showValidationErrors = false;
+    this.touchedFields = {
+      title: false,
+      due_date: false,
+      category: false,
+    };
   }
 
   /** Checks if the required form fields are valid. */

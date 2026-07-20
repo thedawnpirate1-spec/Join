@@ -36,12 +36,12 @@
   flex-direction: column;
   width: 525px;
   max-width: calc(100vw - 32px);
-  height: min(900px, calc(100vh - 96px));
+  height: auto;
+  max-height: min(850px, calc(100vh - 48px));
   overflow: hidden;
   background: #ffffff;
   border-radius: 30px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  padding-right: 12px;
   box-sizing: border-box;
   z-index: 1000;
   animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -60,9 +60,12 @@
 }
 
 .dialog-scroll,
-.contact-select {
+.contact-select,
+.assigned-list,
+.subtask-list,
+.edit-subtask-list {
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   &::-webkit-scrollbar-button {
@@ -112,6 +115,10 @@
 }
 
 .close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 20;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -183,6 +190,8 @@
 .assigned-list {
   display: flex;
   flex-direction: column;
+  max-height: 185px;
+  overflow-y: auto;
 }
 
 .assigned-row {
@@ -214,6 +223,8 @@
 .subtask-list {
   display: flex;
   flex-direction: column;
+  max-height: 120px;
+  overflow-y: auto;
 }
 
 .subtask-row {
@@ -391,7 +402,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-height: 220px;
+  max-height: 185px;
   overflow-y: auto;
   border: 1px solid #d1d1d1;
   border-radius: 10px;
@@ -480,6 +491,9 @@
 .edit-subtask-list {
   display: flex;
   flex-direction: column;
+  max-height: 120px;
+  overflow-y: auto;
+  margin-top: 8px;
 }
 
 .edit-subtask-row {
@@ -522,6 +536,13 @@
 .edit-footer {
   display: flex;
   justify-content: flex-end;
+  position: sticky;
+  bottom: 0;
+  background-color: #ffffff;
+  padding-top: 12px;
+  padding-bottom: 4px;
+  margin-top: 12px;
+  z-index: 10;
 }
 
 .ok-btn {
@@ -546,22 +567,29 @@
   }
 
   &:hover {
-    background-color: #29abe2;
+    background-color: var(--color-button-hover, #124658);
+  }
+
+  &:active {
+    background-color: var(--color-button-active, #091931);
   }
 }
 
 @media (max-width: $global-mobile-breakpoint) {
   .dialog-window {
     width: calc(100vw - 32px);
-    max-width: 396px;
-    height: min(680px, calc(100vh - 128px));
-    padding-right: 8px;
+    max-width: 100%;
+    height: auto;
+    max-height: calc(100vh - 64px);
+    padding-right: 0;
+    box-sizing: border-box;
     animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .dialog-scroll {
     gap: 16px;
     padding: 24px 16px 24px 24px;
+    box-sizing: border-box;
   }
 
   .category-pill {
@@ -588,5 +616,26 @@
 
   .priority-buttons {
     gap: 8px;
+  }
+}
+
+@media (max-width: 380px) {
+  .dialog-window {
+    width: calc(100vw - 16px);
+    padding: 0;
+  }
+
+  .dialog-scroll {
+    padding: 20px 12px;
+  }
+
+  .priority-btn {
+    padding: 10px 4px;
+    font-size: 13px;
+
+    .prio-icon {
+      width: 14px;
+      height: 14px;
+    }
   }
 }
