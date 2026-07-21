@@ -17,10 +17,11 @@ import { ContactService } from '../core/services/contact.service';
 import { Avatar } from '../shared/avatar/avatar';
 import { ClickOutsideDirective } from '../shared/click-outside.directive';
 import { SubtaskList, SubtaskListItem } from '../shared/subtask-list/subtask-list';
+import { PrioritySelector } from '../shared/priority-selector/priority-selector';
 
 @Component({
   selector: 'app-edit-task',
-  imports: [FormsModule, Avatar, ClickOutsideDirective, SubtaskList],
+  imports: [FormsModule, Avatar, ClickOutsideDirective, SubtaskList, PrioritySelector],
   templateUrl: './edit-task.html',
   styleUrl: './edit-task.scss',
 })
@@ -159,10 +160,6 @@ export class EditTask implements OnInit {
     } catch (e) {
       console.error('Error loading contacts:', e);
     }
-  }
-
-  setPriority(priority: Priority) {
-    this.editPriority = priority;
   }
 
   isContactAssigned(contactId: string): boolean {

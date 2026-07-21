@@ -11,12 +11,13 @@ import { isOwnContact } from '../core/utils/contact-utils';
 import { Avatar } from '../shared/avatar/avatar';
 import { ClickOutsideDirective } from '../shared/click-outside.directive';
 import { SubtaskList, SubtaskListItem } from '../shared/subtask-list/subtask-list';
+import { PrioritySelector } from '../shared/priority-selector/priority-selector';
 
 /** Component for creating and adding tasks. */
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [CommonModule, FormsModule, Avatar, ClickOutsideDirective, SubtaskList],
+  imports: [CommonModule, FormsModule, Avatar, ClickOutsideDirective, SubtaskList, PrioritySelector],
   templateUrl: './add-task.html',
   styleUrl: './add-task.scss',
 })
@@ -90,10 +91,6 @@ export class AddTask implements OnInit {
     } catch (error) {
       console.error('Error loading contacts:', error);
     }
-  }
-
-  selectPriority(prio: Priority) {
-    this.priority = prio;
   }
 
   toggleAssignedDropdown() {

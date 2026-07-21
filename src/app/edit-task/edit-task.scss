@@ -364,71 +364,6 @@
   min-height: 100px;
 }
 
-.priority-buttons {
-  display: flex;
-  gap: 16px;
-}
-
-.priority-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 10px;
-  background: #ffffff;
-  border: 1px solid #d1d1d1;
-  border-radius: 10px;
-  font-family: var(--font-family);
-  font-size: 20px;
-  color: #000000;
-  cursor: pointer;
-  transition: all 0.15s;
-
-  .prio-icon {
-    width: 22px;
-    height: 18px;
-  }
-
-  &.urgent .prio-icon {
-    color: #ff3d00;
-  }
-
-  &.medium .prio-icon {
-    color: #ffa800;
-  }
-
-  &.low .prio-icon {
-    color: #7ae229;
-  }
-
-  &:hover {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  }
-
-  &.selected {
-    color: #ffffff;
-    border: none;
-    font-weight: 700;
-
-    .prio-icon {
-      color: #ffffff;
-    }
-  }
-
-  &.urgent.selected {
-    background-color: #ff3d00;
-  }
-
-  &.medium.selected {
-    background-color: #ffa800;
-  }
-
-  &.low.selected {
-    background-color: #7ae229;
-  }
-}
-
 .custom-dropdown-assigned {
   position: relative;
 }
@@ -698,14 +633,9 @@
 
   .assigned-name,
   .form-input,
-  .priority-btn,
   .dropdown-search-input,
   .contact-name {
     font-size: 16px;
-  }
-
-  .priority-buttons {
-    gap: 8px;
   }
 }
 
@@ -727,15 +657,5 @@
   .dialog-head,
   .edit-header {
     padding-top: 20px;
-  }
-
-  .priority-btn {
-    padding: 10px 4px;
-    font-size: 13px;
-
-    .prio-icon {
-      width: 14px;
-      height: 14px;
-    }
   }
 }
