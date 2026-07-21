@@ -10,12 +10,13 @@ import { Priority, Category, NewTask, TaskStatus } from '../core/models/task.mod
 import { isOwnContact } from '../core/utils/contact-utils';
 import { Avatar } from '../shared/avatar/avatar';
 import { ClickOutsideDirective } from '../shared/click-outside.directive';
+import { SubtaskList, SubtaskListItem } from '../shared/subtask-list/subtask-list';
 
 /** Component for creating and adding tasks. */
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [CommonModule, FormsModule, Avatar, ClickOutsideDirective],
+  imports: [CommonModule, FormsModule, Avatar, ClickOutsideDirective, SubtaskList],
   templateUrl: './add-task.html',
   styleUrl: './add-task.scss',
 })
@@ -46,9 +47,6 @@ export class AddTask implements OnInit {
   isCategoryDropdownOpen = false;
 
   subtasks: { title: string; done: boolean }[] = [];
-  subtaskInput = '';
-  isEditingSubtask: number | null = null;
-  editedSubtaskTitle = '';
 
   showValidationErrors = false;
   showSuccessToast = false;
@@ -142,49 +140,22 @@ export class AddTask implements OnInit {
     });
   }
 
-  /** Adds a new subtask to the list. */
-  addSubtask() {
-    if (this.subtaskInput.trim()) {
-      this.subtasks.push({
-        title: this.subtaskInput.trim(),
-        done: false,
-      });
-      this.subtaskInput = '';
-    }
+  /** Maps local subtasks to the shape the shared subtask editor expects. */
+  get subtaskItems(): SubtaskListItem[] {
+    return this.subtasks.map((s, i) => ({ id: String(i), title: s.title }));
   }
 
-  clearSubtaskInput() {
-    this.subtaskInput = '';
+  onAddSubtask(title: string) {
+    this.subtasks.push({ title, done: false });
   }
 
-  /** Removes a subtask by index. */
-  removeSubtask(index: number) {
-    this.subtasks.splice(index, 1);
+  onUpdateSubtask(event: { id: string; title: string }) {
+    const subtask = this.subtasks[Number(event.id)];
+    if (subtask) subtask.title = event.title;
   }
 
-  /** Starts editing a subtask. */
-  startEditSubtask(index: number, event: MouseEvent) {
-    event.stopPropagation();
-    this.isEditingSubtask = index;
-    this.editedSubtaskTitle = this.subtasks[index].title;
-  }
-
-  /** Saves the edited subtask title. */
-  saveEditSubtask(index: number) {
-    if (this.editedSubtaskTitle.trim()) {
-      this.subtasks[index].title = this.editedSubtaskTitle.trim();
-      this.isEditingSubtask = null;
-      this.editedSubtaskTitle = '';
-    } else {
-      this.removeSubtask(index);
-      this.isEditingSubtask = null;
-    }
-  }
-
-  /** Cancels subtask editing. */
-  cancelEditSubtask() {
-    this.isEditingSubtask = null;
-    this.editedSubtaskTitle = '';
+  onRemoveSubtask(id: string) {
+    this.subtasks.splice(Number(id), 1);
   }
 
   /** Resets the task form. */
@@ -196,7 +167,6 @@ export class AddTask implements OnInit {
     this.category = null;
     this.selectedContacts = [];
     this.subtasks = [];
-    this.subtaskInput = '';
     this.searchTerm = '';
     this.showValidationErrors = false;
     this.touchedFields = {

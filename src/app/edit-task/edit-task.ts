@@ -16,10 +16,11 @@ import { SubtaskService } from '../core/services/subtask.service';
 import { ContactService } from '../core/services/contact.service';
 import { Avatar } from '../shared/avatar/avatar';
 import { ClickOutsideDirective } from '../shared/click-outside.directive';
+import { SubtaskList, SubtaskListItem } from '../shared/subtask-list/subtask-list';
 
 @Component({
   selector: 'app-edit-task',
-  imports: [FormsModule, Avatar, ClickOutsideDirective],
+  imports: [FormsModule, Avatar, ClickOutsideDirective, SubtaskList],
   templateUrl: './edit-task.html',
   styleUrl: './edit-task.scss',
 })
@@ -46,11 +47,8 @@ export class EditTask implements OnInit {
   editDueDate = '';
   editPriority: Priority = 'medium';
   editContactIds: string[] = [];
-  newSubtaskTitle = '';
   isAssignedDropdownOpen = false;
   contactSearchTerm = '';
-  editingSubtaskId: string | null = null;
-  editedSubtaskTitle = '';
 
   ngOnInit() {
     this.loadTask();
@@ -196,16 +194,19 @@ export class EditTask implements OnInit {
     return this.allContacts.filter((c) => this.editContactIds.includes(c.id));
   }
 
+  /** Maps persisted subtasks to the shape the shared subtask editor expects. */
+  get subtaskItems(): SubtaskListItem[] {
+    return this.subtasks.map((s) => ({ id: s.id, title: s.title }));
+  }
+
   /**
    * Adds a new subtask for this task in Supabase.
    */
-  async addSubtask() {
-    const title = this.newSubtaskTitle.trim();
-    if (!title || !this.task) return;
+  async onAddSubtask(title: string) {
+    if (!this.task) return;
     try {
       const subtask = await this.subtaskService.addSubtask({ task_id: this.task.id, title });
       this.subtasks = [...this.subtasks, subtask];
-      this.newSubtaskTitle = '';
       this.changed.emit();
       this.changeDetectorRef.detectChanges();
     } catch (e) {
@@ -214,57 +215,30 @@ export class EditTask implements OnInit {
   }
 
   /**
-   * Removes a subtask permanently from Supabase.
-   */
-  async removeSubtask(subtask: Subtask) {
-    try {
-      await this.subtaskService.deleteSubtask(subtask.id);
-      this.subtasks = this.subtasks.filter((s) => s.id !== subtask.id);
-      if (this.editingSubtaskId === subtask.id) {
-        this.cancelEditSubtask();
-      }
-      this.changed.emit();
-      this.changeDetectorRef.detectChanges();
-    } catch (e) {
-      console.error('Error deleting subtask:', e);
-    }
-  }
-
-  /** Clears the "add new subtask" input without adding anything. */
-  clearSubtaskInput() {
-    this.newSubtaskTitle = '';
-  }
-
-  /** Switches a subtask row into inline edit mode. */
-  startEditSubtask(subtask: Subtask, event: MouseEvent) {
-    event.stopPropagation();
-    this.editingSubtaskId = subtask.id;
-    this.editedSubtaskTitle = subtask.title;
-  }
-
-  /** Cancels inline editing of a subtask without saving changes. */
-  cancelEditSubtask() {
-    this.editingSubtaskId = null;
-    this.editedSubtaskTitle = '';
-  }
-
-  /**
    * Saves the edited title of a subtask to Supabase.
    */
-  async saveEditSubtask(subtask: Subtask) {
-    const title = this.editedSubtaskTitle.trim();
-    if (!title) {
-      await this.removeSubtask(subtask);
-      return;
-    }
+  async onUpdateSubtask(event: { id: string; title: string }) {
     try {
-      const updated = await this.subtaskService.updateSubtask(subtask.id, { title });
+      const updated = await this.subtaskService.updateSubtask(event.id, { title: event.title });
       this.subtasks = this.subtasks.map((s) => (s.id === updated.id ? updated : s));
-      this.cancelEditSubtask();
       this.changed.emit();
       this.changeDetectorRef.detectChanges();
     } catch (e) {
       console.error('Error updating subtask:', e);
+    }
+  }
+
+  /**
+   * Removes a subtask permanently from Supabase.
+   */
+  async onRemoveSubtask(id: string) {
+    try {
+      await this.subtaskService.deleteSubtask(id);
+      this.subtasks = this.subtasks.filter((s) => s.id !== id);
+      this.changed.emit();
+      this.changeDetectorRef.detectChanges();
+    } catch (e) {
+      console.error('Error deleting subtask:', e);
     }
   }
 
