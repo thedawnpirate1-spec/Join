@@ -110,3 +110,16 @@
     </div>
   </div>
 </div>
+
+@if (showMobileGreetingOverlay) {
+  <div class="mobile-greeting-overlay" [class.fade-out]="isFadingOut">
+    <div class="mobile-greeting-content">
+      @if (isGuest) {
+        <h2 class="mobile-greeting-title">{{ greetingText }}!</h2>
+      } @else {
+        <h2 class="mobile-greeting-title">{{ greetingText }},</h2>
+        <p class="mobile-greeting-user">{{ userName }}</p>
+      }
+    </div>
+  </div>
+}

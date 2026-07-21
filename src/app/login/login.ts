@@ -30,6 +30,7 @@ export class Login {
       this.isLoading = true;
 
       await this.authService.login(this.email.trim(), this.password);
+      sessionStorage.setItem('justLoggedIn', 'true');
 
       await this.router.navigateByUrl('/summary');
     } catch (error) {
@@ -49,6 +50,7 @@ export class Login {
       this.isLoading = true;
 
       await this.authService.login(this.email.trim(), this.password);
+      sessionStorage.setItem('justLoggedIn', 'true');
 
       await this.router.navigateByUrl('/summary');
     } catch (error) {
