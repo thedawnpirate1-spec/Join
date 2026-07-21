@@ -1,8 +1,5 @@
 <div class="dialog-backdrop" (click)="onClose()"></div>
 <div class="dialog-window" (click)="$event.stopPropagation()">
-  <button class="close-btn" (click)="onClose()" title="Close">
-    <img src="/Assets/icons/close-icon.svg" alt="Close" />
-  </button>
   <div class="dialog-scroll">
   @if (task && !isEditMode) {
     <div class="dialog-head">
@@ -13,6 +10,9 @@
       >
         {{ categoryLabel }}
       </span>
+      <button class="close-btn" (click)="onClose()" title="Close">
+        <img src="/Assets/icons/close-icon.svg" alt="Close" />
+      </button>
     </div>
 
     <h2 class="task-title">{{ task.title }}</h2>
@@ -87,6 +87,12 @@
 
   @if (task && isEditMode) {
     <form class="edit-form" (ngSubmit)="saveTask()" novalidate>
+      <div class="edit-header">
+        <button class="close-btn" (click)="onClose()" title="Close">
+          <img src="/Assets/icons/close-icon.svg" alt="Close" />
+        </button>
+      </div>
+
       <label class="form-field">
         <span class="form-label">Title</span>
         <input
