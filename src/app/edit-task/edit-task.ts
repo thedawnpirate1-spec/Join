@@ -2,6 +2,7 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnInit,
   Output,
@@ -46,6 +47,8 @@ export class EditTask implements OnInit {
   editPriority: Priority = 'medium';
   editContactIds: string[] = [];
   newSubtaskTitle = '';
+  isAssignedDropdownOpen = false;
+  contactSearchTerm = '';
 
   ngOnInit() {
     this.loadTask();
@@ -152,6 +155,8 @@ export class EditTask implements OnInit {
     this.editPriority = this.task.priority;
     this.editContactIds = [...(this.task.contact_ids ?? [])];
     this.isEditMode = true;
+    this.isAssignedDropdownOpen = false;
+    this.contactSearchTerm = '';
     this.loadAllContacts();
   }
 
@@ -177,6 +182,32 @@ export class EditTask implements OnInit {
       this.editContactIds = this.editContactIds.filter((id) => id !== contactId);
     } else {
       this.editContactIds = [...this.editContactIds, contactId];
+    }
+  }
+
+  toggleAssignedDropdown() {
+    this.isAssignedDropdownOpen = !this.isAssignedDropdownOpen;
+  }
+
+  getFilteredContacts(): Contact[] {
+    if (!this.contactSearchTerm) return this.allContacts;
+    const term = this.contactSearchTerm.toLowerCase();
+    return this.allContacts.filter((c) => {
+      const fullName = `${c.first_name} ${c.last_name}`.toLowerCase();
+      return fullName.includes(term) || c.email.toLowerCase().includes(term);
+    });
+  }
+
+  get selectedContactObjects(): Contact[] {
+    return this.allContacts.filter((c) => this.editContactIds.includes(c.id));
+  }
+
+  /** Closes the assigned-to dropdown on document-wide click events. */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.custom-dropdown-assigned')) {
+      this.isAssignedDropdownOpen = false;
     }
   }
 
