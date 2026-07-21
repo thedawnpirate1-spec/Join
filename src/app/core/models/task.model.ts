@@ -12,8 +12,10 @@ export interface Task {
   category: Category | null;
   created_at: string;
   contact_ids?: string[] | null;
+  position?: number | null;
 }
 
-export type NewTask = Omit<Task, 'id' | 'created_at' | 'status'> & {
+export type NewTask = Omit<Task, 'id' | 'created_at' | 'status' | 'position'> & {
   status?: TaskStatus;
+  position?: number;
 };

@@ -83,7 +83,7 @@
 }
 
 .subtask-count {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--color-text-secondary);
   white-space: nowrap;
 }
@@ -144,17 +144,8 @@
   }
 
   .category-pill {
-    font-size: 9px;
     padding: 2px 6px;
     border-radius: 4px;
-  }
-
-  .task-title {
-    font-size: 11px;
-  }
-
-  .task-description {
-    font-size: 10px;
   }
 
   .subtask-progress {
@@ -165,14 +156,10 @@
     height: 4px;
   }
 
-  .subtask-count {
-    font-size: 8px;
-  }
-
   .avatars .avatar {
     width: 20px;
     height: 20px;
-    font-size: 8px;
+    // font-size: 8px;
     margin-left: -6px;
   }
 

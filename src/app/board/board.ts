@@ -60,22 +60,26 @@ export class Board implements OnInit {
 
   onTaskDropped(event: CdkDragDrop<Task[]>, newStatus: TaskStatus) {
     if (event.previousContainer === event.container) {
+      if (event.previousIndex === event.currentIndex) return;
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      return;
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+      event.container.data[event.currentIndex].status = newStatus;
     }
 
-    transferArrayItem(
-      event.previousContainer.data,
-      event.container.data,
-      event.previousIndex,
-      event.currentIndex,
-    );
-
-    const movedTask = event.container.data[event.currentIndex];
-    movedTask.status = newStatus;
+    const updates = event.container.data.map((task, index) => ({
+      id: task.id,
+      status: newStatus,
+      position: index,
+    }));
     this.taskService
-      .updateTask(movedTask.id, { status: newStatus })
-      .catch((e) => console.error('Error updating task status:', e));
+      .updateTaskPositions(updates)
+      .catch((e) => console.error('Error updating task order:', e));
   }
 
   onDragStarted() {

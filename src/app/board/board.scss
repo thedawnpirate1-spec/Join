@@ -329,30 +329,6 @@
 
 @container (max-width: 200px) {
   .column-header h2 {
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .add-task-collums {
-    width: 18px;
-    height: 18px;
-
-    img {
-      width: 6px;
-      height: 6px;
-    }
-  }
-
-  .task-list {
-    gap: 8px;
-    min-height: 40px;
-  }
-
-  .empty-column {
-    font-size: 14px;
-    padding: 6px;
-    min-height: 32px;
+    font-size: 16px;
   }
 }

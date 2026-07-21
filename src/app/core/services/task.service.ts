@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { SupabaseService } from './supabase.service';
-import { Task, NewTask } from '../models/task.model';
+import { Task, NewTask, TaskStatus } from '../models/task.model';
 import { Contact } from '../models/contact.model';
 
 @Injectable({ providedIn: 'root' })
@@ -34,19 +34,50 @@ export class TaskService {
   }
 
   async addTask(task: NewTask, assignedContactIds: string[] = []): Promise<Task> {
+    const status = task.status ?? 'todo';
     const payload = {
       ...task,
+      status,
+      position: task.position ?? this.getNextPosition(status),
       contact_ids: assignedContactIds.length ? assignedContactIds : null
     };
     const { data, error } = await this.table.insert(payload).select().single();
     if (error) throw error;
-    
+
     const newTask = data as Task;
     if (this.tasksCache) {
       this.tasksCache.push(newTask);
       this.tasksCache = this.sortTasks(this.tasksCache);
     }
     return newTask;
+  }
+
+  /** Persists the order and column of tasks after a drag-and-drop reorder on the board. */
+  async updateTaskPositions(
+    updates: { id: string; status: TaskStatus; position: number }[],
+  ): Promise<void> {
+    await Promise.all(
+      updates.map(({ id, status, position }) =>
+        this.table.update({ status, position }).eq('id', id),
+      ),
+    );
+
+    if (this.tasksCache) {
+      for (const update of updates) {
+        const cached = this.tasksCache.find((t) => t.id === update.id);
+        if (cached) {
+          cached.status = update.status;
+          cached.position = update.position;
+        }
+      }
+      this.tasksCache = this.sortTasks(this.tasksCache);
+    }
+  }
+
+  private getNextPosition(status: TaskStatus): number {
+    const tasksInStatus = (this.tasksCache ?? []).filter((t) => t.status === status);
+    if (!tasksInStatus.length) return 0;
+    return Math.max(...tasksInStatus.map((t) => t.position ?? 0)) + 1;
   }
 
   async updateTask(id: string, changes: Partial<NewTask>): Promise<Task> {
@@ -79,6 +110,10 @@ export class TaskService {
 
   private sortTasks(tasks: Task[]): Task[] {
     return tasks.sort((a, b) => {
+      const posA = a.position ?? Number.MAX_SAFE_INTEGER;
+      const posB = b.position ?? Number.MAX_SAFE_INTEGER;
+      if (posA !== posB) return posA - posB;
+
       if (!a.due_date && !b.due_date) return 0;
       if (!a.due_date) return 1;
       if (!b.due_date) return -1;
