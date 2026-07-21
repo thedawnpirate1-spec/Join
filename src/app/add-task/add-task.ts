@@ -7,17 +7,23 @@ import { SubtaskService } from '../core/services/subtask.service';
 import { ContactService } from '../core/services/contact.service';
 import { Contact } from '../core/models/contact.model';
 import { Priority, Category, NewTask, TaskStatus } from '../core/models/task.model';
-import { isOwnContact } from '../core/utils/contact-utils';
-import { Avatar } from '../shared/avatar/avatar';
 import { ClickOutsideDirective } from '../shared/click-outside.directive';
 import { SubtaskList, SubtaskListItem } from '../shared/subtask-list/subtask-list';
 import { PrioritySelector } from '../shared/priority-selector/priority-selector';
+import { ContactAssignDropdown } from '../shared/contact-assign-dropdown/contact-assign-dropdown';
 
 /** Component for creating and adding tasks. */
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [CommonModule, FormsModule, Avatar, ClickOutsideDirective, SubtaskList, PrioritySelector],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ClickOutsideDirective,
+    SubtaskList,
+    PrioritySelector,
+    ContactAssignDropdown,
+  ],
   templateUrl: './add-task.html',
   styleUrl: './add-task.scss',
 })
@@ -41,9 +47,8 @@ export class AddTask implements OnInit {
   category: Category | null = null;
 
   contacts: Contact[] = [];
-  selectedContacts: Contact[] = [];
+  selectedContactIds: string[] = [];
   isAssignedDropdownOpen = false;
-  searchTerm = '';
 
   isCategoryDropdownOpen = false;
 
@@ -93,9 +98,9 @@ export class AddTask implements OnInit {
     }
   }
 
-  toggleAssignedDropdown() {
-    this.isAssignedDropdownOpen = !this.isAssignedDropdownOpen;
-    this.isCategoryDropdownOpen = false;
+  onAssignedDropdownOpenChange(open: boolean) {
+    this.isAssignedDropdownOpen = open;
+    if (open) this.isCategoryDropdownOpen = false;
   }
 
   toggleCategoryDropdown() {
@@ -107,34 +112,6 @@ export class AddTask implements OnInit {
     this.category = cat;
     this.touchedFields.category = true;
     this.isCategoryDropdownOpen = false;
-  }
-
-  toggleContact(contact: Contact, event: Event) {
-    event.stopPropagation();
-
-    const idx = this.selectedContacts.findIndex((c) => c.id === contact.id);
-    if (idx > -1) {
-      this.selectedContacts.splice(idx, 1);
-    } else {
-      this.selectedContacts.push(contact);
-    }
-  }
-
-  isContactSelected(contact: Contact): boolean {
-    return this.selectedContacts.some((c) => c.id === contact.id);
-  }
-
-  isOwnContact(contact: Contact): boolean {
-    return isOwnContact(contact);
-  }
-
-  getFilteredContacts(): Contact[] {
-    if (!this.searchTerm) return this.contacts;
-    const term = this.searchTerm.toLowerCase();
-    return this.contacts.filter((c) => {
-      const fullName = `${c.first_name} ${c.last_name}`.toLowerCase();
-      return fullName.includes(term) || c.email.toLowerCase().includes(term);
-    });
   }
 
   /** Maps local subtasks to the shape the shared subtask editor expects. */
@@ -162,9 +139,8 @@ export class AddTask implements OnInit {
     this.due_date = '';
     this.priority = 'medium';
     this.category = null;
-    this.selectedContacts = [];
+    this.selectedContactIds = [];
     this.subtasks = [];
-    this.searchTerm = '';
     this.showValidationErrors = false;
     this.touchedFields = {
       title: false,
@@ -196,10 +172,7 @@ export class AddTask implements OnInit {
         status: this.initialStatus,
       };
 
-      const created = await this.taskService.addTask(
-        newTask,
-        this.selectedContacts.map((c) => c.id)
-      );
+      const created = await this.taskService.addTask(newTask, this.selectedContactIds);
 
       if (this.subtasks.length > 0) {
         for (const sub of this.subtasks) {

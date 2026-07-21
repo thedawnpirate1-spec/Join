@@ -130,73 +130,15 @@
         <app-priority-selector [(priority)]="editPriority"></app-priority-selector>
       </div>
 
-      <div class="form-field custom-dropdown-assigned" (appClickOutside)="isAssignedDropdownOpen = false">
+      <div class="form-field">
         <span class="form-label">Assigned to</span>
-        <div class="dropdown-wrapper">
-          <div
-            class="dropdown-trigger"
-            (click)="toggleAssignedDropdown()"
-            [class.open]="isAssignedDropdownOpen"
-          >
-            <input
-              type="text"
-              class="dropdown-search-input"
-              placeholder="Select contacts to assign"
-              [(ngModel)]="contactSearchTerm"
-              name="contactSearchTerm"
-              (click)="$event.stopPropagation(); isAssignedDropdownOpen = true"
-            />
-            <span class="dropdown-arrow"></span>
-          </div>
-
-          @if (isAssignedDropdownOpen) {
-            <div class="dropdown-menu">
-              @for (contact of getFilteredContacts(); track contact.id) {
-                <div
-                  class="dropdown-item contact-item"
-                  [class.selected]="isContactAssigned(contact.id)"
-                  (click)="toggleContact(contact.id)"
-                >
-                  <div class="contact-left">
-                    <app-avatar class="contact-avatar" [contact]="contact"></app-avatar>
-                    <span class="contact-name">{{ contact.first_name }} {{ contact.last_name }}</span>
-                  </div>
-                  <div class="contact-checkbox">
-                    <img
-                      [src]="
-                        isContactAssigned(contact.id)
-                          ? '/Assets/icons/checkbox-checked.svg'
-                          : '/Assets/icons/checkbox-default.svg'
-                      "
-                      alt=""
-                    />
-                  </div>
-                </div>
-              }
-              @if (getFilteredContacts().length === 0) {
-                <div class="dropdown-empty">No contacts found</div>
-              }
-            </div>
-          }
-        </div>
-
-        <div class="selected-badges-container">
-          @for (contact of selectedContactObjects.slice(0, 3); track contact.id) {
-            <app-avatar
-              class="selected-contact-badge"
-              [contact]="contact"
-              [title]="contact.first_name + ' ' + contact.last_name"
-            ></app-avatar>
-          }
-          @if (selectedContactObjects.length > 3) {
-            <div
-              class="selected-contact-badge plus-badge"
-              [title]="(selectedContactObjects.length - 3) + ' more'"
-            >
-              +{{ selectedContactObjects.length - 3 }}
-            </div>
-          }
-        </div>
+        <app-contact-assign-dropdown
+          [contacts]="allContacts"
+          [selectedIds]="editContactIds"
+          [isOpen]="isAssignedDropdownOpen"
+          (isOpenChange)="isAssignedDropdownOpen = $event"
+          (selectedIdsChange)="editContactIds = $event"
+        ></app-contact-assign-dropdown>
       </div>
 
       <div class="form-field">

@@ -15,13 +15,13 @@ import { TaskService } from '../core/services/task.service';
 import { SubtaskService } from '../core/services/subtask.service';
 import { ContactService } from '../core/services/contact.service';
 import { Avatar } from '../shared/avatar/avatar';
-import { ClickOutsideDirective } from '../shared/click-outside.directive';
 import { SubtaskList, SubtaskListItem } from '../shared/subtask-list/subtask-list';
 import { PrioritySelector } from '../shared/priority-selector/priority-selector';
+import { ContactAssignDropdown } from '../shared/contact-assign-dropdown/contact-assign-dropdown';
 
 @Component({
   selector: 'app-edit-task',
-  imports: [FormsModule, Avatar, ClickOutsideDirective, SubtaskList, PrioritySelector],
+  imports: [FormsModule, Avatar, SubtaskList, PrioritySelector, ContactAssignDropdown],
   templateUrl: './edit-task.html',
   styleUrl: './edit-task.scss',
 })
@@ -49,7 +49,6 @@ export class EditTask implements OnInit {
   editPriority: Priority = 'medium';
   editContactIds: string[] = [];
   isAssignedDropdownOpen = false;
-  contactSearchTerm = '';
 
   ngOnInit() {
     this.loadTask();
@@ -149,7 +148,6 @@ export class EditTask implements OnInit {
     this.editContactIds = [...(this.task.contact_ids ?? [])];
     this.isEditMode = true;
     this.isAssignedDropdownOpen = false;
-    this.contactSearchTerm = '';
     this.loadAllContacts();
   }
 
@@ -160,35 +158,6 @@ export class EditTask implements OnInit {
     } catch (e) {
       console.error('Error loading contacts:', e);
     }
-  }
-
-  isContactAssigned(contactId: string): boolean {
-    return this.editContactIds.includes(contactId);
-  }
-
-  toggleContact(contactId: string) {
-    if (this.isContactAssigned(contactId)) {
-      this.editContactIds = this.editContactIds.filter((id) => id !== contactId);
-    } else {
-      this.editContactIds = [...this.editContactIds, contactId];
-    }
-  }
-
-  toggleAssignedDropdown() {
-    this.isAssignedDropdownOpen = !this.isAssignedDropdownOpen;
-  }
-
-  getFilteredContacts(): Contact[] {
-    if (!this.contactSearchTerm) return this.allContacts;
-    const term = this.contactSearchTerm.toLowerCase();
-    return this.allContacts.filter((c) => {
-      const fullName = `${c.first_name} ${c.last_name}`.toLowerCase();
-      return fullName.includes(term) || c.email.toLowerCase().includes(term);
-    });
-  }
-
-  get selectedContactObjects(): Contact[] {
-    return this.allContacts.filter((c) => this.editContactIds.includes(c.id));
   }
 
   /** Maps persisted subtasks to the shape the shared subtask editor expects. */
