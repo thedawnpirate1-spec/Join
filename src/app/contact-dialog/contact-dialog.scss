@@ -216,10 +216,10 @@
 }
 
 .form-input-invalid {
-  border-color: #e60026;
+  border-color: var(--color-error);
 
   &:focus {
-    border-color: #e60026;
+    border-color: var(--color-error);
   }
 }
 
@@ -231,7 +231,7 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;
-  color: #e60026;
+  color: var(--color-error);
 }
 
 .input-icon {

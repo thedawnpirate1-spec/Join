@@ -169,8 +169,9 @@
   width: 422px;
   margin: -12px 0 16px;
 
-  color: #ff4646;
+  color: var(--color-error);
   font-size: 14px;
+  font-weight: 400;
 }
 
 .button-row {

@@ -196,7 +196,8 @@
 }
 
 .error-message {
-  color: #ff4646;
+  color: var(--color-error);
+  font-weight: 400;
 }
 
 .success-message {

@@ -162,7 +162,7 @@
 }
 
 .required-asterisk {
-  color: #ff3d00;
+  color: var(--color-error);
   margin-left: 2px;
 }
 
@@ -189,7 +189,7 @@
   }
 
   &.input-error {
-    border-color: #ff3d00;
+    border-color: var(--color-error);
   }
 }
 
@@ -258,8 +258,9 @@
 }
 
 .error-message {
-  color: #ff3d00;
+  color: var(--color-error);
   font-size: 12px;
+  font-weight: 400;
   margin: 0;
 }
 
@@ -458,7 +459,7 @@
   }
 
   &.input-error {
-    border-color: #ff3d00;
+    border-color: var(--color-error);
   }
 }
 
