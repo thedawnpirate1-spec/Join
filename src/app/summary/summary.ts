@@ -24,6 +24,9 @@ export class Summary implements OnInit {
   upcomingDeadline = 'No upcoming deadline';
   userName = 'User';
 
+  showMobileGreetingOverlay = false;
+  isFadingOut = false;
+
   get greetingText(): string {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
@@ -40,7 +43,29 @@ export class Summary implements OnInit {
       this.loadMetrics(),
       this.loadUser()
     ]);
+    this.checkMobileGreetingOverlay();
     this.changeDetectorRef.detectChanges();
+  }
+
+  private checkMobileGreetingOverlay() {
+    const isJustLoggedIn = sessionStorage.getItem('justLoggedIn') === 'true';
+    if (isJustLoggedIn && window.innerWidth <= 1024) {
+      sessionStorage.removeItem('justLoggedIn');
+      this.showMobileGreetingOverlay = true;
+
+      setTimeout(() => {
+        this.isFadingOut = true;
+        this.changeDetectorRef.detectChanges();
+      }, 1500);
+
+      setTimeout(() => {
+        this.showMobileGreetingOverlay = false;
+        this.isFadingOut = false;
+        this.changeDetectorRef.detectChanges();
+      }, 2000);
+    } else {
+      sessionStorage.removeItem('justLoggedIn');
+    }
   }
 
   async loadMetrics() {
