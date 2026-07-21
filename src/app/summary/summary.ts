@@ -31,6 +31,10 @@ export class Summary implements OnInit {
     return 'Good evening';
   }
 
+  get isGuest(): boolean {
+    return !this.userName || this.userName === 'Guest User' || this.userName === 'Guest' || this.userName === 'User';
+  }
+
   async ngOnInit() {
     await Promise.all([
       this.loadMetrics(),
@@ -82,10 +86,11 @@ export class Summary implements OnInit {
 
   async loadUser() {
     try {
-      this.userName = await this.authService.getUserName();
+      const name = await this.authService.getUserName();
+      this.userName = name && name.trim() ? name : 'Guest';
     } catch (error) {
       console.error('Error loading user name:', error);
-      this.userName = 'User';
+      this.userName = 'Guest';
     }
   }
 
