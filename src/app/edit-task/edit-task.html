@@ -40,9 +40,7 @@
         <div class="assigned-list">
           @for (contact of assignedContacts; track contact.id) {
             <div class="assigned-row">
-              <div class="avatar" [style.background-color]="getAvatarColor(contact)">
-                {{ getAvatarInitials(contact) }}
-              </div>
+              <app-avatar class="avatar" [contact]="contact"></app-avatar>
               <span class="assigned-name">{{ contact.first_name }} {{ contact.last_name }}</span>
             </div>
           }
@@ -169,7 +167,7 @@
         </div>
       </div>
 
-      <div class="form-field custom-dropdown-assigned">
+      <div class="form-field custom-dropdown-assigned" (appClickOutside)="isAssignedDropdownOpen = false">
         <span class="form-label">Assigned to</span>
         <div class="dropdown-wrapper">
           <div
@@ -197,9 +195,7 @@
                   (click)="toggleContact(contact.id)"
                 >
                   <div class="contact-left">
-                    <div class="contact-avatar" [style.background-color]="getAvatarColor(contact)">
-                      {{ getAvatarInitials(contact) }}
-                    </div>
+                    <app-avatar class="contact-avatar" [contact]="contact"></app-avatar>
                     <span class="contact-name">{{ contact.first_name }} {{ contact.last_name }}</span>
                   </div>
                   <div class="contact-checkbox">
@@ -223,13 +219,11 @@
 
         <div class="selected-badges-container">
           @for (contact of selectedContactObjects.slice(0, 3); track contact.id) {
-            <div
+            <app-avatar
               class="selected-contact-badge"
-              [style.background-color]="getAvatarColor(contact)"
+              [contact]="contact"
               [title]="contact.first_name + ' ' + contact.last_name"
-            >
-              {{ getAvatarInitials(contact) }}
-            </div>
+            ></app-avatar>
           }
           @if (selectedContactObjects.length > 3) {
             <div

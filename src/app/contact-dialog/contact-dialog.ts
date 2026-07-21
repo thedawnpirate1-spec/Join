@@ -1,12 +1,12 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Contact, NewContact } from '../core/models/contact.model';
-import { getContactColor, getContactInitials } from '../core/utils/contact-utils';
+import { Avatar } from '../shared/avatar/avatar';
 
 @Component({
   selector: 'app-contact-dialog',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, Avatar],
   templateUrl: './contact-dialog.html',
   styleUrl: './contact-dialog.scss',
 })
@@ -29,14 +29,6 @@ export class ContactDialog implements OnInit {
   private readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,}$/;
   private readonly emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   private readonly phonePattern = /^\+?[0-9 ]{6,20}$/;
-
-  get avatarInitials(): string {
-    return getContactInitials(this.contact);
-  }
-
-  get avatarColor(): string {
-    return getContactColor(this.contact);
-  }
 
   ngOnInit(): void {
     if (this.mode === 'edit' && this.contact) {

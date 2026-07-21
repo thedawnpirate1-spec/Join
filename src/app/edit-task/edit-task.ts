@@ -2,7 +2,6 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
-  HostListener,
   Input,
   OnInit,
   Output,
@@ -15,11 +14,12 @@ import { Contact } from '../core/models/contact.model';
 import { TaskService } from '../core/services/task.service';
 import { SubtaskService } from '../core/services/subtask.service';
 import { ContactService } from '../core/services/contact.service';
-import { getContactColor, getContactInitials } from '../core/utils/contact-utils';
+import { Avatar } from '../shared/avatar/avatar';
+import { ClickOutsideDirective } from '../shared/click-outside.directive';
 
 @Component({
   selector: 'app-edit-task',
-  imports: [FormsModule],
+  imports: [FormsModule, Avatar, ClickOutsideDirective],
   templateUrl: './edit-task.html',
   styleUrl: './edit-task.scss',
 })
@@ -101,14 +101,6 @@ export class EditTask implements OnInit {
   get formattedDueDate(): string {
     if (!this.task?.due_date) return 'No due date';
     return this.task.due_date.split('-').reverse().join('/');
-  }
-
-  getAvatarInitials(contact: Contact): string {
-    return getContactInitials(contact);
-  }
-
-  getAvatarColor(contact: Contact): string {
-    return getContactColor(contact);
   }
 
   onClose() {
@@ -202,15 +194,6 @@ export class EditTask implements OnInit {
 
   get selectedContactObjects(): Contact[] {
     return this.allContacts.filter((c) => this.editContactIds.includes(c.id));
-  }
-
-  /** Closes the assigned-to dropdown on document-wide click events. */
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-    if (!target.closest('.custom-dropdown-assigned')) {
-      this.isAssignedDropdownOpen = false;
-    }
   }
 
   /**

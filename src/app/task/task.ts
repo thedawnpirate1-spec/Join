@@ -5,11 +5,11 @@ import { Subtask } from '../core/models/subtask.model';
 import { Contact } from '../core/models/contact.model';
 import { SubtaskService } from '../core/services/subtask.service';
 import { TaskService } from '../core/services/task.service';
-import { getContactColor, getContactInitials } from '../core/utils/contact-utils';
+import { Avatar } from '../shared/avatar/avatar';
 
 @Component({
   selector: 'app-task',
-  imports: [],
+  imports: [Avatar],
   templateUrl: './task.html',
   styleUrl: './task.scss',
 })
@@ -96,25 +96,5 @@ export class Task implements OnChanges, OnInit, OnDestroy {
    */
   get hiddenAssignedContactsCount(): number {
     return Math.max(this.assignedContacts.length - 3, 0);
-  }
-
-  /**
-   * Returns the initials that should be displayed inside a contact avatar.
-   *
-   * @param contact - The contact whose initials should be displayed.
-   * @returns The contact initials.
-   */
-  getAvatarInitials(contact: Contact): string {
-    return getContactInitials(contact);
-  }
-
-  /**
-   * Returns the background color that should be used for a contact avatar.
-   *
-   * @param contact - The contact whose avatar color should be returned.
-   * @returns The avatar background color as a hex color string.
-   */
-  getAvatarColor(contact: Contact): string {
-    return getContactColor(contact);
   }
 }

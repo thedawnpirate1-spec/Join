@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, inject, HostListener, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -7,13 +7,15 @@ import { SubtaskService } from '../core/services/subtask.service';
 import { ContactService } from '../core/services/contact.service';
 import { Contact } from '../core/models/contact.model';
 import { Priority, Category, NewTask, TaskStatus } from '../core/models/task.model';
-import { getContactColor, getContactInitials } from '../core/utils/contact-utils';
+import { isOwnContact } from '../core/utils/contact-utils';
+import { Avatar } from '../shared/avatar/avatar';
+import { ClickOutsideDirective } from '../shared/click-outside.directive';
 
 /** Component for creating and adding tasks. */
 @Component({
   selector: 'app-add-task',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Avatar, ClickOutsideDirective],
   templateUrl: './add-task.html',
   styleUrl: './add-task.scss',
 })
@@ -127,6 +129,10 @@ export class AddTask implements OnInit {
     return this.selectedContacts.some((c) => c.id === contact.id);
   }
 
+  isOwnContact(contact: Contact): boolean {
+    return isOwnContact(contact);
+  }
+
   getFilteredContacts(): Contact[] {
     if (!this.searchTerm) return this.contacts;
     const term = this.searchTerm.toLowerCase();
@@ -134,14 +140,6 @@ export class AddTask implements OnInit {
       const fullName = `${c.first_name} ${c.last_name}`.toLowerCase();
       return fullName.includes(term) || c.email.toLowerCase().includes(term);
     });
-  }
-
-  getInitials(contact: Contact): string {
-    return getContactInitials(contact);
-  }
-
-  getBgColor(contact: Contact): string {
-    return getContactColor(contact);
   }
 
   /** Adds a new subtask to the list. */
@@ -261,20 +259,6 @@ export class AddTask implements OnInit {
 
     } catch (error) {
       console.error('Error saving task:', error);
-    }
-  }
-
-  /** Closes dropdowns on document-wide click events. */
-  @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
-
-    if (!target.closest('.custom-dropdown-assigned')) {
-      this.isAssignedDropdownOpen = false;
-    }
-
-    if (!target.closest('.custom-dropdown-category')) {
-      this.isCategoryDropdownOpen = false;
     }
   }
 }

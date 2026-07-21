@@ -4,14 +4,15 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ContactService } from '../core/services/contact.service';
 import { Contact, NewContact } from '../core/models/contact.model';
-import { getContactColor, getContactInitials } from '../core/utils/contact-utils';
+import { isOwnContact as checkIsOwnContact } from '../core/utils/contact-utils';
 import { ContactDialog } from '../contact-dialog/contact-dialog';
+import { Avatar } from '../shared/avatar/avatar';
 
 /** Component for managing and displaying contacts. */
 @Component({
   selector: 'app-contacts',
   standalone: true,
-  imports: [FormsModule, ContactDialog],
+  imports: [FormsModule, ContactDialog, Avatar],
   templateUrl: './contacts.html',
   styleUrl: './contacts.scss',
 })
@@ -34,8 +35,7 @@ export class Contacts implements OnInit {
   showSuccessToast = false;
 
   isOwnContact(contact: Contact | null): boolean {
-    if (!contact) return false;
-    return (contact.first_name === 'Sofia' && contact.last_name === 'Müller') || contact.email === 'sofia@mueller.de';
+    return checkIsOwnContact(contact);
   }
 
   constructor() {
@@ -98,16 +98,6 @@ export class Contacts implements OnInit {
     });
 
     this.groupedContacts = groups;
-  }
-
-  /** Returns initials of the contact. */
-  getInitials(contact: Contact | NewContact | null): string {
-    return getContactInitials(contact);
-  }
-
-  /** Returns contact badge color. */
-  getColor(contact: Contact | NewContact | null): string {
-    return getContactColor(contact);
   }
 
   /** Selects a contact to display details. */

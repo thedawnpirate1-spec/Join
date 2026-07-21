@@ -113,7 +113,7 @@
           </div>
         </div>
 
-        <div class="form-group custom-dropdown-assigned">
+        <div class="form-group custom-dropdown-assigned" (appClickOutside)="isAssignedDropdownOpen = false">
           <label class="form-label">Assigned to</label>
           <div class="dropdown-wrapper">
             <div
@@ -141,15 +141,10 @@
                     (click)="toggleContact(contact, $event)"
                   >
                     <div class="contact-left">
-                      <div
-                        class="contact-avatar"
-                        [style.background-color]="getBgColor(contact)"
-                      >
-                        {{ getInitials(contact) }}
-                      </div>
+                      <app-avatar class="contact-avatar" [contact]="contact"></app-avatar>
                       <span class="contact-name">
                         {{ contact.first_name }} {{ contact.last_name }}
-                        @if (contact.first_name === 'Sofia' && contact.last_name === 'Müller') {
+                        @if (isOwnContact(contact)) {
                           (You)
                         }
                       </span>
@@ -171,13 +166,11 @@
 
           <div class="selected-badges-container">
             @for (contact of selectedContacts.slice(0, 3); track contact.id) {
-              <div
+              <app-avatar
                 class="selected-contact-badge"
-                [style.background-color]="getBgColor(contact)"
+                [contact]="contact"
                 [title]="contact.first_name + ' ' + contact.last_name"
-              >
-                {{ getInitials(contact) }}
-              </div>
+              ></app-avatar>
             }
             @if (selectedContacts.length > 3) {
               <div
@@ -190,7 +183,7 @@
           </div>
         </div>
 
-        <div class="form-group custom-dropdown-category">
+        <div class="form-group custom-dropdown-category" (appClickOutside)="isCategoryDropdownOpen = false">
           <label class="form-label">Category<span class="required-asterisk">*</span></label>
           <div class="dropdown-wrapper">
             <div
