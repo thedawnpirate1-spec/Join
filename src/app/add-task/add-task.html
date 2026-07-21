@@ -235,12 +235,8 @@
               class="form-input subtask-input"
               (keydown.enter)="$event.preventDefault(); addSubtask()"
             />
-            <div class="subtask-icons-wrapper">
-              @if (subtaskInput.trim().length === 0) {
-                <button type="button" class="subtask-icon-btn add-btn" (click)="addSubtask()" title="Add subtask">
-                  <img src="/Assets/icons/add-icon.svg" alt="Add" />
-                </button>
-              } @else {
+            @if (subtaskInput.trim().length > 0) {
+              <div class="subtask-icons-wrapper">
                 <button type="button" class="subtask-icon-btn" (click)="clearSubtaskInput()" title="Cancel">
                   <img src="/Assets/icons/close-icon.svg" alt="Cancel" />
                 </button>
@@ -248,8 +244,8 @@
                 <button type="button" class="subtask-icon-btn" (click)="addSubtask()" title="Confirm">
                   <img src="/Assets/icons/check-icon.svg" alt="Confirm" />
                 </button>
-              }
-            </div>
+              </div>
+            }
           </div>
     <div class="required-info-mobile">
         <span class="required-asterisk">*</span>This field is required

@@ -49,6 +49,8 @@ export class EditTask implements OnInit {
   newSubtaskTitle = '';
   isAssignedDropdownOpen = false;
   contactSearchTerm = '';
+  editingSubtaskId: string | null = null;
+  editedSubtaskTitle = '';
 
   ngOnInit() {
     this.loadTask();
@@ -235,10 +237,51 @@ export class EditTask implements OnInit {
     try {
       await this.subtaskService.deleteSubtask(subtask.id);
       this.subtasks = this.subtasks.filter((s) => s.id !== subtask.id);
+      if (this.editingSubtaskId === subtask.id) {
+        this.cancelEditSubtask();
+      }
       this.changed.emit();
       this.changeDetectorRef.detectChanges();
     } catch (e) {
       console.error('Error deleting subtask:', e);
+    }
+  }
+
+  /** Clears the "add new subtask" input without adding anything. */
+  clearSubtaskInput() {
+    this.newSubtaskTitle = '';
+  }
+
+  /** Switches a subtask row into inline edit mode. */
+  startEditSubtask(subtask: Subtask, event: MouseEvent) {
+    event.stopPropagation();
+    this.editingSubtaskId = subtask.id;
+    this.editedSubtaskTitle = subtask.title;
+  }
+
+  /** Cancels inline editing of a subtask without saving changes. */
+  cancelEditSubtask() {
+    this.editingSubtaskId = null;
+    this.editedSubtaskTitle = '';
+  }
+
+  /**
+   * Saves the edited title of a subtask to Supabase.
+   */
+  async saveEditSubtask(subtask: Subtask) {
+    const title = this.editedSubtaskTitle.trim();
+    if (!title) {
+      await this.removeSubtask(subtask);
+      return;
+    }
+    try {
+      const updated = await this.subtaskService.updateSubtask(subtask.id, { title });
+      this.subtasks = this.subtasks.map((s) => (s.id === updated.id ? updated : s));
+      this.cancelEditSubtask();
+      this.changed.emit();
+      this.changeDetectorRef.detectChanges();
+    } catch (e) {
+      console.error('Error updating subtask:', e);
     }
   }
 

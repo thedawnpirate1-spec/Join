@@ -614,17 +614,36 @@
 
 .subtask-input-group {
   position: relative;
+  display: flex;
+  align-items: center;
 
   .form-input {
-    padding-right: 48px;
+    padding-right: 88px;
+  }
+
+  &.focused .form-input {
+    padding-right: 96px;
   }
 }
 
-.subtask-add-btn {
+.subtask-icons-wrapper {
   position: absolute;
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.subtask-icon-divider {
+  width: 1px;
+  height: 20px;
+  background-color: #d1d1d1;
+}
+
+.subtask-icon-btn {
+  flex-shrink: 0;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -636,8 +655,8 @@
   transition: background-color 0.15s;
 
   img {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
   }
 
   &:hover {
@@ -654,40 +673,58 @@
 }
 
 .edit-subtask-row {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 8px;
   padding: 6px 16px;
   border-radius: 10px;
+  min-height: 20px;
 
   &:hover {
     background-color: #f0f4f8;
 
-    .subtask-delete-btn {
+    .edit-subtask-actions {
       visibility: visible;
     }
   }
+
+  &.editing {
+    background-color: #ffffff;
+    border: 1px solid var(--color-button-hover);
+    padding-right: 88px;
+  }
+}
+
+.edit-subtask-bullet {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #000000;
+  flex-shrink: 0;
 }
 
 .edit-subtask-title {
+  flex: 1;
   font-size: 16px;
   color: #000000;
+  overflow-wrap: anywhere;
 }
 
-.subtask-delete-btn {
+.edit-subtask-actions {
   visibility: hidden;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
+  margin-left: auto;
+}
 
-  img {
-    width: 16px;
-    height: 16px;
-  }
+.edit-subtask-edit-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-family);
+  font-size: 16px;
+  color: var(--color-text-primary);
+  padding: 0;
 }
 
 .edit-footer {
