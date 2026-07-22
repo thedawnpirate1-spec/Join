@@ -35,8 +35,13 @@
             focus
           />
           <div class="subtask-edit-icons">
-            <button type="button" class="subtask-icon-btn" (click)="cancelEdit()" title="Cancel">
-              <img src="/Assets/icons/close-icon.svg" alt="Cancel" />
+            <button
+              type="button"
+              class="subtask-icon-btn"
+              (click)="removeSubtask(sub.id)"
+              title="Delete"
+            >
+              <img src="/Assets/icons/delete-icon.svg" alt="Delete" />
             </button>
             <div class="icon-divider"></div>
             <button type="button" class="subtask-icon-btn" (click)="saveEdit(sub.id)" title="Save">
@@ -49,11 +54,21 @@
           <span class="subtask-bullet"></span>
           <span class="subtask-title-text">{{ sub.title }}</span>
           <div class="subtask-actions">
-            <button type="button" class="subtask-action-btn edit" (click)="startEdit(sub, $event)" title="Edit">
+            <button
+              type="button"
+              class="subtask-action-btn edit"
+              (click)="startEdit(sub, $event)"
+              title="Edit"
+            >
               <img src="/Assets/icons/pen-icon.svg" alt="Edit" />
             </button>
             <div class="action-divider"></div>
-            <button type="button" class="subtask-action-btn delete" (click)="removeSubtask(sub.id)" title="Delete">
+            <button
+              type="button"
+              class="subtask-action-btn delete"
+              (click)="removeSubtask(sub.id)"
+              title="Delete"
+            >
               <img src="/Assets/icons/delete-icon.svg" alt="Delete" />
             </button>
           </div>
