@@ -1,0 +1,62 @@
+<div class="dropdown-wrapper" (appClickOutside)="closeDropdown()">
+  <div class="dropdown-trigger" (click)="toggleDropdown()" [class.open]="isOpen">
+    <input
+      type="text"
+      class="dropdown-search-input"
+      placeholder="Select contacts to assign"
+      [(ngModel)]="searchTerm"
+      name="contactAssignSearchTerm"
+      (click)="$event.stopPropagation(); openDropdown()"
+    />
+    <span class="dropdown-arrow"></span>
+  </div>
+
+  @if (isOpen) {
+    <div class="dropdown-menu scrollbar-style">
+      @for (contact of filteredContacts; track contact.id) {
+        <div
+          class="dropdown-item contact-item"
+          [class.selected]="isSelected(contact)"
+          (click)="toggleContact(contact, $event)"
+        >
+          <div class="contact-left">
+            <app-avatar class="contact-avatar" [contact]="contact"></app-avatar>
+            <span class="contact-name">
+              {{ contact.first_name }} {{ contact.last_name }}
+              @if (isOwnContact(contact)) {
+                (You)
+              }
+            </span>
+          </div>
+          <div class="contact-checkbox">
+            <img
+              [src]="isSelected(contact) ? '/Assets/icons/checkbox-checked.svg' : '/Assets/icons/checkbox-default.svg'"
+              alt="checkbox"
+            />
+          </div>
+        </div>
+      }
+      @if (filteredContacts.length === 0) {
+        <div class="dropdown-empty">No contacts found</div>
+      }
+    </div>
+  }
+</div>
+
+<div class="selected-badges-container">
+  @for (contact of selectedContacts.slice(0, 3); track contact.id) {
+    <app-avatar
+      class="selected-contact-badge"
+      [contact]="contact"
+      [title]="contact.first_name + ' ' + contact.last_name"
+    ></app-avatar>
+  }
+  @if (selectedContacts.length > 3) {
+    <div
+      class="selected-contact-badge plus-badge"
+      [title]="(selectedContacts.length - 3) + ' more'"
+    >
+      +{{ selectedContacts.length - 3 }}
+    </div>
+  }
+</div>

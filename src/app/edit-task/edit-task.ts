@@ -14,11 +14,14 @@ import { Contact } from '../core/models/contact.model';
 import { TaskService } from '../core/services/task.service';
 import { SubtaskService } from '../core/services/subtask.service';
 import { ContactService } from '../core/services/contact.service';
-import { getContactColor, getContactInitials } from '../core/utils/contact-utils';
+import { Avatar } from '../shared/avatar/avatar';
+import { SubtaskList, SubtaskListItem } from '../shared/subtask-list/subtask-list';
+import { PrioritySelector } from '../shared/priority-selector/priority-selector';
+import { ContactAssignDropdown } from '../shared/contact-assign-dropdown/contact-assign-dropdown';
 
 @Component({
   selector: 'app-edit-task',
-  imports: [FormsModule],
+  imports: [FormsModule, Avatar, SubtaskList, PrioritySelector, ContactAssignDropdown],
   templateUrl: './edit-task.html',
   styleUrl: './edit-task.scss',
 })
@@ -45,7 +48,7 @@ export class EditTask implements OnInit {
   editDueDate = '';
   editPriority: Priority = 'medium';
   editContactIds: string[] = [];
-  newSubtaskTitle = '';
+  isAssignedDropdownOpen = false;
 
   ngOnInit() {
     this.loadTask();
@@ -98,14 +101,6 @@ export class EditTask implements OnInit {
     return this.task.due_date.split('-').reverse().join('/');
   }
 
-  getAvatarInitials(contact: Contact): string {
-    return getContactInitials(contact);
-  }
-
-  getAvatarColor(contact: Contact): string {
-    return getContactColor(contact);
-  }
-
   onClose() {
     this.close.emit();
   }
@@ -152,6 +147,7 @@ export class EditTask implements OnInit {
     this.editPriority = this.task.priority;
     this.editContactIds = [...(this.task.contact_ids ?? [])];
     this.isEditMode = true;
+    this.isAssignedDropdownOpen = false;
     this.loadAllContacts();
   }
 
@@ -164,32 +160,19 @@ export class EditTask implements OnInit {
     }
   }
 
-  setPriority(priority: Priority) {
-    this.editPriority = priority;
-  }
-
-  isContactAssigned(contactId: string): boolean {
-    return this.editContactIds.includes(contactId);
-  }
-
-  toggleContact(contactId: string) {
-    if (this.isContactAssigned(contactId)) {
-      this.editContactIds = this.editContactIds.filter((id) => id !== contactId);
-    } else {
-      this.editContactIds = [...this.editContactIds, contactId];
-    }
+  /** Maps persisted subtasks to the shape the shared subtask editor expects. */
+  get subtaskItems(): SubtaskListItem[] {
+    return this.subtasks.map((s) => ({ id: s.id, title: s.title }));
   }
 
   /**
    * Adds a new subtask for this task in Supabase.
    */
-  async addSubtask() {
-    const title = this.newSubtaskTitle.trim();
-    if (!title || !this.task) return;
+  async onAddSubtask(title: string) {
+    if (!this.task) return;
     try {
       const subtask = await this.subtaskService.addSubtask({ task_id: this.task.id, title });
       this.subtasks = [...this.subtasks, subtask];
-      this.newSubtaskTitle = '';
       this.changed.emit();
       this.changeDetectorRef.detectChanges();
     } catch (e) {
@@ -198,12 +181,26 @@ export class EditTask implements OnInit {
   }
 
   /**
+   * Saves the edited title of a subtask to Supabase.
+   */
+  async onUpdateSubtask(event: { id: string; title: string }) {
+    try {
+      const updated = await this.subtaskService.updateSubtask(event.id, { title: event.title });
+      this.subtasks = this.subtasks.map((s) => (s.id === updated.id ? updated : s));
+      this.changed.emit();
+      this.changeDetectorRef.detectChanges();
+    } catch (e) {
+      console.error('Error updating subtask:', e);
+    }
+  }
+
+  /**
    * Removes a subtask permanently from Supabase.
    */
-  async removeSubtask(subtask: Subtask) {
+  async onRemoveSubtask(id: string) {
     try {
-      await this.subtaskService.deleteSubtask(subtask.id);
-      this.subtasks = this.subtasks.filter((s) => s.id !== subtask.id);
+      await this.subtaskService.deleteSubtask(id);
+      this.subtasks = this.subtasks.filter((s) => s.id !== id);
       this.changed.emit();
       this.changeDetectorRef.detectChanges();
     } catch (e) {

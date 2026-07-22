@@ -19,9 +19,7 @@
     <div class="right-content-grid">
       <div class="avatar-container">
         @if (mode === 'edit' && contact) {
-          <div class="avatar-circle" [style.background-color]="avatarColor">
-            {{ avatarInitials }}
-          </div>
+          <app-avatar class="avatar-circle" [contact]="contact"></app-avatar>
         } @else {
           <img
             src="Assets/icons/profile-placeholder.svg"

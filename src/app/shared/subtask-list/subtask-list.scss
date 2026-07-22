@@ -1,0 +1,236 @@
+:host {
+  display: block;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 21px;
+  font-size: 16px;
+  font-family: var(--font-family);
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: #000000;
+  outline: none;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+
+  &::placeholder {
+    color: #d1d1d1;
+  }
+
+  &:focus {
+    border-color: var(--color-button-hover);
+  }
+}
+
+.scrollbar-style {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-bottom-right-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #a8a8a8;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+}
+
+.subtask-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  background-color: #ffffff;
+  padding-right: 80px;
+  min-height: 48px;
+  transition: border-color 0.15s ease-in-out;
+
+  &:hover {
+    border-color: var(--color-button-hover);
+  }
+
+  &.focused {
+    border-color: var(--color-button-hover);
+  }
+}
+
+.subtask-input {
+  border: none !important;
+  width: 100%;
+  padding-right: 0;
+
+  &:focus {
+    box-shadow: none !important;
+  }
+}
+
+.subtask-icons-wrapper {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.subtask-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  padding: 0;
+  transition: background-color 0.1s ease-in-out;
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+}
+
+.icon-divider {
+  width: 1px;
+  height: 20px;
+  background-color: #d1d1d1;
+  margin: 0 4px;
+}
+
+.subtasks-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 8px;
+  max-height: 105px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.subtask-item {
+  width: 100%;
+  border-radius: 8px;
+  transition: background-color 0.15s ease-in-out;
+
+  &:hover:not(.editing) {
+    background-color: #e6ecf2;
+
+    .subtask-actions {
+      opacity: 1;
+    }
+  }
+}
+
+.subtask-display {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  width: 100%;
+  position: relative;
+  cursor: pointer;
+}
+
+.subtask-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-text-secondary);
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.subtask-title-text {
+  font-size: 16px;
+  color: #000000;
+  word-break: break-all;
+  padding-right: 70px;
+}
+
+.subtask-actions {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.subtask-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  padding: 0;
+
+  img {
+    width: 14px;
+    height: 14px;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.action-divider {
+  width: 1px;
+  height: 14px;
+  background-color: #d1d1d1;
+  margin: 0 4px;
+}
+
+.subtask-edit-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-button-hover);
+  border-radius: 8px;
+  background-color: #ffffff;
+  padding: 4px 16px;
+  width: 100%;
+  position: relative;
+}
+
+.subtask-edit-input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+  font-family: var(--font-family);
+  padding: 4px 0;
+  padding-right: 70px;
+}
+
+.subtask-edit-icons {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

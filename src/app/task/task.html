@@ -25,9 +25,7 @@
   <div class="task-footer">
     <div class="avatars">
       @for (contact of visibleAssignedContacts; track contact.id) {
-        <div class="avatar" [style.background-color]="getAvatarColor(contact)">
-          {{ getAvatarInitials(contact) }}
-        </div>
+        <app-avatar class="avatar" [contact]="contact"></app-avatar>
       }
 
       @if (hiddenAssignedContactsCount > 0) {

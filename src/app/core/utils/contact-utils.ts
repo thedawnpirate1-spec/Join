@@ -9,6 +9,15 @@ export function getContactInitials(contact: Contact | NewContact | null): string
   return firstname_initial + lastname_initial;
 }
 
+/** Identifies the demo "logged in" contact used to render the "(You)" label. */
+export function isOwnContact(contact: Contact | NewContact | null): boolean {
+  if (!contact) return false;
+  return (
+    (contact.first_name === 'Sofia' && contact.last_name === 'Müller') ||
+    contact.email === 'sofia@mueller.de'
+  );
+}
+
 export function getContactColor(contact: Contact | NewContact | null): string {
   if (!contact) return `hsl(0, 70%, 50%)`;
   if ('color_index' in contact) {

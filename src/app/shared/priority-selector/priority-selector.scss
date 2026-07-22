@@ -1,0 +1,127 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.priority-buttons {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+
+  @media (max-width: 1100px) {
+    gap: 8px;
+  }
+
+  @media (max-width: 812px) {
+    gap: 16px;
+  }
+
+  @media (max-width: 480px) {
+    gap: 8px;
+  }
+}
+
+.priority-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 12px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: var(--font-family);
+  color: #000000;
+  background-color: #ffffff;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  min-width: 0;
+
+  @media (max-width: 1100px) {
+    padding: 12px 6px;
+    font-size: 14px;
+    gap: 6px;
+  }
+
+  @media (max-width: 950px) {
+    padding: 10px 4px;
+    font-size: 13px;
+    gap: 4px;
+  }
+
+  @media (max-width: 812px) {
+    padding: 16px 12px;
+    font-size: 16px;
+    gap: 8px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px 6px;
+    font-size: 14px;
+    gap: 6px;
+  }
+
+  @media (max-width: 360px) {
+    padding: 10px 4px;
+    font-size: 13px;
+    gap: 4px;
+  }
+
+  .prio-icon {
+    width: 22px;
+    height: 18px;
+    flex-shrink: 0;
+  }
+
+  &.urgent .prio-icon {
+    color: #ff3d00;
+  }
+
+  &.medium .prio-icon {
+    color: #ffa800;
+  }
+
+  &.low .prio-icon {
+    color: #7ae229;
+  }
+
+  &:hover {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  &.selected {
+    color: #ffffff;
+    font-weight: 700;
+    border-color: transparent;
+
+    .prio-icon {
+      color: #ffffff;
+    }
+  }
+
+  &.urgent.selected {
+    background-color: #ff3d00;
+  }
+
+  &.medium.selected {
+    background-color: #ffa800;
+  }
+
+  &.low.selected {
+    background-color: #7ae229;
+  }
+}
+
+@media (max-width: 380px) {
+  .priority-btn {
+    padding: 10px 4px;
+    font-size: 13px;
+
+    .prio-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}

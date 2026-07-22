@@ -19,9 +19,7 @@
               [class.selected]="selectedContact?.id === contact.id"
               (click)="selectContact(contact)"
             >
-              <div class="avatar-badge" [style.background-color]="getColor(contact)">
-                {{ getInitials(contact) }}
-              </div>
+              <app-avatar class="avatar-badge" [contact]="contact"></app-avatar>
 
               <div class="contact-card-info">
                 <div class="contact-name">
@@ -79,9 +77,7 @@
           <div class="title-divider mobile-only-divider"></div>
 
           <div class="header-main-info">
-            <div class="avatar-large" [style.background-color]="getColor(selectedContact)">
-              {{ getInitials(selectedContact) }}
-            </div>
+            <app-avatar class="avatar-large" [contact]="selectedContact"></app-avatar>
             <div class="header-text-block">
               <h2 class="detail-name">
                 {{ selectedContact.first_name }} {{ selectedContact.last_name }}

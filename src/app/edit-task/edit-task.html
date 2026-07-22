@@ -40,9 +40,7 @@
         <div class="assigned-list">
           @for (contact of assignedContacts; track contact.id) {
             <div class="assigned-row">
-              <div class="avatar" [style.background-color]="getAvatarColor(contact)">
-                {{ getAvatarInitials(contact) }}
-              </div>
+              <app-avatar class="avatar" [contact]="contact"></app-avatar>
               <span class="assigned-name">{{ contact.first_name }} {{ contact.last_name }}</span>
             </div>
           }
@@ -129,106 +127,28 @@
 
       <div class="form-field">
         <span class="form-label">Priority</span>
-        <div class="priority-buttons">
-          <button
-            type="button"
-            class="priority-btn urgent"
-            [class.selected]="editPriority === 'urgent'"
-            (click)="setPriority('urgent')"
-          >
-            Urgent
-            <svg class="prio-icon" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 11 12 5 20 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M4 16 12 10 20 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            class="priority-btn medium"
-            [class.selected]="editPriority === 'medium'"
-            (click)="setPriority('medium')"
-          >
-            Medium
-            <svg class="prio-icon" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 8H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-              <path d="M4 13H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            class="priority-btn low"
-            [class.selected]="editPriority === 'low'"
-            (click)="setPriority('low')"
-          >
-            Low
-            <svg class="prio-icon" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 4 12 10 20 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M4 9 12 15 20 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
-        </div>
+        <app-priority-selector [(priority)]="editPriority"></app-priority-selector>
       </div>
 
       <div class="form-field">
         <span class="form-label">Assigned to</span>
-        <div class="contact-select">
-          @for (contact of allContacts; track contact.id) {
-            <button
-              type="button"
-              class="contact-option"
-              [class.selected]="isContactAssigned(contact.id)"
-              (click)="toggleContact(contact.id)"
-            >
-              <div class="avatar" [style.background-color]="getAvatarColor(contact)">
-                {{ getAvatarInitials(contact) }}
-              </div>
-              <span class="contact-name">{{ contact.first_name }} {{ contact.last_name }}</span>
-              <img
-                [src]="
-                  isContactAssigned(contact.id)
-                    ? '/Assets/icons/checkbox-checked.svg'
-                    : '/Assets/icons/checkbox-default.svg'
-                "
-                alt=""
-                class="contact-checkbox"
-              />
-            </button>
-          }
-        </div>
+        <app-contact-assign-dropdown
+          [contacts]="allContacts"
+          [selectedIds]="editContactIds"
+          [isOpen]="isAssignedDropdownOpen"
+          (isOpenChange)="isAssignedDropdownOpen = $event"
+          (selectedIdsChange)="editContactIds = $event"
+        ></app-contact-assign-dropdown>
       </div>
 
       <div class="form-field">
         <span class="form-label">Subtasks</span>
-        <div class="subtask-input-group">
-          <input
-            type="text"
-            class="form-input"
-            name="newSubtask"
-            [(ngModel)]="newSubtaskTitle"
-            placeholder="Add new subtask"
-            (keydown.enter)="$event.preventDefault(); addSubtask()"
-          />
-          <button type="button" class="subtask-add-btn" (click)="addSubtask()" title="Add subtask">
-            <img src="/Assets/icons/add-icon.svg" alt="Add" />
-          </button>
-        </div>
-        @if (subtasks.length) {
-          <div class="edit-subtask-list">
-            @for (subtask of subtasks; track subtask.id) {
-              <div class="edit-subtask-row">
-                <span class="edit-subtask-title">{{ subtask.title }}</span>
-                <button
-                  type="button"
-                  class="subtask-delete-btn"
-                  (click)="removeSubtask(subtask)"
-                  title="Delete subtask"
-                >
-                  <img src="/Assets/icons/delete-icon.svg" alt="Delete" />
-                </button>
-              </div>
-            }
-          </div>
-        }
+        <app-subtask-list
+          [subtasks]="subtaskItems"
+          (add)="onAddSubtask($event)"
+          (update)="onUpdateSubtask($event)"
+          (remove)="onRemoveSubtask($event)"
+        ></app-subtask-list>
       </div>
 
       <div class="edit-footer">

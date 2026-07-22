@@ -1,0 +1,79 @@
+<div class="subtask-input-container" [class.focused]="newTitle.trim().length > 0">
+  <input
+    type="text"
+    class="form-input subtask-input"
+    name="newSubtaskTitle"
+    [(ngModel)]="newTitle"
+    placeholder="Add new subtask"
+    (keydown.enter)="$event.preventDefault(); addSubtask()"
+  />
+  @if (newTitle.trim().length > 0) {
+    <div class="subtask-icons-wrapper">
+      <button type="button" class="subtask-icon-btn" (click)="clearInput()" title="Cancel">
+        <img src="/Assets/icons/close-icon.svg" alt="Cancel" />
+      </button>
+      <div class="icon-divider"></div>
+      <button type="button" class="subtask-icon-btn" (click)="addSubtask()" title="Confirm">
+        <img src="/Assets/icons/check-icon.svg" alt="Confirm" />
+      </button>
+    </div>
+  }
+</div>
+
+<ul class="subtasks-list scrollbar-style">
+  @for (sub of subtasks; track sub.id) {
+    <li class="subtask-item" [class.editing]="editingId === sub.id">
+      @if (editingId === sub.id) {
+        <div class="subtask-edit-wrapper">
+          <input
+            type="text"
+            class="subtask-edit-input"
+            [(ngModel)]="editedTitle"
+            [name]="'subtask-edit-' + sub.id"
+            (keydown.enter)="$event.preventDefault(); saveEdit(sub.id)"
+            (keydown.escape)="cancelEdit()"
+            focus
+          />
+          <div class="subtask-edit-icons">
+            <button
+              type="button"
+              class="subtask-icon-btn"
+              (click)="removeSubtask(sub.id)"
+              title="Delete"
+            >
+              <img src="/Assets/icons/delete-icon.svg" alt="Delete" />
+            </button>
+            <div class="icon-divider"></div>
+            <button type="button" class="subtask-icon-btn" (click)="saveEdit(sub.id)" title="Save">
+              <img src="/Assets/icons/check-icon.svg" alt="Save" />
+            </button>
+          </div>
+        </div>
+      } @else {
+        <div class="subtask-display" (dblclick)="startEdit(sub, $event)">
+          <span class="subtask-bullet"></span>
+          <span class="subtask-title-text">{{ sub.title }}</span>
+          <div class="subtask-actions">
+            <button
+              type="button"
+              class="subtask-action-btn edit"
+              (click)="startEdit(sub, $event)"
+              title="Edit"
+            >
+              <img src="/Assets/icons/pen-icon.svg" alt="Edit" />
+            </button>
+            <div class="action-divider"></div>
+            <button
+              type="button"
+              class="subtask-action-btn delete"
+              (click)="removeSubtask(sub.id)"
+              title="Delete"
+            >
+              <img src="/Assets/icons/delete-icon.svg" alt="Delete" />
+            </button>
+          </div>
+        </div>
+      }
+    </li>
+  }
+</ul>
