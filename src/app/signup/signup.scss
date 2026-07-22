@@ -196,8 +196,11 @@
 }
 
 .error-message {
+  font-family: var(--error-font-family);
+  font-size: var(--error-font-size);
+  font-weight: var(--error-font-weight);
+  line-height: var(--error-line-height);
   color: var(--color-error);
-  font-weight: 400;
 }
 
 .success-message {

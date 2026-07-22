@@ -169,9 +169,11 @@
   width: 422px;
   margin: -12px 0 16px;
 
+  font-family: var(--error-font-family);
+  font-size: var(--error-font-size);
+  font-weight: var(--error-font-weight);
+  line-height: var(--error-line-height);
   color: var(--color-error);
-  font-size: 14px;
-  font-weight: 400;
 }
 
 .button-row {

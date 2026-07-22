@@ -227,10 +227,10 @@
   display: block;
   min-height: 20px;
   margin-top: 4px;
-  font-family: var(--font-family);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20px;
+  font-family: var(--error-font-family);
+  font-size: var(--error-font-size);
+  font-weight: var(--error-font-weight);
+  line-height: var(--error-line-height);
   color: var(--color-error);
 }
 
@@ -329,11 +329,6 @@
   }
 }
 
-@media (max-width: 870px) {
-  .input-error {
-    font-size: 14px;
-  }
-}
 
 @media (max-width: 800px) {
   .modal-window {
@@ -425,10 +420,6 @@
 
   .input-group {
     max-width: 364px;
-  }
-
-  .input-error {
-    font-size: 12px;
   }
 
   .buttons-container {
