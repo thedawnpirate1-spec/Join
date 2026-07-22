@@ -11,6 +11,7 @@ import { ClickOutsideDirective } from '../shared/click-outside.directive';
 import { SubtaskList, SubtaskListItem } from '../shared/subtask-list/subtask-list';
 import { PrioritySelector } from '../shared/priority-selector/priority-selector';
 import { ContactAssignDropdown } from '../shared/contact-assign-dropdown/contact-assign-dropdown';
+import { getTodayIsoString } from '../core/utils/date.utils';
 
 /** Component for creating and adding tasks. */
 @Component({
@@ -83,11 +84,7 @@ export class AddTask implements OnInit {
 
   ngOnInit() {
     this.loadContacts();
-    const date = new Date();
-    const yyyy = date.getFullYear();
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const dd = String(date.getDate()).padStart(2, '0');
-    this.today = `${yyyy}-${mm}-${dd}`;
+    this.today = getTodayIsoString();
   }
 
   async loadContacts() {

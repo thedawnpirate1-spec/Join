@@ -18,6 +18,8 @@ import { Avatar } from '../shared/avatar/avatar';
 import { SubtaskList, SubtaskListItem } from '../shared/subtask-list/subtask-list';
 import { PrioritySelector } from '../shared/priority-selector/priority-selector';
 import { ContactAssignDropdown } from '../shared/contact-assign-dropdown/contact-assign-dropdown';
+import { getTodayIsoString, formatDueDate } from '../core/utils/date.utils';
+import { getCategoryDisplayLabel, getPriorityDisplayLabel } from '../core/utils/task.utils';
 
 @Component({
   selector: 'app-edit-task',
@@ -68,23 +70,17 @@ export class EditTask implements OnInit {
     }
   }
 
-  /**
-   * Returns today's date as an ISO string (yyyy-mm-dd) in local time.
-   * Used as the minimum selectable value for the due date input.
-   */
   get todayIso(): string {
-    const now = new Date();
-    const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
-    return localTime.toISOString().split('T')[0];
+    return getTodayIsoString();
   }
 
   get categoryLabel(): string {
-    return this.task?.category === 'technical_task' ? 'Technical Task' : 'User Story';
+    return getCategoryDisplayLabel(this.task?.category || null);
   }
 
   get priorityLabel(): string {
     if (!this.task) return '';
-    return this.task.priority.charAt(0).toUpperCase() + this.task.priority.slice(1);
+    return getPriorityDisplayLabel(this.task.priority);
   }
 
   get priorityIcon(): string {
@@ -98,7 +94,7 @@ export class EditTask implements OnInit {
    */
   get formattedDueDate(): string {
     if (!this.task?.due_date) return 'No due date';
-    return this.task.due_date.split('-').reverse().join('/');
+    return formatDueDate(this.task.due_date);
   }
 
   onClose() {

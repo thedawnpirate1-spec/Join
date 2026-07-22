@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Contact, NewContact } from '../core/models/contact.model';
 import { Avatar } from '../shared/avatar/avatar';
+import { validateNameValue, validateEmailValue, validatePhoneValue } from '../core/utils/validation.utils';
 
 @Component({
   selector: 'app-contact-dialog',
@@ -26,10 +27,6 @@ export class ContactDialog implements OnInit {
   emailError = '';
   phoneError = '';
 
-  private readonly namePattern = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]{2,}$/;
-  private readonly emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  private readonly phonePattern = /^\+?[0-9 ]{6,20}$/;
-
   ngOnInit(): void {
     if (this.mode === 'edit' && this.contact) {
       this.name = `${this.contact.first_name} ${this.contact.last_name}`.trim();
@@ -43,38 +40,17 @@ export class ContactDialog implements OnInit {
   }
 
   validateName(): boolean {
-    const value = this.name.trim();
-    if (!value) {
-      this.nameError = 'Please enter a name.';
-    } else if (!this.namePattern.test(value)) {
-      this.nameError = 'Letters only, at least 2 characters.';
-    } else {
-      this.nameError = '';
-    }
+    this.nameError = validateNameValue(this.name);
     return !this.nameError;
   }
 
   validateEmail(): boolean {
-    const value = this.email.trim();
-    if (!value) {
-      this.emailError = 'Please enter an email address.';
-    } else if (!this.emailPattern.test(value)) {
-      this.emailError = 'Please enter a valid email address.';
-    } else {
-      this.emailError = '';
-    }
+    this.emailError = validateEmailValue(this.email);
     return !this.emailError;
   }
 
   validatePhone(): boolean {
-    const value = this.phone.trim();
-    if (!value) {
-      this.phoneError = '';
-    } else if (!this.phonePattern.test(value)) {
-      this.phoneError = 'Please enter a valid phone number.';
-    } else {
-      this.phoneError = '';
-    }
+    this.phoneError = validatePhoneValue(this.phone);
     return !this.phoneError;
   }
 
