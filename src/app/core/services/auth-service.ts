@@ -2,6 +2,7 @@ import { computed, Injectable, inject, signal } from '@angular/core';
 import { SupabaseService } from './supabase.service';
 import { TaskService } from './task.service';
 import { ContactService } from './contact.service';
+import { NewContact } from '../models/contact.model';
 
 @Injectable({
   providedIn: 'root',
@@ -113,6 +114,24 @@ export class AuthService {
     });
 
     if (error) throw error;
+
+    const contact = this.createContactFromSignup(name, email);
+
+    await this.contactService.addContact(contact);
+  }
+
+  private createContactFromSignup(name: string, email: string): NewContact {
+    const nameParts = name.trim().split(' ').filter(Boolean);
+
+    const firstName = nameParts[0] ?? '';
+    const lastName = nameParts.slice(1).join(' ');
+
+    return {
+      first_name: firstName,
+      last_name: lastName,
+      email: email.trim(),
+      phone: '',
+    };
   }
 
   private setUserData(user: any): void {
