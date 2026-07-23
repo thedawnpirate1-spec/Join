@@ -54,7 +54,7 @@
 
       <div class="input-group">
         <input
-          type="password"
+          [type]="showPassword() ? 'text' : 'password'"
           name="password"
           placeholder="Password"
           [(ngModel)]="password"
@@ -64,7 +64,26 @@
           required
         />
 
-        <img src="Assets/icons/lock-icon.svg" alt="" class="input-icon" />
+        @if (!password) {
+          <img src="Assets/icons/lock-icon.svg" alt="" class="input-icon" />
+        } @else {
+          <button
+            type="button"
+            class="password-toggle-btn"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+          >
+            <img
+              [src]="
+                showPassword()
+                  ? 'Assets/icons/visibility-off-icon.svg'
+                  : 'Assets/icons/visibility-icon.svg'
+              "
+              alt=""
+              class="password-toggle-icon"
+            />
+          </button>
+        }
       </div>
 
       @if (errorMessage()) {

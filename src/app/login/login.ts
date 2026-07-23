@@ -15,10 +15,14 @@ export class Login {
 
   email = '';
   password = '';
-
+  showPassword = signal(false);
   errorMessage = signal('');
   loginFailed = signal(false);
   isLoading = signal(false);
+
+  togglePasswordVisibility(): void {
+    this.showPassword.update((value) => !value);
+  }
 
   async onLogin(): Promise<void> {
     this.errorMessage.set('');
