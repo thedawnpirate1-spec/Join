@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../core/services/auth-service';
@@ -19,6 +19,30 @@ export class Login {
   errorMessage = signal('');
   loginFailed = signal(false);
   isLoading = signal(false);
+  playIntroAnimation = false;
+  private introTimeoutId?: number;
+
+  constructor() {
+    const introPlayed = sessionStorage.getItem('loginIntroPlayed');
+
+    console.log('introPlayed:', introPlayed);
+
+    if (!introPlayed) {
+      this.playIntroAnimation = true;
+
+      this.introTimeoutId = window.setTimeout(() => {
+        sessionStorage.setItem('loginIntroPlayed', 'true');
+      }, 1000);
+    }
+
+    console.log('playIntroAnimation:', this.playIntroAnimation);
+  }
+
+  ngOnDestroy(): void {
+    if (this.introTimeoutId) {
+      clearTimeout(this.introTimeoutId);
+    }
+  }
 
   togglePasswordVisibility(): void {
     this.showPassword.update((value) => !value);

@@ -20,6 +20,9 @@
 
   display: flex;
   align-items: flex-start;
+
+  z-index: 20;
+  transform-origin: top left;
 }
 
 .login-header svg {
@@ -153,6 +156,14 @@
   }
 }
 
+.login-input.input-error {
+  border-color: var(--color-error);
+}
+
+.login-input.input-error:focus {
+  border-color: var(--color-error);
+}
+
 .input-icon {
   position: absolute;
   right: 18px;
@@ -163,6 +174,32 @@
 
   transform: translateY(-50%);
   pointer-events: none;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+
+  width: 22px;
+  height: 22px;
+
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.password-toggle-icon {
+  width: 22px;
+  height: 22px;
+  display: block;
 }
 
 .error-message {
@@ -260,39 +297,48 @@
   }
 }
 
-.login-input.input-error {
-  border-color: var(--color-error);
+.login-page.play-intro {
+  .login-header {
+    animation: logoIntroDesktop 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .login-card {
+    opacity: 0;
+    animation: fadeInContent 300ms ease-out 150ms forwards;
+  }
+
+  .signup-area {
+    opacity: 0;
+    animation: fadeInContent 250ms ease-out 150ms forwards;
+  }
+
+  .login-footer {
+    opacity: 0;
+    animation: fadeInContent 250ms ease-out 150ms forwards;
+  }
 }
 
-.login-input.input-error:focus {
-  border-color: var(--color-error);
+@keyframes logoIntroDesktop {
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2.7);
+  }
+
+  100% {
+    top: 48px;
+    left: 64px;
+    transform: translate(0, 0) scale(1);
+  }
 }
 
-.password-toggle-btn {
-  position: absolute;
-  right: 18px;
-  top: 50%;
+@keyframes fadeInContent {
+  from {
+    opacity: 0;
+  }
 
-  width: 22px;
-  height: 22px;
-
-  transform: translateY(-50%);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-
-  .input-icon {
-    position: static;
-    width: 22px;
-    height: 22px;
-    transform: none;
-    pointer-events: none;
+  to {
+    opacity: 1;
   }
 }
 
@@ -316,6 +362,8 @@
     box-sizing: border-box;
     display: flex;
     align-items: flex-start;
+
+    animation: none;
   }
 
   .login-header svg {
@@ -421,6 +469,37 @@
 
     a {
       font-size: 16px;
+    }
+  }
+
+  .login-page.play-intro {
+    .login-header {
+      animation: logoIntroMobile 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .login-card {
+      opacity: 0;
+      animation: fadeInContent 300ms ease-out 150ms forwards;
+    }
+
+    .signup-area {
+      opacity: 0;
+      animation: fadeInContent 250ms ease-out 150ms forwards;
+    }
+
+    .login-footer {
+      opacity: 0;
+      animation: fadeInContent 250ms ease-out 150ms forwards;
+    }
+  }
+
+  @keyframes logoIntroMobile {
+    0% {
+      transform: translate(calc(50vw - 70px), 120px) scale(2.4);
+    }
+
+    100% {
+      transform: translate(0, 0) scale(1);
     }
   }
 }
