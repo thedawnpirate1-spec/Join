@@ -33,7 +33,7 @@
   </header>
 
   <section class="signup-card">
-    <button class="back-btn" aria-label="Back to login" routerLink="/login">
+    <button type="button" class="back-btn" (click)="goBackToLogin()" aria-label="Back to login">
       <svg
         width="24"
         height="24"
@@ -55,77 +55,155 @@
     <div class="title-underline"></div>
 
     <form class="signup-form" (ngSubmit)="onSignup()" novalidate>
-      <div class="input-group">
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          [(ngModel)]="name"
-          class="signup-input"
-          required
-        />
+      <div class="field-wrapper">
+        <div class="input-group">
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            [(ngModel)]="name"
+            class="signup-input"
+            [class.input-error]="nameError()"
+            (ngModelChange)="clearNameError()"
+            required
+          />
 
-        <img src="/Assets/icons/person-icon.svg" alt="" class="input-icon" />
+          <img src="/Assets/icons/person-icon.svg" alt="" class="input-icon" />
+        </div>
+
+        @if (nameError()) {
+          <p class="error-message">{{ nameError() }}</p>
+        }
       </div>
 
-      <div class="input-group">
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          [(ngModel)]="email"
-          class="signup-input"
-          required
-        />
+      <div class="field-wrapper">
+        <div class="input-group">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            [(ngModel)]="email"
+            class="signup-input"
+            [class.input-error]="emailError()"
+            (blur)="validateEmailField()"
+            (ngModelChange)="onEmailChange()"
+            required
+          />
 
-        <img src="/Assets/icons/mail-icon.svg" alt="" class="input-icon" />
+          <img src="/Assets/icons/mail-icon.svg" alt="" class="input-icon" />
+        </div>
+
+        @if (emailError()) {
+          <p class="error-message">{{ emailError() }}</p>
+        }
       </div>
 
-      <div class="input-group">
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          [(ngModel)]="password"
-          class="signup-input"
-          required
-        />
+      <div class="field-wrapper">
+        <div class="input-group">
+          <input
+            [type]="showPassword() ? 'text' : 'password'"
+            name="password"
+            placeholder="Password"
+            [(ngModel)]="password"
+            class="signup-input"
+            [class.input-error]="passwordError()"
+            (ngModelChange)="clearPasswordError()"
+            required
+          />
 
-        <img src="/Assets/icons/lock-icon.svg" alt="" class="input-icon" />
+          @if (!password) {
+            <img src="/Assets/icons/lock-icon.svg" alt="" class="input-icon" />
+          } @else {
+            <button
+              type="button"
+              class="password-toggle-btn"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+            >
+              <img
+                [src]="
+                  showPassword()
+                    ? '/Assets/icons/visibility-off-icon.svg'
+                    : '/Assets/icons/visibility-icon.svg'
+                "
+                alt=""
+                class="password-toggle-icon"
+              />
+            </button>
+          }
+        </div>
+
+        @if (passwordError()) {
+          <p class="error-message">{{ passwordError() }}</p>
+        }
       </div>
 
-      <div class="input-group">
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          [(ngModel)]="confirmPassword"
-          class="signup-input"
-          required
-        />
+      <div class="field-wrapper">
+        <div class="input-group">
+          <input
+            [type]="showConfirmPassword() ? 'text' : 'password'"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            [(ngModel)]="confirmPassword"
+            class="signup-input"
+            [class.input-error]="confirmPasswordError()"
+            (ngModelChange)="clearConfirmPasswordError()"
+            required
+          />
 
-        <img src="/Assets/icons/lock-icon.svg" alt="" class="input-icon" />
+          @if (!confirmPassword) {
+            <img src="/Assets/icons/lock-icon.svg" alt="" class="input-icon" />
+          } @else {
+            <button
+              type="button"
+              class="password-toggle-btn"
+              (click)="toggleConfirmPasswordVisibility()"
+              [attr.aria-label]="showConfirmPassword() ? 'Hide password' : 'Show password'"
+            >
+              <img
+                [src]="
+                  showConfirmPassword()
+                    ? '/Assets/icons/visibility-off-icon.svg'
+                    : '/Assets/icons/visibility-icon.svg'
+                "
+                alt=""
+                class="password-toggle-icon"
+              />
+            </button>
+          }
+        </div>
+
+        @if (confirmPasswordError()) {
+          <p class="error-message">{{ confirmPasswordError() }}</p>
+        }
       </div>
 
-      <label class="privacy-row">
-        <input type="checkbox" name="acceptedPrivacy" [(ngModel)]="acceptedPrivacy" />
+      <div class="privacy-wrapper">
+        <label class="privacy-row">
+          <input
+            type="checkbox"
+            name="acceptedPrivacy"
+            [(ngModel)]="acceptedPrivacy"
+            (ngModelChange)="clearPrivacyError()"
+          />
 
-        <span>
-          I accept the
-          <a routerLink="/privacy-policy">Privacy policy</a>
-        </span>
-      </label>
+          <span>
+            I accept the
+            <a routerLink="/privacy-policy">Privacy policy</a>
+          </span>
+        </label>
 
-      @if (errorMessage) {
-        <p class="error-message">{{ errorMessage }}</p>
+        @if (privacyError()) {
+          <p class="error-message privacy-error">{{ privacyError() }}</p>
+        }
+      </div>
+
+      @if (successMessage()) {
+        <p class="success-message">{{ successMessage() }}</p>
       }
 
-      @if (successMessage) {
-        <p class="success-message">{{ successMessage }}</p>
-      }
-
-      <button type="submit" class="signup-btn" [disabled]="isSignupDisabled()">
-        {{ isLoading ? 'Signing up...' : 'Sign up' }}
+      <button type="submit" class="signup-btn" [disabled]="isLoading()">
+        {{ isLoading() ? 'Signing up...' : 'Sign up' }}
       </button>
     </form>
   </section>

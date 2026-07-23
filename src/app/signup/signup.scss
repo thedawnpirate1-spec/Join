@@ -34,7 +34,7 @@
 
   width: 598px;
   min-height: 630px;
-  padding: 48px 88px;
+  padding: 48px 88px 36px;
 
   transform: translate(-50%, -50%);
 
@@ -111,12 +111,16 @@
   align-items: center;
 }
 
+.field-wrapper {
+  width: 422px;
+  margin-bottom: 14px;
+}
+
 .input-group {
   position: relative;
 
-  width: 422px;
+  width: 100%;
   height: 48px;
-  margin-bottom: 16px;
 }
 
 .signup-input {
@@ -144,6 +148,14 @@
   }
 }
 
+.signup-input.input-error {
+  border-color: var(--color-error);
+}
+
+.signup-input.input-error:focus {
+  border-color: var(--color-error);
+}
+
 .input-icon {
   position: absolute;
   right: 18px;
@@ -156,10 +168,52 @@
   pointer-events: none;
 }
 
-.privacy-row {
+.password-toggle-btn {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+
+  width: 22px;
+  height: 22px;
+
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.password-toggle-icon {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.error-message {
+  width: 100%;
+  margin: 6px 0 0;
+
+  font-family: var(--error-font-family);
+  font-size: var(--error-font-size);
+  font-weight: var(--error-font-weight);
+  line-height: var(--error-line-height);
+  color: var(--color-error);
+  text-align: left;
+}
+
+.privacy-wrapper {
   width: 422px;
-  margin-top: 4px;
-  margin-bottom: 24px;
+  margin-top: 2px;
+  margin-bottom: 22px;
+}
+
+.privacy-row {
+  width: 100%;
 
   display: flex;
   align-items: center;
@@ -186,25 +240,18 @@
   }
 }
 
-.error-message,
+.privacy-error {
+  margin-top: 8px;
+  text-align: center;
+}
+
 .success-message {
   width: 422px;
   margin: -8px 0 16px;
 
+  color: #2a9d4b;
   font-size: 14px;
   text-align: center;
-}
-
-.error-message {
-  font-family: var(--error-font-family);
-  font-size: var(--error-font-size);
-  font-weight: var(--error-font-weight);
-  line-height: var(--error-line-height);
-  color: var(--color-error);
-}
-
-.success-message {
-  color: #2a9d4b;
 }
 
 .signup-btn {
@@ -332,9 +379,8 @@
     width: 100%;
   }
 
-  .input-group,
-  .privacy-row,
-  .error-message,
+  .field-wrapper,
+  .privacy-wrapper,
   .success-message {
     width: 100%;
     max-width: 364px;
@@ -342,7 +388,6 @@
 
   .input-group {
     height: 48px;
-    margin-bottom: 16px;
   }
 
   .signup-input {
@@ -351,7 +396,6 @@
 
   .privacy-row {
     font-size: 13px;
-    margin-bottom: 24px;
   }
 
   .signup-btn {
