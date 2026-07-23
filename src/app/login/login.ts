@@ -25,8 +25,6 @@ export class Login {
   constructor() {
     const introPlayed = sessionStorage.getItem('loginIntroPlayed');
 
-    console.log('introPlayed:', introPlayed);
-
     if (!introPlayed) {
       this.playIntroAnimation = true;
 
@@ -34,8 +32,6 @@ export class Login {
         sessionStorage.setItem('loginIntroPlayed', 'true');
       }, 1000);
     }
-
-    console.log('playIntroAnimation:', this.playIntroAnimation);
   }
 
   ngOnDestroy(): void {

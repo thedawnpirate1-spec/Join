@@ -474,28 +474,28 @@
 
   .login-page.play-intro {
     .login-header {
-      animation: logoIntroMobile 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: logoIntroMobile 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .login-card {
       opacity: 0;
-      animation: fadeInContent 300ms ease-out 150ms forwards;
+      animation: fadeInContent 300ms ease-out 200ms forwards;
     }
 
     .signup-area {
       opacity: 0;
-      animation: fadeInContent 250ms ease-out 150ms forwards;
+      animation: fadeInContent 250ms ease-out 200ms forwards;
     }
 
     .login-footer {
       opacity: 0;
-      animation: fadeInContent 250ms ease-out 150ms forwards;
+      animation: fadeInContent 250ms ease-out 200ms forwards;
     }
   }
 
   @keyframes logoIntroMobile {
     0% {
-      transform: translate(calc(50vw - 70px), 120px) scale(2.4);
+      transform: translate(calc(50vw - 38px - 76.8px), calc(50dvh - 37px - 92.4px)) scale(2.4);
     }
 
     100% {
