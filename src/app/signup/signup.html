@@ -1,4 +1,11 @@
 <main class="signup-page">
+  @if (showSuccessToast()) {
+    <img
+      src="/Assets/images/signup-success-toast.png"
+      alt="You Signed Up successfully"
+      class="success-toast-image"
+    />
+  }
   <header class="signup-header">
     <svg
       width="101"

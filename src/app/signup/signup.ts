@@ -28,6 +28,7 @@ export class Signup {
   confirmPasswordError = signal('');
   privacyError = signal('');
   successMessage = signal('');
+  showSuccessToast = signal(false);
 
   showPassword = signal(false);
   showConfirmPassword = signal(false);
@@ -80,13 +81,12 @@ export class Signup {
     try {
       await this.authService.signUp(this.email.trim(), this.password, this.name.trim());
 
-      this.successMessage.set('You Signed Up successfully');
+      this.showSuccessToast.set(true);
 
       setTimeout(() => {
         this.router.navigateByUrl('/login');
       }, 1200);
     } catch (error) {
-      console.error('Signup error:', error);
       this.emailError.set('Signup failed. Please try again.');
     } finally {
       this.isLoading.set(false);
