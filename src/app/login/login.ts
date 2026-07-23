@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../core/services/auth-service';
@@ -15,54 +15,66 @@ export class Login {
 
   email = '';
   password = '';
-  errorMessage = '';
-  isLoading = false;
+
+  errorMessage = signal('');
+  loginFailed = signal(false);
+  isLoading = signal(false);
 
   async onLogin(): Promise<void> {
-    this.errorMessage = '';
+    this.errorMessage.set('');
+    this.loginFailed.set(false);
 
     if (!this.email.trim() || !this.password.trim()) {
-      this.errorMessage = 'Please enter email and password.';
+      this.loginFailed.set(true);
+      this.errorMessage.set('Please enter email and password.');
       return;
     }
 
-    try {
-      this.isLoading = true;
+    this.isLoading.set(true);
 
+    try {
       await this.authService.login(this.email.trim(), this.password);
+
       sessionStorage.setItem('justLoggedIn', 'true');
 
       await this.router.navigateByUrl('/summary');
     } catch (error) {
-      console.error('Login error:', error);
-      this.errorMessage = 'Login failed. Please check your email and password.';
+      this.loginFailed.set(true);
+      this.errorMessage.set('Check your email and password. Please try again.');
     } finally {
-      this.isLoading = false;
+      this.isLoading.set(false);
     }
   }
 
   async onGuestLogin(): Promise<void> {
-    this.errorMessage = '';
+    this.errorMessage.set('');
+    this.loginFailed.set(false);
 
     this.email = 'guest@guest.com';
     this.password = '123456';
-    try {
-      this.isLoading = true;
 
+    this.isLoading.set(true);
+
+    try {
       await this.authService.login(this.email.trim(), this.password);
+
       sessionStorage.setItem('justLoggedIn', 'true');
 
       await this.router.navigateByUrl('/summary');
     } catch (error) {
-      console.error('Login error:', error);
-      this.errorMessage = 'Login failed. Please check your email and password.';
+      this.loginFailed.set(true);
+      this.errorMessage.set('Guest login failed. Please try again.');
     } finally {
-      this.isLoading = false;
+      this.isLoading.set(false);
     }
   }
 
+  clearLoginError(): void {
+    this.errorMessage.set('');
+    this.loginFailed.set(false);
+  }
+
   goToSignup(): void {
-    console.log('signup');
     this.router.navigateByUrl('/signup');
   }
 }

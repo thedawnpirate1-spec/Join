@@ -44,6 +44,8 @@
           placeholder="Email"
           [(ngModel)]="email"
           class="login-input"
+          [class.input-error]="loginFailed()"
+          (ngModelChange)="clearLoginError()"
           required
         />
 
@@ -57,19 +59,21 @@
           placeholder="Password"
           [(ngModel)]="password"
           class="login-input"
+          [class.input-error]="loginFailed()"
+          (ngModelChange)="clearLoginError()"
           required
         />
 
         <img src="Assets/icons/lock-icon.svg" alt="" class="input-icon" />
       </div>
 
-      @if (errorMessage) {
-        <p class="error-message">{{ errorMessage }}</p>
+      @if (errorMessage()) {
+        <p class="error-message">{{ errorMessage() }}</p>
       }
 
       <div class="button-row">
-        <button type="submit" class="login-btn" [disabled]="isLoading">
-          {{ isLoading ? 'Logging in...' : 'Log in' }}
+        <button type="submit" class="login-btn" [disabled]="isLoading()">
+          {{ isLoading() ? 'Logging in...' : 'Log in' }}
         </button>
 
         <button type="button" class="guest-btn" (click)="onGuestLogin()">Guest Log in</button>

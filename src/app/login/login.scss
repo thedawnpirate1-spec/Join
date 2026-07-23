@@ -260,6 +260,14 @@
   }
 }
 
+.login-input.input-error {
+  border-color: var(--color-error);
+}
+
+.login-input.input-error:focus {
+  border-color: var(--color-error);
+}
+
 @media (max-width: $global-mobile-breakpoint) {
   .login-page {
     min-height: 100dvh;
