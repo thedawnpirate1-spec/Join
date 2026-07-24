@@ -30,7 +30,11 @@
           </div>
           <div class="contact-checkbox">
             <img
-              [src]="isSelected(contact) ? '/Assets/icons/checkbox-checked.svg' : '/Assets/icons/checkbox-default.svg'"
+              [src]="
+                isSelected(contact)
+                  ? 'Assets/icons/checkbox-checked.svg'
+                  : 'Assets/icons/checkbox-default.svg'
+              "
               alt="checkbox"
             />
           </div>
@@ -52,10 +56,7 @@
     ></app-avatar>
   }
   @if (selectedContacts.length > 3) {
-    <div
-      class="selected-contact-badge plus-badge"
-      [title]="(selectedContacts.length - 3) + ' more'"
-    >
+    <div class="selected-contact-badge plus-badge" [title]="selectedContacts.length - 3 + ' more'">
       +{{ selectedContacts.length - 3 }}
     </div>
   }

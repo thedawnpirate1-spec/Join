@@ -1,7 +1,7 @@
 <main class="signup-page">
   @if (showSuccessToast()) {
     <img
-      src="/Assets/icons/signup-success-toast.png"
+      src="Assets/icons/signup-success-toast.png"
       alt="You Signed Up successfully"
       class="success-toast-image"
     />
@@ -75,7 +75,7 @@
             required
           />
 
-          <img src="/Assets/icons/person-icon.svg" alt="" class="input-icon" />
+          <img src="Assets/icons/person-icon.svg" alt="" class="input-icon" />
         </div>
 
         @if (nameError()) {
@@ -97,7 +97,7 @@
             required
           />
 
-          <img src="/Assets/icons/mail-icon.svg" alt="" class="input-icon" />
+          <img src="Assets/icons/mail-icon.svg" alt="" class="input-icon" />
         </div>
 
         @if (emailError()) {
@@ -119,7 +119,7 @@
           />
 
           @if (!password) {
-            <img src="/Assets/icons/lock-icon.svg" alt="" class="input-icon" />
+            <img src="Assets/icons/lock-icon.svg" alt="" class="input-icon" />
           } @else {
             <button
               type="button"
@@ -130,8 +130,8 @@
               <img
                 [src]="
                   showPassword()
-                    ? '/Assets/icons/visibility-off-icon.svg'
-                    : '/Assets/icons/visibility-icon.svg'
+                    ? 'Assets/icons/visibility-off-icon.svg'
+                    : 'Assets/icons/visibility-icon.svg'
                 "
                 alt=""
                 class="password-toggle-icon"
@@ -159,7 +159,7 @@
           />
 
           @if (!confirmPassword) {
-            <img src="/Assets/icons/lock-icon.svg" alt="" class="input-icon" />
+            <img src="Assets/icons/lock-icon.svg" alt="" class="input-icon" />
           } @else {
             <button
               type="button"
@@ -170,8 +170,8 @@
               <img
                 [src]="
                   showConfirmPassword()
-                    ? '/Assets/icons/visibility-off-icon.svg'
-                    : '/Assets/icons/visibility-icon.svg'
+                    ? 'Assets/icons/visibility-off-icon.svg'
+                    : 'Assets/icons/visibility-icon.svg'
                 "
                 alt=""
                 class="password-toggle-icon"

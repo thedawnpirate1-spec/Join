@@ -10,11 +10,11 @@
   @if (newTitle.trim().length > 0) {
     <div class="subtask-icons-wrapper">
       <button type="button" class="subtask-icon-btn" (click)="clearInput()" title="Cancel">
-        <img src="/Assets/icons/close-icon.svg" alt="Cancel" />
+        <img src="Assets/icons/close-icon.svg" alt="Cancel" />
       </button>
       <div class="icon-divider"></div>
       <button type="button" class="subtask-icon-btn" (click)="addSubtask()" title="Confirm">
-        <img src="/Assets/icons/check-icon.svg" alt="Confirm" />
+        <img src="Assets/icons/check-icon.svg" alt="Confirm" />
       </button>
     </div>
   }
@@ -41,11 +41,11 @@
               (click)="removeSubtask(sub.id)"
               title="Delete"
             >
-              <img src="/Assets/icons/delete-icon.svg" alt="Delete" />
+              <img src="Assets/icons/delete-icon.svg" alt="Delete" />
             </button>
             <div class="icon-divider"></div>
             <button type="button" class="subtask-icon-btn" (click)="saveEdit(sub.id)" title="Save">
-              <img src="/Assets/icons/check-icon.svg" alt="Save" />
+              <img src="Assets/icons/check-icon.svg" alt="Save" />
             </button>
           </div>
         </div>
@@ -60,7 +60,7 @@
               (click)="startEdit(sub, $event)"
               title="Edit"
             >
-              <img src="/Assets/icons/pen-icon.svg" alt="Edit" />
+              <img src="Assets/icons/pen-icon.svg" alt="Edit" />
             </button>
             <div class="action-divider"></div>
             <button
@@ -69,7 +69,7 @@
               (click)="removeSubtask(sub.id)"
               title="Delete"
             >
-              <img src="/Assets/icons/delete-icon.svg" alt="Delete" />
+              <img src="Assets/icons/delete-icon.svg" alt="Delete" />
             </button>
           </div>
         </div>
