@@ -1,163 +1,163 @@
 <div class="dialog-backdrop" (click)="onClose()"></div>
 <div class="dialog-window" (click)="$event.stopPropagation()">
   <div class="dialog-scroll">
-  @if (task && !isEditMode) {
-    <div class="dialog-head">
-      <span
-        class="category-pill"
-        [class.user-story]="task.category === 'user_story'"
-        [class.technical-task]="task.category === 'technical_task'"
-      >
-        {{ categoryLabel }}
-      </span>
-      <button class="close-btn" (click)="onClose()" title="Close">
-        <img src="/Assets/icons/close-icon.svg" alt="Close" />
-      </button>
-    </div>
-
-    <h2 class="task-title">{{ task.title }}</h2>
-
-    @if (task.description) {
-      <p class="task-description">{{ task.description }}</p>
-    }
-
-    <div class="detail-row">
-      <span class="detail-label">Due date:</span>
-      <span class="detail-value">{{ formattedDueDate }}</span>
-    </div>
-
-    <div class="detail-row">
-      <span class="detail-label">Priority:</span>
-      <span class="detail-value priority-value">
-        {{ priorityLabel }}
-        <img [src]="priorityIcon" alt="" class="priority-icon" />
-      </span>
-    </div>
-
-    @if (assignedContacts.length) {
-      <div class="detail-section">
-        <span class="detail-label">Assigned To:</span>
-        <div class="assigned-list">
-          @for (contact of assignedContacts; track contact.id) {
-            <div class="assigned-row">
-              <app-avatar class="avatar" [contact]="contact"></app-avatar>
-              <span class="assigned-name">{{ contact.first_name }} {{ contact.last_name }}</span>
-            </div>
-          }
-        </div>
-      </div>
-    }
-
-    @if (subtasks.length) {
-      <div class="detail-section">
-        <span class="detail-label">Subtasks</span>
-        <div class="subtask-list">
-          @for (subtask of subtasks; track subtask.id) {
-            <button type="button" class="subtask-row" (click)="toggleSubtask(subtask)">
-              <img
-                [src]="
-                  subtask.done
-                    ? '/Assets/icons/checkbox-checked.svg'
-                    : '/Assets/icons/checkbox-default.svg'
-                "
-                alt=""
-                class="subtask-checkbox"
-              />
-              <span>{{ subtask.title }}</span>
-            </button>
-          }
-        </div>
-      </div>
-    }
-
-    <div class="dialog-footer">
-      <button type="button" class="footer-btn" (click)="deleteTask()">
-        <img src="/Assets/icons/delete-icon.svg" alt="" class="footer-icon" />
-        Delete
-      </button>
-      <div class="footer-divider"></div>
-      <button type="button" class="footer-btn" (click)="startEdit()">
-        <img src="/Assets/icons/pen-icon.svg" alt="" class="footer-icon" />
-        Edit
-      </button>
-    </div>
-  }
-
-  @if (task && isEditMode) {
-    <form class="edit-form" (ngSubmit)="saveTask()" novalidate>
-      <div class="edit-header">
+    @if (task && !isEditMode) {
+      <div class="dialog-head">
+        <span
+          class="category-pill"
+          [class.user-story]="task.category === 'user_story'"
+          [class.technical-task]="task.category === 'technical_task'"
+        >
+          {{ categoryLabel }}
+        </span>
         <button class="close-btn" (click)="onClose()" title="Close">
-          <img src="/Assets/icons/close-icon.svg" alt="Close" />
+          <img src="Assets/icons/close-icon.svg" alt="Close" />
         </button>
       </div>
 
-      <label class="form-field">
-        <span class="form-label">Title</span>
-        <input
-          type="text"
-          class="form-input"
-          name="title"
-          [(ngModel)]="editTitle"
-          placeholder="Enter a title"
-          required
-        />
-      </label>
+      <h2 class="task-title">{{ task.title }}</h2>
 
-      <label class="form-field">
-        <span class="form-label">Description</span>
-        <textarea
-          class="form-input form-textarea"
-          name="description"
-          [(ngModel)]="editDescription"
-          placeholder="Enter a description"
-          rows="4"
-        ></textarea>
-      </label>
+      @if (task.description) {
+        <p class="task-description">{{ task.description }}</p>
+      }
 
-      <label class="form-field">
-        <span class="form-label">Due date</span>
-        <input
-          type="date"
-          class="form-input"
-          name="dueDate"
-          [min]="todayIso"
-          [(ngModel)]="editDueDate"
-        />
-      </label>
-
-      <div class="form-field">
-        <span class="form-label">Priority</span>
-        <app-priority-selector [(priority)]="editPriority"></app-priority-selector>
+      <div class="detail-row">
+        <span class="detail-label">Due date:</span>
+        <span class="detail-value">{{ formattedDueDate }}</span>
       </div>
 
-      <div class="form-field">
-        <span class="form-label">Assigned to</span>
-        <app-contact-assign-dropdown
-          [contacts]="allContacts"
-          [selectedIds]="editContactIds"
-          [isOpen]="isAssignedDropdownOpen"
-          (isOpenChange)="isAssignedDropdownOpen = $event"
-          (selectedIdsChange)="editContactIds = $event"
-        ></app-contact-assign-dropdown>
+      <div class="detail-row">
+        <span class="detail-label">Priority:</span>
+        <span class="detail-value priority-value">
+          {{ priorityLabel }}
+          <img [src]="priorityIcon" alt="" class="priority-icon" />
+        </span>
       </div>
 
-      <div class="form-field">
-        <span class="form-label">Subtasks</span>
-        <app-subtask-list
-          [subtasks]="subtaskItems"
-          (add)="onAddSubtask($event)"
-          (update)="onUpdateSubtask($event)"
-          (remove)="onRemoveSubtask($event)"
-        ></app-subtask-list>
-      </div>
+      @if (assignedContacts.length) {
+        <div class="detail-section">
+          <span class="detail-label">Assigned To:</span>
+          <div class="assigned-list">
+            @for (contact of assignedContacts; track contact.id) {
+              <div class="assigned-row">
+                <app-avatar class="avatar" [contact]="contact"></app-avatar>
+                <span class="assigned-name">{{ contact.first_name }} {{ contact.last_name }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
 
-      <div class="edit-footer">
-        <button type="submit" class="ok-btn">
-          Ok
-          <img src="/Assets/icons/check-icon.svg" alt="" class="ok-icon" />
+      @if (subtasks.length) {
+        <div class="detail-section">
+          <span class="detail-label">Subtasks</span>
+          <div class="subtask-list">
+            @for (subtask of subtasks; track subtask.id) {
+              <button type="button" class="subtask-row" (click)="toggleSubtask(subtask)">
+                <img
+                  [src]="
+                    subtask.done
+                      ? 'Assets/icons/checkbox-checked.svg'
+                      : 'Assets/icons/checkbox-default.svg'
+                  "
+                  alt=""
+                  class="subtask-checkbox"
+                />
+                <span>{{ subtask.title }}</span>
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="dialog-footer">
+        <button type="button" class="footer-btn" (click)="deleteTask()">
+          <img src="Assets/icons/delete-icon.svg" alt="" class="footer-icon" />
+          Delete
+        </button>
+        <div class="footer-divider"></div>
+        <button type="button" class="footer-btn" (click)="startEdit()">
+          <img src="Assets/icons/pen-icon.svg" alt="" class="footer-icon" />
+          Edit
         </button>
       </div>
-    </form>
-  }
+    }
+
+    @if (task && isEditMode) {
+      <form class="edit-form" (ngSubmit)="saveTask()" novalidate>
+        <div class="edit-header">
+          <button class="close-btn" (click)="onClose()" title="Close">
+            <img src="Assets/icons/close-icon.svg" alt="Close" />
+          </button>
+        </div>
+
+        <label class="form-field">
+          <span class="form-label">Title</span>
+          <input
+            type="text"
+            class="form-input"
+            name="title"
+            [(ngModel)]="editTitle"
+            placeholder="Enter a title"
+            required
+          />
+        </label>
+
+        <label class="form-field">
+          <span class="form-label">Description</span>
+          <textarea
+            class="form-input form-textarea"
+            name="description"
+            [(ngModel)]="editDescription"
+            placeholder="Enter a description"
+            rows="4"
+          ></textarea>
+        </label>
+
+        <label class="form-field">
+          <span class="form-label">Due date</span>
+          <input
+            type="date"
+            class="form-input"
+            name="dueDate"
+            [min]="todayIso"
+            [(ngModel)]="editDueDate"
+          />
+        </label>
+
+        <div class="form-field">
+          <span class="form-label">Priority</span>
+          <app-priority-selector [(priority)]="editPriority"></app-priority-selector>
+        </div>
+
+        <div class="form-field">
+          <span class="form-label">Assigned to</span>
+          <app-contact-assign-dropdown
+            [contacts]="allContacts"
+            [selectedIds]="editContactIds"
+            [isOpen]="isAssignedDropdownOpen"
+            (isOpenChange)="isAssignedDropdownOpen = $event"
+            (selectedIdsChange)="editContactIds = $event"
+          ></app-contact-assign-dropdown>
+        </div>
+
+        <div class="form-field">
+          <span class="form-label">Subtasks</span>
+          <app-subtask-list
+            [subtasks]="subtaskItems"
+            (add)="onAddSubtask($event)"
+            (update)="onUpdateSubtask($event)"
+            (remove)="onRemoveSubtask($event)"
+          ></app-subtask-list>
+        </div>
+
+        <div class="edit-footer">
+          <button type="submit" class="ok-btn">
+            Ok
+            <img src="Assets/icons/check-icon.svg" alt="" class="ok-icon" />
+          </button>
+        </div>
+      </form>
+    }
   </div>
 </div>

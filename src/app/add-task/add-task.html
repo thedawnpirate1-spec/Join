@@ -4,7 +4,7 @@
 <div class="add-task-container" [class.dialog-mode]="isDialog">
   @if (isDialog) {
     <button type="button" class="modal-close-btn" (click)="close.emit()" title="Close">
-      <img src="/Assets/icons/close-icon.svg" alt="Close" />
+      <img src="Assets/icons/close-icon.svg" alt="Close" />
     </button>
   }
   <h1 class="page-title">Add Task</h1>
@@ -13,7 +13,9 @@
     <div class="form-content">
       <div class="form-column left-column">
         <div class="form-group">
-          <label for="task-title" class="form-label">Title<span class="required-asterisk">*</span></label>
+          <label for="task-title" class="form-label"
+            >Title<span class="required-asterisk">*</span></label
+          >
           <input
             type="text"
             id="task-title"
@@ -44,7 +46,9 @@
         </div>
 
         <div class="form-group">
-          <label for="task-due-date" class="form-label">Due date<span class="required-asterisk">*</span></label>
+          <label for="task-due-date" class="form-label"
+            >Due date<span class="required-asterisk">*</span></label
+          >
           <div class="date-input-wrapper">
             <input
               type="date"
@@ -85,7 +89,10 @@
           ></app-contact-assign-dropdown>
         </div>
 
-        <div class="form-group custom-dropdown-category" (appClickOutside)="isCategoryDropdownOpen = false">
+        <div
+          class="form-group custom-dropdown-category"
+          (appClickOutside)="isCategoryDropdownOpen = false"
+        >
           <label class="form-label">Category<span class="required-asterisk">*</span></label>
           <div class="dropdown-wrapper">
             <div
@@ -95,16 +102,20 @@
               [class.input-error]="isFieldInvalid('category')"
             >
               <span class="selected-category-text">
-                {{ category === 'user_story' ? 'User Story' : category === 'technical_task' ? 'Technical Task' : 'Select task category' }}
+                {{
+                  category === 'user_story'
+                    ? 'User Story'
+                    : category === 'technical_task'
+                      ? 'Technical Task'
+                      : 'Select task category'
+                }}
               </span>
               <span class="dropdown-arrow"></span>
             </div>
 
             @if (isCategoryDropdownOpen) {
               <div class="dropdown-menu">
-                <div class="dropdown-item" (click)="selectCategory('user_story')">
-                  User Story
-                </div>
+                <div class="dropdown-item" (click)="selectCategory('user_story')">User Story</div>
                 <div class="dropdown-item" (click)="selectCategory('technical_task')">
                   Technical Task
                 </div>
@@ -140,11 +151,11 @@
       <div class="action-buttons">
         <button type="button" class="btn btn-secondary clear-btn" (click)="clearForm()">
           Clear
-          <img src="/Assets/icons/close-icon.svg" alt="Clear" class="btn-icon" />
+          <img src="Assets/icons/close-icon.svg" alt="Clear" class="btn-icon" />
         </button>
         <button type="submit" class="btn btn-primary create-btn" [disabled]="!isFormValid()">
           Create Task
-          <img src="/Assets/icons/check-icon.svg" alt="Create" class="btn-icon check-white" />
+          <img src="Assets/icons/check-icon.svg" alt="Create" class="btn-icon check-white" />
         </button>
       </div>
     </div>
@@ -153,7 +164,7 @@
   <div class="success-toast-overlay" [class.show]="showSuccessToast">
     <div class="success-toast">
       <span>Task added to board</span>
-      <img src="/Assets/icons/board-icon.svg" alt="Board" class="toast-icon" />
+      <img src="Assets/icons/board-icon.svg" alt="Board" class="toast-icon" />
     </div>
   </div>
 </div>
