@@ -3,13 +3,16 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../core/services/auth-service';
 
+/**
+ * Component handling user authentication login and guest access.
+ */
 @Component({
   selector: 'app-login',
   imports: [FormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
-export class Login {
+export class Login implements OnDestroy {
   private authService = inject(AuthService);
   private router = inject(Router);
 
@@ -34,16 +37,25 @@ export class Login {
     }
   }
 
+  /**
+   * Cleans up intro animation timeouts when destroying the component.
+   */
   ngOnDestroy(): void {
     if (this.introTimeoutId) {
       clearTimeout(this.introTimeoutId);
     }
   }
 
+  /**
+   * Toggles the visibility state of the password input field.
+   */
   togglePasswordVisibility(): void {
     this.showPassword.update((value) => !value);
   }
 
+  /**
+   * Submits user credentials to perform authentication and navigate to the summary page.
+   */
   async onLogin(): Promise<void> {
     this.errorMessage.set('');
     this.loginFailed.set(false);
@@ -70,6 +82,9 @@ export class Login {
     }
   }
 
+  /**
+   * Performs authentication using predefined guest credentials.
+   */
   async onGuestLogin(): Promise<void> {
     this.errorMessage.set('');
     this.loginFailed.set(false);
@@ -93,11 +108,17 @@ export class Login {
     }
   }
 
+  /**
+   * Clears any active error state for login form inputs.
+   */
   clearLoginError(): void {
     this.errorMessage.set('');
     this.loginFailed.set(false);
   }
 
+  /**
+   * Navigates the user to the signup route.
+   */
   goToSignup(): void {
     this.router.navigateByUrl('/signup');
   }

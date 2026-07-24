@@ -3,6 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../core/services/auth-service';
 
+/**
+ * Component handling user registration, input validation, and privacy policy acceptance.
+ */
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -33,6 +36,9 @@ export class Signup {
   showPassword = signal(false);
   showConfirmPassword = signal(false);
 
+  /**
+   * Validates the email input field and sets the email error signal accordingly.
+   */
   validateEmailField(): void {
     const trimmedEmail = this.email.trim();
 
@@ -49,6 +55,9 @@ export class Signup {
     this.emailError.set('');
   }
 
+  /**
+   * Re-evaluates email field validity on email input change if an error was previously set.
+   */
   onEmailChange(): void {
     if (!this.emailError()) {
       return;
@@ -57,18 +66,30 @@ export class Signup {
     this.validateEmailField();
   }
 
+  /**
+   * Toggles visibility of the primary password input field.
+   */
   togglePasswordVisibility(): void {
     this.showPassword.update((value) => !value);
   }
 
+  /**
+   * Toggles visibility of the confirm password input field.
+   */
   toggleConfirmPasswordVisibility(): void {
     this.showConfirmPassword.update((value) => !value);
   }
 
+  /**
+   * Navigates the user back to the login view.
+   */
   goBackToLogin(): void {
     this.router.navigateByUrl('/login');
   }
 
+  /**
+   * Submits the signup form to register a new user account upon successful validation.
+   */
   async onSignup(): Promise<void> {
     this.clearErrors();
 
