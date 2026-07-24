@@ -4,6 +4,9 @@ import { TaskService } from './task.service';
 import { ContactService } from './contact.service';
 import { NewContact } from '../models/contact.model';
 
+/**
+ * Service managing user authentication, active session state, and user profile data.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -12,9 +15,13 @@ export class AuthService {
   private taskService = inject(TaskService);
   private contactService = inject(ContactService);
 
+  /** Signal indicating whether a user is currently authenticated. */
   isLoggedIn = signal(false);
+
+  /** Signal holding the current user's display name. */
   userName = signal<string>('Guest User');
 
+  /** Computed signal returning up to two initials derived from the user's display name. */
   userInitials = computed(() => {
     const name = this.userName();
 
@@ -48,6 +55,9 @@ export class AuthService {
     });
   }
 
+  /**
+   * Checks for an active authentication session from Supabase and updates application state.
+   */
   async checkSession(): Promise<void> {
     const { data, error } = await this.supabase.client.auth.getSession();
 
@@ -60,6 +70,12 @@ export class AuthService {
     this.setUserData(data.session?.user ?? null);
   }
 
+  /**
+   * Authenticates a user with email and password credentials.
+   *
+   * @param email User email address.
+   * @param password User password.
+   */
   async login(email: string, password: string): Promise<void> {
     const { data, error } = await this.supabase.client.auth.signInWithPassword({
       email,
@@ -71,6 +87,9 @@ export class AuthService {
     this.setUserData(data.user);
   }
 
+  /**
+   * Signs out the currently authenticated user and clears local service caches.
+   */
   async logout(): Promise<void> {
     const { error } = await this.supabase.client.auth.signOut();
 
@@ -80,11 +99,19 @@ export class AuthService {
     this.clearCaches();
   }
 
+  /**
+   * Clears cached data in dependent services.
+   */
   clearCaches(): void {
     this.taskService.clearCache();
     this.contactService.clearCache();
   }
 
+  /**
+   * Fetches the current authenticated Supabase user object.
+   *
+   * @returns User object or null if unauthenticated.
+   */
   async getCurrentUser() {
     const {
       data: { user },
@@ -96,12 +123,24 @@ export class AuthService {
     return user;
   }
 
+  /**
+   * Resolves the display name of the current authenticated user.
+   *
+   * @returns Resolved display name string.
+   */
   async getUserName(): Promise<string> {
     const user = await this.getCurrentUser();
 
     return this.resolveUserName(user);
   }
 
+  /**
+   * Registers a new user account with email, password, and name, and adds them to contacts.
+   *
+   * @param email User email.
+   * @param password User password.
+   * @param name Full name of the new user.
+   */
   async signUp(email: string, password: string, name: string): Promise<void> {
     const { error } = await this.supabase.client.auth.signUp({
       email,
@@ -120,6 +159,13 @@ export class AuthService {
     await this.contactService.addContact(contact);
   }
 
+  /**
+   * Creates a NewContact object from a user's signup name and email.
+   *
+   * @param name Full name.
+   * @param email Email address.
+   * @returns Structured NewContact payload.
+   */
   private createContactFromSignup(name: string, email: string): NewContact {
     const nameParts = name.trim().split(' ').filter(Boolean);
 
@@ -134,11 +180,22 @@ export class AuthService {
     };
   }
 
+  /**
+   * Updates internal signals for login state and user name based on the user session.
+   *
+   * @param user Supabase user object or null.
+   */
   private setUserData(user: any): void {
     this.isLoggedIn.set(!!user);
     this.userName.set(this.resolveUserName(user));
   }
 
+  /**
+   * Resolves a user's display name from metadata, email, or guest fallbacks.
+   *
+   * @param user Supabase user object or null.
+   * @returns Formatted name string.
+   */
   private resolveUserName(user: any): string {
     if (!user) return 'Guest User';
 

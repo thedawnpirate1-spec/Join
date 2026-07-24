@@ -4,6 +4,10 @@ import { TaskService } from '../core/services/task.service';
 import { AuthService } from '../core/services/auth-service';
 import { Task } from '../core/models/task.model';
 
+/**
+ * Component representing the Summary overview dashboard.
+ * Displays counts of tasks by status, upcoming deadlines, and user greetings.
+ */
 @Component({
   selector: 'app-summary',
   imports: [RouterLink],
@@ -27,6 +31,9 @@ export class Summary implements OnInit {
   showMobileGreetingOverlay = false;
   isFadingOut = false;
 
+  /**
+   * Generates a time-based greeting string (Good morning, Good afternoon, or Good evening).
+   */
   get greetingText(): string {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
@@ -34,11 +41,17 @@ export class Summary implements OnInit {
     return 'Good evening';
   }
 
+  /**
+   * Determines if the currently logged in user is a guest user.
+   */
   get isGuest(): boolean {
     return !this.userName || this.userName === 'Guest User' || this.userName === 'Guest' || this.userName === 'User';
   }
 
-  async ngOnInit() {
+  /**
+   * Initializes component data by fetching summary metrics and user information concurrently.
+   */
+  async ngOnInit(): void {
     await Promise.all([
       this.loadMetrics(),
       this.loadUser()
@@ -47,7 +60,10 @@ export class Summary implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  private checkMobileGreetingOverlay() {
+  /**
+   * Displays and automatically dismisses the mobile greeting overlay after a fresh login.
+   */
+  private checkMobileGreetingOverlay(): void {
     const isJustLoggedIn = sessionStorage.getItem('justLoggedIn') === 'true';
     if (isJustLoggedIn && window.innerWidth <= 1024) {
       sessionStorage.removeItem('justLoggedIn');
@@ -68,7 +84,10 @@ export class Summary implements OnInit {
     }
   }
 
-  async loadMetrics() {
+  /**
+   * Loads task metrics from the TaskService and updates the local state.
+   */
+  async loadMetrics(): Promise<void> {
     try {
       const tasks = await this.taskService.getTasks((freshTasks) => {
         this.processTasks(freshTasks);
@@ -80,7 +99,12 @@ export class Summary implements OnInit {
     }
   }
 
-  private processTasks(tasks: Task[]) {
+  /**
+   * Aggregates task metrics by status and identifies the earliest upcoming deadline.
+   *
+   * @param tasks List of task items to process.
+   */
+  private processTasks(tasks: Task[]): void {
     this.boardCount = tasks.length;
     this.todoCount = tasks.filter((t) => t.status === 'todo').length;
     this.doneCount = tasks.filter((t) => t.status === 'done').length;
@@ -90,10 +114,8 @@ export class Summary implements OnInit {
     const urgentTasks = tasks.filter((t) => t.priority === 'urgent');
     this.urgentCount = urgentTasks.length;
 
-    // Find the earliest upcoming deadline
     const tasksWithDueDate = tasks.filter((t) => t.due_date);
     if (tasksWithDueDate.length > 0) {
-      // Prioritize urgent tasks with deadlines, fallback to any task with deadline
       const urgentWithDueDate = urgentTasks.filter((t) => t.due_date);
       const sourceTasks = urgentWithDueDate.length > 0 ? urgentWithDueDate : tasksWithDueDate;
 
@@ -109,7 +131,10 @@ export class Summary implements OnInit {
     }
   }
 
-  async loadUser() {
+  /**
+   * Loads the current user's name from AuthService.
+   */
+  async loadUser(): Promise<void> {
     try {
       const name = await this.authService.getUserName();
       this.userName = name && name.trim() ? name : 'Guest';
@@ -119,6 +144,12 @@ export class Summary implements OnInit {
     }
   }
 
+  /**
+   * Formats an ISO date string into a human-readable date representation.
+   *
+   * @param dateStr ISO date string or null.
+   * @returns Formatted date string (e.g. "July 24, 2026").
+   */
   private formatDate(dateStr: string | null): string {
     if (!dateStr) return 'No upcoming deadline';
     const date = new Date(dateStr);
