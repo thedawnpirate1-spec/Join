@@ -45,17 +45,19 @@ export class Summary implements OnInit {
    * Determines if the currently logged in user is a guest user.
    */
   get isGuest(): boolean {
-    return !this.userName || this.userName === 'Guest User' || this.userName === 'Guest' || this.userName === 'User';
+    return (
+      !this.userName ||
+      this.userName === 'Guest User' ||
+      this.userName === 'Guest' ||
+      this.userName === 'User'
+    );
   }
 
   /**
    * Initializes component data by fetching summary metrics and user information concurrently.
    */
-  async ngOnInit(): void {
-    await Promise.all([
-      this.loadMetrics(),
-      this.loadUser()
-    ]);
+  async ngOnInit(): Promise<void> {
+    await Promise.all([this.loadMetrics(), this.loadUser()]);
     this.checkMobileGreetingOverlay();
     this.changeDetectorRef.detectChanges();
   }
