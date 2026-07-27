@@ -3,23 +3,25 @@
   <h1 class="header-title">Kanban Project Management Tool</h1>
 </div>
 <div class="header-right">
-  @if (showHelpButton()) {
-    <a routerLink="/help" class="help-link" title="Help">
-      <img src="Assets/icons/help-default-icon.svg" alt="Help" class="help-default" />
-      <img src="Assets/icons/help-hover-icon.svg" alt="Help" class="help-hover" />
-    </a>
-  }
+  @if (authService.isLoggedIn()) {
+    @if (showHelpButton()) {
+      <a routerLink="/help" class="help-link" title="Help">
+        <img src="Assets/icons/help-default-icon.svg" alt="Help" class="help-default" />
+        <img src="Assets/icons/help-hover-icon.svg" alt="Help" class="help-hover" />
+      </a>
+    }
 
-  <div class="profile-container">
-    <button class="profile-btn" (click)="toggleMenu($event)" title="User Profile">
-      {{ authService.userInitials() }}
-    </button>
+    <div class="profile-container">
+      <button class="profile-btn" (click)="toggleMenu($event)" title="User Profile">
+        {{ authService.userInitials() }}
+      </button>
 
-    <div class="dropdown-menu" [class.show]="isMenuOpen">
-      <a routerLink="/help" class="dropdown-item help-dropdown-item" (click)="closeMenu()">Help</a>
-      <a routerLink="/legal-notice" class="dropdown-item" (click)="closeMenu()">Legal Notice</a>
-      <a routerLink="/privacy-policy" class="dropdown-item" (click)="closeMenu()">Privacy Policy</a>
-      <button type="button" class="dropdown-item logout-btn" (click)="logout()">Log out</button>
+      <div class="dropdown-menu" [class.show]="isMenuOpen">
+        <a routerLink="/help" class="dropdown-item help-dropdown-item" (click)="closeMenu()">Help</a>
+        <a routerLink="/legal-notice" class="dropdown-item" (click)="closeMenu()">Legal Notice</a>
+        <a routerLink="/privacy-policy" class="dropdown-item" (click)="closeMenu()">Privacy Policy</a>
+        <button type="button" class="dropdown-item logout-btn" (click)="logout()">Log out</button>
+      </div>
     </div>
-  </div>
+  }
 </div>

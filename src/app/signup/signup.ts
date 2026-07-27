@@ -36,9 +36,6 @@ export class Signup {
   showPassword = signal(false);
   showConfirmPassword = signal(false);
 
-  /**
-   * Validates the email input field and sets the email error signal accordingly.
-   */
   validateEmailField(): void {
     const trimmedEmail = this.email.trim();
 
@@ -55,9 +52,32 @@ export class Signup {
     this.emailError.set('');
   }
 
-  /**
-   * Re-evaluates email field validity on email input change if an error was previously set.
-   */
+  validateNameField(): void {
+    if (!this.name.trim()) {
+      this.nameError.set('This field is required');
+    } else {
+      this.nameError.set('');
+    }
+  }
+
+  validatePasswordField(): void {
+    if (!this.password.trim()) {
+      this.passwordError.set('This field is required');
+    } else {
+      this.passwordError.set('');
+    }
+  }
+
+  validateConfirmPasswordField(): void {
+    if (!this.confirmPassword.trim()) {
+      this.confirmPasswordError.set('This field is required');
+    } else if (this.password !== this.confirmPassword) {
+      this.confirmPasswordError.set("Your passwords don't match. Please try again.");
+    } else {
+      this.confirmPasswordError.set('');
+    }
+  }
+
   onEmailChange(): void {
     if (!this.emailError()) {
       return;
@@ -107,8 +127,12 @@ export class Signup {
       setTimeout(() => {
         this.router.navigateByUrl('/login');
       }, 1200);
-    } catch (error) {
-      this.emailError.set('Signup failed. Please try again.');
+    } catch (error: any) {
+      if (error?.status === 429) {
+        this.emailError.set('Too many requests. Please try again later.');
+      } else {
+        this.emailError.set('Signup failed. Please try again.');
+      }
     } finally {
       this.isLoading.set(false);
     }

@@ -19,7 +19,8 @@ export class Login implements OnDestroy {
   email = '';
   password = '';
   showPassword = signal(false);
-  errorMessage = signal('');
+  emailError = signal('');
+  passwordError = signal('');
   loginFailed = signal(false);
   isLoading = signal(false);
   playIntroAnimation = false;
@@ -56,13 +57,32 @@ export class Login implements OnDestroy {
   /**
    * Submits user credentials to perform authentication and navigate to the summary page.
    */
+  validateEmail(): void {
+    if (!this.email.trim()) {
+      this.emailError.set('This field is required');
+    } else {
+      this.emailError.set('');
+    }
+  }
+
+  validatePassword(): void {
+    if (!this.password.trim()) {
+      this.passwordError.set('This field is required');
+    } else {
+      this.passwordError.set('');
+    }
+  }
+
   async onLogin(): Promise<void> {
-    this.errorMessage.set('');
+    this.emailError.set('');
+    this.passwordError.set('');
     this.loginFailed.set(false);
 
-    if (!this.email.trim() || !this.password.trim()) {
+    this.validateEmail();
+    this.validatePassword();
+
+    if (this.emailError() || this.passwordError()) {
       this.loginFailed.set(true);
-      this.errorMessage.set('Please enter email and password.');
       return;
     }
 
@@ -74,9 +94,13 @@ export class Login implements OnDestroy {
       sessionStorage.setItem('justLoggedIn', 'true');
 
       await this.router.navigateByUrl('/summary');
-    } catch (error) {
+    } catch (error: any) {
       this.loginFailed.set(true);
-      this.errorMessage.set('Check your email and password. Please try again.');
+      if (error?.status === 429) {
+        this.passwordError.set('Too many requests. Please try again later.');
+      } else {
+        this.passwordError.set('Check your email and password. Please try again.');
+      }
     } finally {
       this.isLoading.set(false);
     }
@@ -86,7 +110,8 @@ export class Login implements OnDestroy {
    * Performs authentication using predefined guest credentials.
    */
   async onGuestLogin(): Promise<void> {
-    this.errorMessage.set('');
+    this.emailError.set('');
+    this.passwordError.set('');
     this.loginFailed.set(false);
 
     this.email = 'guest@guest.com';
@@ -100,9 +125,13 @@ export class Login implements OnDestroy {
       sessionStorage.setItem('justLoggedIn', 'true');
 
       await this.router.navigateByUrl('/summary');
-    } catch (error) {
+    } catch (error: any) {
       this.loginFailed.set(true);
-      this.errorMessage.set('Guest login failed. Please try again.');
+      if (error?.status === 429) {
+        this.passwordError.set('Too many requests. Please try again later.');
+      } else {
+        this.passwordError.set('Guest login failed. Please try again.');
+      }
     } finally {
       this.isLoading.set(false);
     }
@@ -112,7 +141,8 @@ export class Login implements OnDestroy {
    * Clears any active error state for login form inputs.
    */
   clearLoginError(): void {
-    this.errorMessage.set('');
+    this.emailError.set('');
+    this.passwordError.set('');
     this.loginFailed.set(false);
   }
 

@@ -71,6 +71,7 @@
             [(ngModel)]="name"
             class="signup-input"
             [class.input-error]="nameError()"
+            (blur)="validateNameField()"
             (ngModelChange)="clearNameError()"
             required
           />
@@ -114,6 +115,7 @@
             [(ngModel)]="password"
             class="signup-input"
             [class.input-error]="passwordError()"
+            (blur)="validatePasswordField()"
             (ngModelChange)="clearPasswordError()"
             required
           />
@@ -130,8 +132,8 @@
               <img
                 [src]="
                   showPassword()
-                    ? 'Assets/icons/visibility-off-icon.svg'
-                    : 'Assets/icons/visibility-icon.svg'
+                    ? 'Assets/icons/visibility-icon.svg'
+                    : 'Assets/icons/visibility-off-icon.svg'
                 "
                 alt=""
                 class="password-toggle-icon"
@@ -154,6 +156,7 @@
             [(ngModel)]="confirmPassword"
             class="signup-input"
             [class.input-error]="confirmPasswordError()"
+            (blur)="validateConfirmPasswordField()"
             (ngModelChange)="clearConfirmPasswordError()"
             required
           />
@@ -170,8 +173,8 @@
               <img
                 [src]="
                   showConfirmPassword()
-                    ? 'Assets/icons/visibility-off-icon.svg'
-                    : 'Assets/icons/visibility-icon.svg'
+                    ? 'Assets/icons/visibility-icon.svg'
+                    : 'Assets/icons/visibility-off-icon.svg'
                 "
                 alt=""
                 class="password-toggle-icon"
@@ -192,7 +195,15 @@
             name="acceptedPrivacy"
             [(ngModel)]="acceptedPrivacy"
             (ngModelChange)="clearPrivacyError()"
+            class="hidden-checkbox"
+            id="privacy-checkbox"
           />
+          <label for="privacy-checkbox" class="custom-checkbox">
+            <img
+              [src]="acceptedPrivacy ? 'Assets/icons/checkbox-checked.svg' : 'Assets/icons/checkbox-default.svg'"
+              alt="Checkbox"
+            />
+          </label>
 
           <span>
             I accept the

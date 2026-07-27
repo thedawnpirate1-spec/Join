@@ -113,7 +113,9 @@ export class Summary implements OnInit {
     this.progressCount = tasks.filter((t) => t.status === 'in_progress').length;
     this.feedbackCount = tasks.filter((t) => t.status === 'await_feedback').length;
 
-    const urgentTasks = tasks.filter((t) => t.priority === 'urgent');
+    const openTasks = tasks.filter((t) => t.status !== 'done');
+
+    const urgentTasks = openTasks.filter((t) => t.priority === 'urgent');
     this.urgentCount = urgentTasks.length;
 
     const tasksWithDueDate = openTasks.filter((t) => t.due_date);
@@ -121,7 +123,7 @@ export class Summary implements OnInit {
       const urgentWithDueDate = urgentTasks.filter((t) => t.due_date);
       const sourceTasks = urgentWithDueDate.length > 0 ? urgentWithDueDate : tasksWithDueDate;
 
-      sourceTasks.sort((a, b) => {
+      sourceTasks.sort((a: Task, b: Task) => {
         const da = new Date(a.due_date!).getTime();
         const db = new Date(b.due_date!).getTime();
         return da - db;

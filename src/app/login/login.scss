@@ -1,15 +1,18 @@
 @use '../../styles/variables' as *;
 
 :host {
-  display: block;
+  display: flex;
+  justify-content: center;
   width: 100%;
   min-height: 100dvh;
+  background-color: var(--color-background);
 }
 
 .login-page {
   position: relative;
+  width: 100%;
+  max-width: 1440px;
   min-height: 100dvh;
-  background-color: var(--color-background);
   overflow: hidden;
 }
 
@@ -123,12 +126,17 @@
   align-items: center;
 }
 
+.field-wrapper {
+  width: 422px;
+  min-height: 68px; /* 48px input + 20px error message space */
+  margin-bottom: 8px;
+  position: relative;
+}
+
 .input-group {
   position: relative;
-
-  width: 422px;
+  width: 100%;
   height: 48px;
-  margin-bottom: 24px;
 }
 
 .login-input {
@@ -203,8 +211,11 @@
 }
 
 .error-message {
-  width: 422px;
-  margin: -12px 0 16px;
+  position: absolute;
+  top: 52px; /* Just below the input */
+  left: 0;
+  width: 100%;
+  margin: 0;
 
   font-family: var(--error-font-family);
   font-size: var(--error-font-size);
@@ -401,6 +412,7 @@
     width: 100%;
   }
 
+  .field-wrapper,
   .input-group,
   .error-message {
     width: 100%;
@@ -409,7 +421,6 @@
 
   .input-group {
     height: 48px;
-    margin-bottom: 24px;
   }
 
   .login-input {
