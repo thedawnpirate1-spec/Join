@@ -80,7 +80,10 @@
         </div>
         <div class="urgent-divider"></div>
         <div class="urgent-right">
-          <span class="deadline-date">{{ upcomingDeadline }}</span>
+          @if (urgentCount > 0) {
+            <span class="deadline-date">{{ upcomingDeadline }}</span>
+          }
+
           <span class="deadline-label">Upcoming Deadline</span>
         </div>
       </div>

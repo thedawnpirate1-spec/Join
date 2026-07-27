@@ -113,7 +113,7 @@ export class Summary implements OnInit {
     this.progressCount = tasks.filter((t) => t.status === 'in_progress').length;
     this.feedbackCount = tasks.filter((t) => t.status === 'await_feedback').length;
 
-    const urgentTasks = tasks.filter((t) => t.priority === 'urgent');
+    const urgentTasks = tasks.filter((t) => t.priority === 'urgent' && t.status !== 'done');
     this.urgentCount = urgentTasks.length;
 
     const tasksWithDueDate = tasks.filter((t) => t.due_date);
