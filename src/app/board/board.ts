@@ -7,6 +7,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { TaskService } from '../core/services/task.service';
 import { Task, TaskStatus } from '../core/models/task.model';
 import { Task as TaskCard } from '../task/task';
@@ -21,6 +22,7 @@ import { EditTask } from '../edit-task/edit-task';
 })
 export class Board implements OnInit {
   private taskService = inject(TaskService);
+  private router = inject(Router);
   private changeDetectorRef = inject(ChangeDetectorRef);
 
   searchTerm = '';
@@ -116,9 +118,17 @@ export class Board implements OnInit {
     return tasks.some((task) => this.matchesSearch(task));
   }
 
+  get isMobile(): boolean {
+    return typeof window !== 'undefined' && window.innerWidth <= 812;
+  }
+
   openAddTaskDialog(status: TaskStatus = 'todo') {
-    this.addTaskStatus = status;
-    this.showAddTaskDialog = true;
+    if (this.isMobile) {
+      this.router.navigate(['/add-task'], { queryParams: { status } });
+    } else {
+      this.addTaskStatus = status;
+      this.showAddTaskDialog = true;
+    }
   }
 
   closeAddTaskDialog() {

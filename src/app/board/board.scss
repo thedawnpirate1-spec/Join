@@ -155,7 +155,7 @@
   overflow-x: visible;
 }
 
-@media (max-width: $global-tablet-breakpoint) {
+@media (max-width: 1280px) {
   .board-columns {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -261,17 +261,24 @@
     flex-grow: 0;
     min-height: 0;
     overflow-x: auto;
-    overflow-y: visible;
-    padding: 2px 2px 28px;
+    overflow-y: hidden;
+    padding: 2px 2px 20px;
     scrollbar-gutter: auto;
+    touch-action: pan-x;
 
     &::-webkit-scrollbar {
-      width: auto;
-      height: 18px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f0f4f8;
+      border-radius: 4px;
     }
 
     &::-webkit-scrollbar-thumb {
-      border-width: 4px;
+      background-color: #a8a8a8;
+      border-radius: 4px;
+      border: none;
     }
   }
 

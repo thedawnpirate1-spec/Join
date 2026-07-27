@@ -44,6 +44,7 @@
         #todoList="cdkDropList"
         [cdkDropListData]="todoTasks"
         [cdkDropListConnectedTo]="[todoList, inProgressList, awaitFeedbackList, doneList]"
+        [cdkDropListOrientation]="isMobile ? 'horizontal' : 'vertical'"
         class="task-list"
         (cdkDropListDropped)="onTaskDropped($event, 'todo')"
       >
@@ -77,6 +78,7 @@
         #inProgressList="cdkDropList"
         [cdkDropListData]="inProgressTasks"
         [cdkDropListConnectedTo]="[todoList, inProgressList, awaitFeedbackList, doneList]"
+        [cdkDropListOrientation]="isMobile ? 'horizontal' : 'vertical'"
         class="task-list"
         (cdkDropListDropped)="onTaskDropped($event, 'in_progress')"
       >
@@ -110,6 +112,7 @@
         #awaitFeedbackList="cdkDropList"
         [cdkDropListData]="awaitFeedbackTasks"
         [cdkDropListConnectedTo]="[todoList, inProgressList, awaitFeedbackList, doneList]"
+        [cdkDropListOrientation]="isMobile ? 'horizontal' : 'vertical'"
         class="task-list"
         (cdkDropListDropped)="onTaskDropped($event, 'await_feedback')"
       >
@@ -143,6 +146,7 @@
         #doneList="cdkDropList"
         [cdkDropListData]="doneTasks"
         [cdkDropListConnectedTo]="[todoList, inProgressList, awaitFeedbackList, doneList]"
+        [cdkDropListOrientation]="isMobile ? 'horizontal' : 'vertical'"
         class="task-list"
         (cdkDropListDropped)="onTaskDropped($event, 'done')"
       >

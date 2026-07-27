@@ -183,12 +183,12 @@
 }
 
 .detail-label {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--color-text-secondary);
 }
 
 .detail-value {
-  font-size: 20px;
+  font-size: 16px;
   color: #000000;
 }
 
@@ -299,6 +299,7 @@
   font-size: 16px;
   color: var(--color-primary);
   cursor: pointer;
+  white-space: nowrap;
   padding: 6px 10px;
   border-radius: 8px;
   transition: color 0.15s;
@@ -332,7 +333,7 @@
 }
 
 .form-label {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--color-text-secondary);
 }
 
@@ -343,7 +344,7 @@
   padding: 12px 20px;
   box-sizing: border-box;
   font-family: var(--font-family);
-  font-size: 20px;
+  font-size: 16px;
   color: var(--color-text-primary);
   outline: none;
   transition: border-color 100ms ease-in-out;
@@ -383,10 +384,11 @@
   border: none;
   border-radius: 10px;
   font-family: var(--font-family);
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
   color: #ffffff;
   cursor: pointer;
+  white-space: nowrap;
   transition: background-color 0.15s;
 
   .ok-icon {

@@ -36,6 +36,7 @@
   border: 1px solid #d1d1d1;
   border-radius: 10px;
   cursor: pointer;
+  white-space: nowrap;
   transition: all 0.15s ease-in-out;
   min-width: 0;
 
@@ -67,6 +68,12 @@
     padding: 10px 4px;
     font-size: 13px;
     gap: 4px;
+  }
+
+  @media (max-width: 320px) {
+    padding: 8px 2px;
+    font-size: 11px;
+    gap: 3px;
   }
 
   .prio-icon {

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TaskService } from '../core/services/task.service';
 import { SubtaskService } from '../core/services/subtask.service';
 import { ContactService } from '../core/services/contact.service';
@@ -33,6 +33,7 @@ export class AddTask implements OnInit {
   private subtaskService = inject(SubtaskService);
   private contactService = inject(ContactService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
 
   /** Set when rendered inside a dialog overlay instead of as a routed page. */
@@ -85,6 +86,11 @@ export class AddTask implements OnInit {
   ngOnInit() {
     this.loadContacts();
     this.today = getTodayIsoString();
+
+    const statusParam = this.route.snapshot.queryParams['status'] as TaskStatus;
+    if (statusParam && ['todo', 'in_progress', 'await_feedback', 'done'].includes(statusParam)) {
+      this.initialStatus = statusParam;
+    }
   }
 
   async loadContacts() {
