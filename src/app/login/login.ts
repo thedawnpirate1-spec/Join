@@ -96,7 +96,11 @@ export class Login implements OnDestroy {
       await this.router.navigateByUrl('/summary');
     } catch (error: any) {
       this.loginFailed.set(true);
-      if (error?.status === 429) {
+      const isRateLimit =
+        error?.status === 429 ||
+        error?.message?.toLowerCase().includes('rate limit') ||
+        error?.message?.includes('429');
+      if (isRateLimit) {
         this.passwordError.set('Too many requests. Please try again later.');
       } else {
         this.passwordError.set('Check your email and password. Please try again.');
@@ -127,7 +131,11 @@ export class Login implements OnDestroy {
       await this.router.navigateByUrl('/summary');
     } catch (error: any) {
       this.loginFailed.set(true);
-      if (error?.status === 429) {
+      const isRateLimit =
+        error?.status === 429 ||
+        error?.message?.toLowerCase().includes('rate limit') ||
+        error?.message?.includes('429');
+      if (isRateLimit) {
         this.passwordError.set('Too many requests. Please try again later.');
       } else {
         this.passwordError.set('Guest login failed. Please try again.');

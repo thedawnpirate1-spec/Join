@@ -198,11 +198,13 @@
             class="hidden-checkbox"
             id="privacy-checkbox"
           />
-          <label for="privacy-checkbox" class="custom-checkbox">
-            <img
-              [src]="acceptedPrivacy ? 'Assets/icons/checkbox-checked.svg' : 'Assets/icons/checkbox-default.svg'"
-              alt="Checkbox"
-            />
+          <label
+            for="privacy-checkbox"
+            class="custom-checkbox"
+            (mouseenter)="isCheckboxHovered = true"
+            (mouseleave)="isCheckboxHovered = false"
+          >
+            <img [src]="checkboxIconSrc" alt="Checkbox" />
           </label>
 
           <span>

@@ -79,6 +79,18 @@ export class Board implements OnInit {
       status: newStatus,
       position: index,
     }));
+
+    if (event.previousContainer !== event.container && event.previousContainer.data.length > 0) {
+      const prevStatus = event.previousContainer.data[0].status;
+      event.previousContainer.data.forEach((task, index) => {
+        updates.push({
+          id: task.id,
+          status: prevStatus,
+          position: index,
+        });
+      });
+    }
+
     this.taskService
       .updateTaskPositions(updates)
       .catch((e) => console.error('Error updating task order:', e));
@@ -123,7 +135,8 @@ export class Board implements OnInit {
   }
 
   openAddTaskDialog(status: TaskStatus = 'todo') {
-    if (this.isMobile) {
+    const isMobileView = typeof window !== 'undefined' && window.innerWidth <= 812;
+    if (isMobileView) {
       this.router.navigate(['/add-task'], { queryParams: { status } });
     } else {
       this.addTaskStatus = status;

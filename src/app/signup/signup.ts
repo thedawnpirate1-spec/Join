@@ -35,12 +35,24 @@ export class Signup {
 
   showPassword = signal(false);
   showConfirmPassword = signal(false);
+  isCheckboxHovered = false;
+
+  get checkboxIconSrc(): string {
+    if (this.acceptedPrivacy) {
+      return this.isCheckboxHovered
+        ? 'Assets/icons/checkbox-checked-hover.svg'
+        : 'Assets/icons/checkbox-checked.svg';
+    }
+    return this.isCheckboxHovered
+      ? 'Assets/icons/checkbox-default-hover.svg'
+      : 'Assets/icons/checkbox-default.svg';
+  }
 
   validateEmailField(): void {
     const trimmedEmail = this.email.trim();
 
     if (!trimmedEmail) {
-      this.emailError.set('Please enter your email.');
+      this.emailError.set('This field is required');
       return;
     }
 
@@ -128,7 +140,11 @@ export class Signup {
         this.router.navigateByUrl('/login');
       }, 1200);
     } catch (error: any) {
-      if (error?.status === 429) {
+      const isRateLimit =
+        error?.status === 429 ||
+        error?.message?.toLowerCase().includes('rate limit') ||
+        error?.message?.includes('429');
+      if (isRateLimit) {
         this.emailError.set('Too many requests. Please try again later.');
       } else {
         this.emailError.set('Signup failed. Please try again.');
@@ -142,12 +158,12 @@ export class Signup {
     let isValid = true;
 
     if (!this.name.trim()) {
-      this.nameError.set('Please enter your name.');
+      this.nameError.set('This field is required');
       isValid = false;
     }
 
     if (!this.email.trim()) {
-      this.emailError.set('Please enter your email.');
+      this.emailError.set('This field is required');
       isValid = false;
     } else if (!this.isValidEmail(this.email)) {
       this.emailError.set('Please enter a valid email address.');
@@ -155,12 +171,12 @@ export class Signup {
     }
 
     if (!this.password.trim()) {
-      this.passwordError.set('Please enter your password.');
+      this.passwordError.set('This field is required');
       isValid = false;
     }
 
     if (!this.confirmPassword.trim()) {
-      this.confirmPasswordError.set('Please confirm your password.');
+      this.confirmPasswordError.set('This field is required');
       isValid = false;
     } else if (this.password !== this.confirmPassword) {
       this.confirmPasswordError.set("Your passwords don't match. Please try again.");

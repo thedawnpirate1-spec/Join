@@ -97,6 +97,10 @@ export class EditTask implements OnInit {
   }
 
   onClose() {
+    if (this.isAssignedDropdownOpen) {
+      this.isAssignedDropdownOpen = false;
+      return;
+    }
     this.close.emit();
   }
 

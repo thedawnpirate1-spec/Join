@@ -1,5 +1,5 @@
 @if (isDialog) {
-  <div class="modal-backdrop" (click)="close.emit()"></div>
+  <div class="modal-backdrop" (click)="onBackdropClick()"></div>
 }
 <div class="add-task-container" [class.dialog-mode]="isDialog">
   @if (isDialog) {

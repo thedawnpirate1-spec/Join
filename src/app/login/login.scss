@@ -12,6 +12,7 @@
   position: relative;
   width: 100%;
   max-width: 1440px;
+  margin: 0 auto;
   min-height: 100dvh;
   overflow: hidden;
 }
@@ -128,8 +129,8 @@
 
 .field-wrapper {
   width: 422px;
-  min-height: 68px; /* 48px input + 20px error message space */
-  margin-bottom: 8px;
+  min-height: 72px; /* 48px input + 24px error message space */
+  margin-bottom: 4px;
   position: relative;
 }
 

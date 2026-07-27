@@ -101,6 +101,15 @@ export class AddTask implements OnInit {
     }
   }
 
+  onBackdropClick() {
+    if (this.isAssignedDropdownOpen || this.isCategoryDropdownOpen) {
+      this.isAssignedDropdownOpen = false;
+      this.isCategoryDropdownOpen = false;
+      return;
+    }
+    this.close.emit();
+  }
+
   onAssignedDropdownOpenChange(open: boolean) {
     this.isAssignedDropdownOpen = open;
     if (open) this.isCategoryDropdownOpen = false;
