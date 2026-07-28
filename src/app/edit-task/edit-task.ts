@@ -19,7 +19,7 @@ import { SubtaskList, SubtaskListItem } from '../shared/subtask-list/subtask-lis
 import { PrioritySelector } from '../shared/priority-selector/priority-selector';
 import { ContactAssignDropdown } from '../shared/contact-assign-dropdown/contact-assign-dropdown';
 import { getTodayIsoString, formatDueDate } from '../core/utils/date.utils';
-import { getCategoryDisplayLabel, getPriorityDisplayLabel, getPriorityIconPath } from '../core/utils/task.utils';
+import { getCategoryDisplayLabel, getPriorityDisplayLabel } from '../core/utils/task.utils';
 
 @Component({
   selector: 'app-edit-task',
@@ -81,11 +81,6 @@ export class EditTask implements OnInit {
   get priorityLabel(): string {
     if (!this.task) return '';
     return getPriorityDisplayLabel(this.task.priority);
-  }
-
-  get priorityIcon(): string {
-    if (!this.task) return 'Assets/icons/equal-orange-icon.svg';
-    return getPriorityIconPath(this.task.priority);
   }
 
   /**

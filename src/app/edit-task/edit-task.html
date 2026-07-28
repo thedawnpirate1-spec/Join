@@ -30,7 +30,28 @@
         <span class="detail-label">Priority:</span>
         <span class="detail-value priority-value">
           {{ priorityLabel }}
-          <img [src]="priorityIcon" alt="" class="priority-icon" />
+          <svg
+            class="priority-icon"
+            [class]="task.priority"
+            viewBox="0 0 24 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            @switch (task.priority) {
+              @case ('urgent') {
+                <path d="M4 11 12 5 20 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M4 16 12 10 20 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+              }
+              @case ('low') {
+                <path d="M4 4 12 10 20 4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M4 9 12 15 20 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+              }
+              @default {
+                <path d="M4 8H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                <path d="M4 13H20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+              }
+            }
+          </svg>
         </span>
       </div>
 

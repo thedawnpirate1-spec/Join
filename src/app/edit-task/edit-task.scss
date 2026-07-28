@@ -200,6 +200,18 @@
   .priority-icon {
     width: 18px;
     height: 14px;
+
+    &.urgent {
+      color: #ff3d00;
+    }
+
+    &.medium {
+      color: #ffa800;
+    }
+
+    &.low {
+      color: #7ae229;
+    }
   }
 }
 
