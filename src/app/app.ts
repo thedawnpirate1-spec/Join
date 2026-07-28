@@ -1,6 +1,7 @@
 import { Component, ElementRef, signal, viewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 import { filter } from 'rxjs';
 import { Navbar } from './navbar/navbar';
 import { Header } from './header/header';
@@ -8,7 +9,7 @@ import { Toast } from './shared/toast/toast';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Header, CommonModule, Toast],
+  imports: [RouterOutlet, Navbar, Header, CommonModule, Toast, CdkScrollable],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
