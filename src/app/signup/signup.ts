@@ -102,8 +102,10 @@ export class Signup {
   }
 
   onPasswordChange(): void {
-    if (this.passwordError()) {
+    if (this.password.length > 0 || this.passwordError()) {
       this.validatePasswordField();
+    } else {
+      this.passwordError.set('');
     }
   }
 
