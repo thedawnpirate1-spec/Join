@@ -73,8 +73,11 @@ export class Signup {
   }
 
   validatePasswordField(): void {
-    if (!this.password.trim()) {
+    const trimmedPassword = this.password.trim();
+    if (!trimmedPassword) {
       this.passwordError.set('This field is required');
+    } else if (trimmedPassword.length < 6) {
+      this.passwordError.set('Password must be at least 6 characters long.');
     } else {
       this.passwordError.set('');
     }
@@ -96,6 +99,12 @@ export class Signup {
     }
 
     this.validateEmailField();
+  }
+
+  onPasswordChange(): void {
+    if (this.passwordError()) {
+      this.validatePasswordField();
+    }
   }
 
   /**
@@ -173,6 +182,9 @@ export class Signup {
     if (!this.password.trim()) {
       this.passwordError.set('This field is required');
       isValid = false;
+    } else if (this.password.trim().length < 6) {
+      this.passwordError.set('Password must be at least 6 characters long.');
+      isValid = false;
     }
 
     if (!this.confirmPassword.trim()) {
@@ -192,7 +204,7 @@ export class Signup {
   }
 
   private isValidEmail(email: string): boolean {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    return /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(email.trim());
   }
 
   clearErrors(): void {

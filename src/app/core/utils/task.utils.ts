@@ -14,12 +14,12 @@ export function getPriorityDisplayLabel(priority: Priority): string {
 export function getPriorityIconPath(priority: Priority): string {
   switch (priority) {
     case 'urgent':
-      return '/Assets/icons/red-arrows-up-icon.svg';
+      return 'Assets/icons/red-arrows-up-icon.svg';
     case 'medium':
-      return '/Assets/icons/equal-orange-icon.svg';
+      return 'Assets/icons/equal-orange-icon.svg';
     case 'low':
-      return '/Assets/icons/arrow-down-green-icon.svg';
+      return 'Assets/icons/arrow-down-green-icon.svg';
     default:
-      return '/Assets/icons/equal-orange-icon.svg';
+      return 'Assets/icons/equal-orange-icon.svg';
   }
 }

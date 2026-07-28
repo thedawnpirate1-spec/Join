@@ -84,7 +84,7 @@ export class EditTask implements OnInit {
   }
 
   get priorityIcon(): string {
-    if (!this.task) return '/Assets/icons/equal-orange-icon.svg';
+    if (!this.task) return 'Assets/icons/equal-orange-icon.svg';
     return getPriorityIconPath(this.task.priority);
   }
 

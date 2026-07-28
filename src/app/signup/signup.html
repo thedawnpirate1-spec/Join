@@ -119,7 +119,7 @@
             class="signup-input"
             [class.input-error]="passwordError()"
             (blur)="validatePasswordField()"
-            (ngModelChange)="clearPasswordError()"
+            (ngModelChange)="onPasswordChange()"
             required
           />
 

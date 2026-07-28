@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs';
 import { Navbar } from './navbar/navbar';
 import { Header } from './header/header';
+import { Toast } from './shared/toast/toast';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, Header, CommonModule],
+  imports: [RouterOutlet, Navbar, Header, CommonModule, Toast],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
