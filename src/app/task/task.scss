@@ -135,36 +135,3 @@
     max-height: 100%;
   }
 }
-
-@container (max-width: 200px) {
-  .task-card {
-    padding: 8px;
-    gap: 6px;
-    border-radius: 12px;
-  }
-
-  .category-pill {
-    padding: 2px 6px;
-    border-radius: 4px;
-  }
-
-  .subtask-progress {
-    gap: 4px;
-  }
-
-  .progress-bar {
-    height: 4px;
-  }
-
-  .avatars .avatar {
-    width: 20px;
-    height: 20px;
-    // font-size: 8px;
-    margin-left: -6px;
-  }
-
-  .priority-icon {
-    width: 12px;
-    height: 12px;
-  }
-}

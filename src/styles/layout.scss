@@ -29,7 +29,7 @@ app-header {
   background-color: var(--color-background);
 }
 
-@media (max-width: $global-tablet-breakpoint) {
+@media (max-width: 1250px) {
   .grid-container {
     grid-template-columns: 1fr;
     grid-template-rows: 80px 1fr 80px;
