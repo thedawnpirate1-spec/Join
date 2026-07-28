@@ -1,7 +1,5 @@
 @use '../../styles/variables' as *;
 
-
-
 .add-task-container {
   padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
   width: 100%;
@@ -229,7 +227,7 @@
 .date-input {
   appearance: none;
   -webkit-appearance: none;
-  background-image: url('/Assets/icons/event-icon.svg');
+  background-image: url('Assets/icons/event-icon.svg');
   background-repeat: no-repeat;
   background-position: right 16px center;
   background-size: 20px;
@@ -459,7 +457,8 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
 
     img {
-      filter: invert(20%) sepia(38%) saturate(1637%) hue-rotate(155deg) brightness(95%) contrast(93%);
+      filter: invert(20%) sepia(38%) saturate(1637%) hue-rotate(155deg) brightness(95%)
+        contrast(93%);
     }
   }
 }
