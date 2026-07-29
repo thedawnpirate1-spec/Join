@@ -117,22 +117,26 @@
 }
 
 @media (max-width: 580px) {
-  .board-actions {
-    display: contents;
+  .board-header {
+    gap: 16px;
   }
 
-  .board-title {
-    order: 1;
+  .board-actions {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
   }
 
   .search-box {
-    order: 3;
-    flex: 1 1 100%;
-    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
   }
 
   .add-task-btn {
-    order: 2;
+    flex-shrink: 0;
     width: 40px;
     height: 40px;
     padding: 0;

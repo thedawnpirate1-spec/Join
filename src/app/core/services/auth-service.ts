@@ -142,8 +142,20 @@ export class AuthService {
    * @param name Full name of the new user.
    */
   async signUp(email: string, password: string, name: string): Promise<void> {
-    const { error } = await this.supabase.client.auth.signUp({
-      email,
+    const cleanEmail = email.trim();
+
+    const { data: existingContact } = await this.supabase.client
+      .from('contacts')
+      .select('id')
+      .ilike('email', cleanEmail)
+      .maybeSingle();
+
+    if (existingContact) {
+      throw new Error('EMAIL_EXISTS');
+    }
+
+    const { data, error } = await this.supabase.client.auth.signUp({
+      email: cleanEmail,
       password,
       options: {
         data: {
@@ -154,7 +166,11 @@ export class AuthService {
 
     if (error) throw error;
 
-    const contact = this.createContactFromSignup(name, email);
+    if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+      throw new Error('EMAIL_EXISTS');
+    }
+
+    const contact = this.createContactFromSignup(name, cleanEmail);
 
     await this.contactService.addContact(contact);
   }

@@ -24,6 +24,8 @@
 
   display: flex;
   align-items: flex-start;
+
+  z-index: 20;
 }
 
 .signup-header svg {
@@ -375,7 +377,7 @@
   }
 }
 
-@media (max-width: $global-mobile-breakpoint) {
+@media (max-width: 960px) {
   .signup-page {
     min-height: 100dvh;
     overflow-y: auto;

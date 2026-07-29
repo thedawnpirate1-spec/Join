@@ -151,11 +151,20 @@ export class Signup {
         this.router.navigateByUrl('/login');
       }, 1200);
     } catch (error: any) {
+      const isDuplicate =
+        error?.message === 'EMAIL_EXISTS' ||
+        error?.message?.toLowerCase().includes('already registered') ||
+        error?.message?.toLowerCase().includes('already in use') ||
+        error?.message?.toLowerCase().includes('user already exists');
+
       const isRateLimit =
         error?.status === 429 ||
         error?.message?.toLowerCase().includes('rate limit') ||
         error?.message?.includes('429');
-      if (isRateLimit) {
+
+      if (isDuplicate) {
+        this.emailError.set('Diese E-Mail-Adresse ist bereits registriert. Bitte einloggen oder Passwort zurücksetzen.');
+      } else if (isRateLimit) {
         this.emailError.set('Too many requests. Please try again later.');
       } else {
         this.emailError.set('Signup failed. Please try again.');

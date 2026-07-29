@@ -223,6 +223,7 @@
   font-weight: var(--error-font-weight);
   line-height: var(--error-line-height);
   color: var(--color-error);
+  text-align: center;
 }
 
 .button-row {
@@ -354,7 +355,7 @@
   }
 }
 
-@media (max-width: $global-mobile-breakpoint) {
+@media (max-width: 960px) {
   .login-page {
     min-height: 100dvh;
     overflow-y: auto;
@@ -429,7 +430,10 @@
   }
 
   .button-row {
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 21px;
 
     width: 100%;
@@ -441,6 +445,10 @@
     width: 180px;
     height: 51px;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     font-size: 16px;
   }
 

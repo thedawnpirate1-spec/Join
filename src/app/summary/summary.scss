@@ -434,3 +434,99 @@
     }
   }
 }
+
+@media (max-width: 360px) {
+  .summary-container {
+    padding: 24px 12px;
+    gap: 16px;
+  }
+
+  .summary-header {
+    gap: 12px;
+
+    .summary-title {
+      font-size: 38px;
+    }
+
+    .summary-subtitle {
+      font-size: 16px;
+    }
+
+    .header-divider {
+      height: 40px;
+    }
+  }
+
+  .metrics-row-double {
+    gap: 10px;
+  }
+
+  .card-half {
+    padding: 14px 10px;
+    gap: 10px;
+
+    .card-icon-circle {
+      width: 40px;
+      height: 40px;
+
+      .metric-icon {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+
+  .card-number {
+    font-size: 28px;
+  }
+
+  .card-label {
+    font-size: 12px;
+  }
+
+  .metric-card-full {
+    padding: 14px 16px;
+    gap: 12px;
+
+    .urgent-left {
+      gap: 12px;
+
+      .urgent-prio-icon {
+        width: 44px;
+        height: 44px;
+      }
+    }
+
+    .urgent-divider {
+      margin: 4px 0;
+    }
+
+    .urgent-right {
+      .deadline-date {
+        font-size: 16px;
+      }
+
+      .deadline-label {
+        font-size: 13px;
+      }
+    }
+  }
+
+  .metrics-row-triple {
+    gap: 6px;
+  }
+
+  .card-third {
+    padding: 12px 4px;
+
+    .card-number {
+      font-size: 26px;
+    }
+
+    .card-label {
+      font-size: 11px;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+  }
+}
