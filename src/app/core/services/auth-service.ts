@@ -144,56 +144,98 @@ export class AuthService {
   async signUp(email: string, password: string, name: string): Promise<void> {
     const cleanEmail = email.trim();
 
+    await this.ensureEmailNotRegistered(cleanEmail);
+    const data = await this.createAuthAccount(cleanEmail, password, name);
+    this.ensureSignupSucceeded(data);
+    await this.addSignupContact(name, cleanEmail);
+  }
+
+  /**
+   * Rejects signup if a contact already exists with the given email.
+   *
+   * @param email Email address to check.
+   * @throws Error('EMAIL_EXISTS') when a matching contact is found.
+   */
+  private async ensureEmailNotRegistered(email: string): Promise<void> {
     const { data: existingContacts } = await this.supabase.client
       .from('contacts')
       .select('id')
-      .ilike('email', cleanEmail)
+      .ilike('email', email)
       .limit(1);
 
     if (existingContacts && existingContacts.length > 0) {
       throw new Error('EMAIL_EXISTS');
     }
+  }
 
+  /**
+   * Creates the Supabase auth account for a new user.
+   *
+   * @param email Cleaned email address.
+   * @param password User password.
+   * @param name Full name stored in user metadata.
+   * @returns The Supabase signUp response data.
+   */
+  private async createAuthAccount(email: string, password: string, name: string) {
     const { data, error } = await this.supabase.client.auth.signUp({
-      email: cleanEmail,
+      email,
       password,
-      options: {
-        data: {
-          name,
-        },
-      },
+      options: { data: { name } },
     });
 
     if (error) {
-      const errMsg = error.message?.toLowerCase() || '';
-      if (
-        errMsg.includes('already registered') ||
-        errMsg.includes('already in use') ||
-        errMsg.includes('user already exists')
-      ) {
-        throw new Error('EMAIL_EXISTS');
-      }
+      this.rethrowAsEmailExistsIfMatching(error.message);
       throw error;
     }
 
+    return data;
+  }
+
+  /**
+   * Throws Error('EMAIL_EXISTS') if the given message indicates a duplicate account.
+   *
+   * @param message Error message to inspect.
+   */
+  private rethrowAsEmailExistsIfMatching(message: string | undefined): void {
+    const errMsg = message?.toLowerCase() || '';
+    if (
+      errMsg.includes('already registered') ||
+      errMsg.includes('already in use') ||
+      errMsg.includes('user already exists') ||
+      errMsg.includes('duplicate') ||
+      errMsg.includes('unique') ||
+      errMsg.includes('already exists')
+    ) {
+      throw new Error('EMAIL_EXISTS');
+    }
+  }
+
+  /**
+   * Guards against Supabase silently returning an existing (unconfirmed) identity as success.
+   *
+   * @param data Supabase signUp response data.
+   * @throws Error('EMAIL_EXISTS') when the returned user has no identities.
+   */
+  private ensureSignupSucceeded(data: any): void {
     if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
       throw new Error('EMAIL_EXISTS');
     }
+  }
 
-    const contact = this.createContactFromSignup(name, cleanEmail);
+  /**
+   * Adds the newly signed-up user to the contacts list, tolerating duplicate-contact races.
+   *
+   * @param name Full name of the new user.
+   * @param email Cleaned email address.
+   */
+  private async addSignupContact(name: string, email: string): Promise<void> {
+    const contact = this.createContactFromSignup(name, email);
 
     try {
       await this.contactService.addContact(contact);
     } catch (addContactError: any) {
-      const errMsg = addContactError?.message?.toLowerCase() || '';
-      if (
-        errMsg.includes('duplicate') ||
-        errMsg.includes('unique') ||
-        errMsg.includes('already exists') ||
-        addContactError?.code === '23505'
-      ) {
-        throw new Error('EMAIL_EXISTS');
-      }
+      if (addContactError?.code === '23505') throw new Error('EMAIL_EXISTS');
+      this.rethrowAsEmailExistsIfMatching(addContactError?.message);
       console.error('Error adding contact during signup:', addContactError);
     }
   }

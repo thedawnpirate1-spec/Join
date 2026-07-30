@@ -67,23 +67,27 @@ export class Summary implements OnInit {
    */
   private checkMobileGreetingOverlay(): void {
     const isJustLoggedIn = sessionStorage.getItem('justLoggedIn') === 'true';
+    sessionStorage.removeItem('justLoggedIn');
+
     if (isJustLoggedIn && window.innerWidth <= 1024) {
-      sessionStorage.removeItem('justLoggedIn');
-      this.showMobileGreetingOverlay = true;
-
-      setTimeout(() => {
-        this.isFadingOut = true;
-        this.changeDetectorRef.detectChanges();
-      }, 1500);
-
-      setTimeout(() => {
-        this.showMobileGreetingOverlay = false;
-        this.isFadingOut = false;
-        this.changeDetectorRef.detectChanges();
-      }, 2000);
-    } else {
-      sessionStorage.removeItem('justLoggedIn');
+      this.showMobileGreetingOverlayWithAutoDismiss();
     }
+  }
+
+  /** Shows the mobile greeting overlay, fades it out, then hides it again. */
+  private showMobileGreetingOverlayWithAutoDismiss(): void {
+    this.showMobileGreetingOverlay = true;
+
+    setTimeout(() => {
+      this.isFadingOut = true;
+      this.changeDetectorRef.detectChanges();
+    }, 1500);
+
+    setTimeout(() => {
+      this.showMobileGreetingOverlay = false;
+      this.isFadingOut = false;
+      this.changeDetectorRef.detectChanges();
+    }, 2000);
   }
 
   /**
@@ -107,32 +111,34 @@ export class Summary implements OnInit {
    * @param tasks List of task items to process.
    */
   private processTasks(tasks: Task[]): void {
+    this.updateStatusCounts(tasks);
+    this.upcomingDeadline = this.computeUpcomingDeadline(tasks);
+  }
+
+  /** Updates the board/status/urgent counts from the given tasks. */
+  private updateStatusCounts(tasks: Task[]): void {
     this.boardCount = tasks.length;
     this.todoCount = tasks.filter((t) => t.status === 'todo').length;
     this.doneCount = tasks.filter((t) => t.status === 'done').length;
     this.progressCount = tasks.filter((t) => t.status === 'in_progress').length;
     this.feedbackCount = tasks.filter((t) => t.status === 'await_feedback').length;
+    this.urgentCount = tasks.filter((t) => t.status !== 'done' && t.priority === 'urgent').length;
+  }
 
+  /** Finds the earliest due date among open tasks (preferring urgent ones), formatted for display. */
+  private computeUpcomingDeadline(tasks: Task[]): string {
     const openTasks = tasks.filter((t) => t.status !== 'done');
-
     const urgentTasks = openTasks.filter((t) => t.priority === 'urgent');
-    this.urgentCount = urgentTasks.length;
-
     const tasksWithDueDate = openTasks.filter((t) => t.due_date);
-    if (tasksWithDueDate.length > 0) {
-      const urgentWithDueDate = urgentTasks.filter((t) => t.due_date);
-      const sourceTasks = urgentWithDueDate.length > 0 ? urgentWithDueDate : tasksWithDueDate;
+    if (!tasksWithDueDate.length) return 'No upcoming deadline';
 
-      sourceTasks.sort((a: Task, b: Task) => {
-        const da = new Date(a.due_date!).getTime();
-        const db = new Date(b.due_date!).getTime();
-        return da - db;
-      });
+    const urgentWithDueDate = urgentTasks.filter((t) => t.due_date);
+    const sourceTasks = urgentWithDueDate.length > 0 ? urgentWithDueDate : tasksWithDueDate;
+    const earliest = [...sourceTasks].sort(
+      (a, b) => new Date(a.due_date!).getTime() - new Date(b.due_date!).getTime(),
+    )[0];
 
-      this.upcomingDeadline = this.formatDate(sourceTasks[0].due_date);
-    } else {
-      this.upcomingDeadline = 'No upcoming deadline';
-    }
+    return this.formatDate(earliest.due_date);
   }
 
   /**

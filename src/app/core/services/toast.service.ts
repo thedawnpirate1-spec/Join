@@ -34,14 +34,17 @@ export class ToastService {
     }, durationMs);
   }
 
+  /** Displays a success toast. @param message Text content. @param durationMs Visibility duration in ms. */
   showSuccess(message: string, durationMs = 3000): void {
     this.show(message, 'success', durationMs);
   }
 
+  /** Displays an error toast. @param message Text content. @param durationMs Visibility duration in ms. */
   showError(message: string, durationMs = 4000): void {
     this.show(message, 'error', durationMs);
   }
 
+  /** Removes a toast by id, e.g. once its display duration has elapsed. */
   remove(id: string): void {
     this.toasts.update((current) => current.filter((t) => t.id !== id));
   }

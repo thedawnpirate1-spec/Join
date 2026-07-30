@@ -37,6 +37,7 @@ export class Signup {
   showConfirmPassword = signal(false);
   isCheckboxHovered = false;
 
+  /** Icon path for the privacy-policy checkbox, reflecting checked and hover state. */
   get checkboxIconSrc(): string {
     if (this.acceptedPrivacy) {
       return this.isCheckboxHovered
@@ -48,6 +49,7 @@ export class Signup {
       : 'Assets/icons/checkbox-default.svg';
   }
 
+  /** Validates the email field, setting `emailError` if blank or malformed. */
   validateEmailField(): void {
     const trimmedEmail = this.email.trim();
 
@@ -64,6 +66,7 @@ export class Signup {
     this.emailError.set('');
   }
 
+  /** Validates the name field, setting `nameError` if blank. */
   validateNameField(): void {
     if (!this.name.trim()) {
       this.nameError.set('This field is required');
@@ -72,6 +75,7 @@ export class Signup {
     }
   }
 
+  /** Validates the password field, setting `passwordError` if blank or too short. */
   validatePasswordField(): void {
     const trimmedPassword = this.password.trim();
     if (!trimmedPassword) {
@@ -83,6 +87,7 @@ export class Signup {
     }
   }
 
+  /** Validates the confirm-password field, setting `confirmPasswordError` if blank or mismatched. */
   validateConfirmPasswordField(): void {
     if (!this.confirmPassword.trim()) {
       this.confirmPasswordError.set('This field is required');
@@ -93,6 +98,7 @@ export class Signup {
     }
   }
 
+  /** Re-validates the email field live, but only once it already has an error to clear. */
   onEmailChange(): void {
     if (!this.emailError()) {
       return;
@@ -101,6 +107,7 @@ export class Signup {
     this.validateEmailField();
   }
 
+  /** Re-validates the password field live once the user has typed or it already has an error. */
   onPasswordChange(): void {
     if (this.password.length > 0 || this.passwordError()) {
       this.validatePasswordField();
@@ -144,80 +151,69 @@ export class Signup {
 
     try {
       await this.authService.signUp(this.email.trim(), this.password, this.name.trim());
-
       this.showSuccessToast.set(true);
-
-      setTimeout(() => {
-        this.router.navigateByUrl('/login');
-      }, 1200);
+      setTimeout(() => this.router.navigateByUrl('/login'), 1200);
     } catch (error: any) {
-      const isDuplicate =
-        error?.message === 'EMAIL_EXISTS' ||
-        error?.message?.toLowerCase().includes('already registered') ||
-        error?.message?.toLowerCase().includes('already in use') ||
-        error?.message?.toLowerCase().includes('user already exists');
-
-      const isRateLimit =
-        error?.status === 429 ||
-        error?.message?.toLowerCase().includes('rate limit') ||
-        error?.message?.includes('429');
-
-      if (isDuplicate) {
-        this.emailError.set('This email address is already registered.');
-      } else if (isRateLimit) {
-        this.emailError.set('Too many requests. Please try again later.');
-      } else {
-        this.emailError.set('Signup failed. Please try again.');
-      }
+      this.emailError.set(this.resolveSignupErrorMessage(error));
     } finally {
       this.isLoading.set(false);
     }
   }
 
-  private validateForm(): boolean {
-    let isValid = true;
-
-    if (!this.name.trim()) {
-      this.nameError.set('This field is required');
-      isValid = false;
-    }
-
-    if (!this.email.trim()) {
-      this.emailError.set('This field is required');
-      isValid = false;
-    } else if (!this.isValidEmail(this.email)) {
-      this.emailError.set('Please enter a valid email address.');
-      isValid = false;
-    }
-
-    if (!this.password.trim()) {
-      this.passwordError.set('This field is required');
-      isValid = false;
-    } else if (this.password.trim().length < 6) {
-      this.passwordError.set('Password must be at least 6 characters long.');
-      isValid = false;
-    }
-
-    if (!this.confirmPassword.trim()) {
-      this.confirmPasswordError.set('This field is required');
-      isValid = false;
-    } else if (this.password !== this.confirmPassword) {
-      this.confirmPasswordError.set("Your passwords don't match. Please try again.");
-      isValid = false;
-    }
-
-    if (!this.acceptedPrivacy) {
-      this.privacyError.set('Please accept the privacy policy.');
-      isValid = false;
-    }
-
-    return isValid;
+  /** Maps a signup failure to a user-facing message, distinguishing duplicate-email and rate-limit cases. */
+  private resolveSignupErrorMessage(error: any): string {
+    if (this.isDuplicateEmailError(error)) return 'This email address is already registered.';
+    if (this.isRateLimitError(error)) return 'Too many requests. Please try again later.';
+    return 'Signup failed. Please try again.';
   }
 
+  /** Whether a signup error indicates the email is already registered. */
+  private isDuplicateEmailError(error: any): boolean {
+    return (
+      error?.message === 'EMAIL_EXISTS' ||
+      error?.message?.toLowerCase().includes('already registered') ||
+      error?.message?.toLowerCase().includes('already in use') ||
+      error?.message?.toLowerCase().includes('user already exists')
+    );
+  }
+
+  /** Whether an auth error represents a rate-limit response. */
+  private isRateLimitError(error: any): boolean {
+    return (
+      error?.status === 429 ||
+      error?.message?.toLowerCase().includes('rate limit') ||
+      error?.message?.includes('429')
+    );
+  }
+
+  /** Validates all signup fields, including privacy acceptance, returning overall validity. */
+  private validateForm(): boolean {
+    this.validateNameField();
+    this.validateEmailField();
+    this.validatePasswordField();
+    this.validateConfirmPasswordField();
+    this.validatePrivacyAcceptance();
+
+    return !(
+      this.nameError() ||
+      this.emailError() ||
+      this.passwordError() ||
+      this.confirmPasswordError() ||
+      this.privacyError()
+    );
+  }
+
+  /** Validates that the privacy policy has been accepted, setting `privacyError` otherwise. */
+  private validatePrivacyAcceptance(): void {
+    this.privacyError.set(this.acceptedPrivacy ? '' : 'Please accept the privacy policy.');
+  }
+
+  /** Basic "local@domain.tld" shape check used by signup email validation. */
   private isValidEmail(email: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(email.trim());
   }
 
+  /** Clears all form error and success signals. */
   clearErrors(): void {
     this.nameError.set('');
     this.emailError.set('');
@@ -227,14 +223,17 @@ export class Signup {
     this.successMessage.set('');
   }
 
+  /** Clears the name field error. */
   clearNameError(): void {
     this.nameError.set('');
   }
 
+  /** Clears the email field error. */
   clearEmailError(): void {
     this.emailError.set('');
   }
 
+  /** Clears the password field error, hiding the reveal state if the field is now empty. */
   clearPasswordError(): void {
     this.passwordError.set('');
 
@@ -243,6 +242,7 @@ export class Signup {
     }
   }
 
+  /** Clears the confirm-password field error, hiding the reveal state if the field is now empty. */
   clearConfirmPasswordError(): void {
     this.confirmPasswordError.set('');
 
@@ -251,6 +251,7 @@ export class Signup {
     }
   }
 
+  /** Clears the privacy-policy acceptance error. */
   clearPrivacyError(): void {
     this.privacyError.set('');
   }

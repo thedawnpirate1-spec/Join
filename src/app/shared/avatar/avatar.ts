@@ -11,11 +11,13 @@ import { getContactColor, getContactInitials } from '../../core/utils/contact-ut
 export class Avatar {
   @Input() contact: Contact | NewContact | null = null;
 
+  /** The avatar's background color, derived from the bound contact. */
   @HostBinding('style.background-color')
   get backgroundColor(): string {
     return getContactColor(this.contact);
   }
 
+  /** The initials shown inside the avatar circle. */
   get initials(): string {
     return getContactInitials(this.contact);
   }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+/** Static help/FAQ page. */
 @Component({
   selector: 'app-help',
   imports: [],
@@ -7,6 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './help.scss'
 })
 export class Help {
+  /** Navigates back to the previous page in browser history. */
   goBack(): void {
     history.back();
   }

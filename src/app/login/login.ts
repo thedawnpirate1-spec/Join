@@ -26,6 +26,7 @@ export class Login implements OnDestroy {
   playIntroAnimation = false;
   private introTimeoutId?: number;
 
+  /** Plays the login intro animation once per browser session. */
   constructor() {
     const introPlayed = sessionStorage.getItem('loginIntroPlayed');
 
@@ -54,9 +55,7 @@ export class Login implements OnDestroy {
     this.showPassword.update((value) => !value);
   }
 
-  /**
-   * Submits user credentials to perform authentication and navigate to the summary page.
-   */
+  /** Validates the email field, setting `emailError` if it is blank. */
   validateEmail(): void {
     if (!this.email.trim()) {
       this.emailError.set('This field is required');
@@ -65,6 +64,7 @@ export class Login implements OnDestroy {
     }
   }
 
+  /** Validates the password field, setting `passwordError` if it is blank. */
   validatePassword(): void {
     if (!this.password.trim()) {
       this.passwordError.set('This field is required');
@@ -73,6 +73,9 @@ export class Login implements OnDestroy {
     }
   }
 
+  /**
+   * Submits user credentials to perform authentication and navigate to the summary page.
+   */
   async onLogin(): Promise<void> {
     this.emailError.set('');
     this.passwordError.set('');
@@ -86,28 +89,7 @@ export class Login implements OnDestroy {
       return;
     }
 
-    this.isLoading.set(true);
-
-    try {
-      await this.authService.login(this.email.trim(), this.password);
-
-      sessionStorage.setItem('justLoggedIn', 'true');
-
-      await this.router.navigateByUrl('/summary');
-    } catch (error: any) {
-      this.loginFailed.set(true);
-      const isRateLimit =
-        error?.status === 429 ||
-        error?.message?.toLowerCase().includes('rate limit') ||
-        error?.message?.includes('429');
-      if (isRateLimit) {
-        this.passwordError.set('Too many requests. Please try again later.');
-      } else {
-        this.passwordError.set('Check your email and password. Please try again.');
-      }
-    } finally {
-      this.isLoading.set(false);
-    }
+    await this.performLogin('Check your email and password. Please try again.');
   }
 
   /**
@@ -121,28 +103,39 @@ export class Login implements OnDestroy {
     this.email = 'guest@guest.com';
     this.password = '123456';
 
+    await this.performLogin('Guest login failed. Please try again.');
+  }
+
+  /**
+   * Authenticates with the current email/password and navigates to the summary page,
+   * showing `failureMessage` (or a rate-limit message) if authentication fails.
+   */
+  private async performLogin(failureMessage: string): Promise<void> {
     this.isLoading.set(true);
 
     try {
       await this.authService.login(this.email.trim(), this.password);
-
       sessionStorage.setItem('justLoggedIn', 'true');
-
       await this.router.navigateByUrl('/summary');
     } catch (error: any) {
       this.loginFailed.set(true);
-      const isRateLimit =
-        error?.status === 429 ||
-        error?.message?.toLowerCase().includes('rate limit') ||
-        error?.message?.includes('429');
-      if (isRateLimit) {
-        this.passwordError.set('Too many requests. Please try again later.');
-      } else {
-        this.passwordError.set('Guest login failed. Please try again.');
-      }
+      this.passwordError.set(
+        this.isRateLimitError(error)
+          ? 'Too many requests. Please try again later.'
+          : failureMessage,
+      );
     } finally {
       this.isLoading.set(false);
     }
+  }
+
+  /** Whether an auth error represents a rate-limit response. */
+  private isRateLimitError(error: any): boolean {
+    return (
+      error?.status === 429 ||
+      error?.message?.toLowerCase().includes('rate limit') ||
+      error?.message?.includes('429')
+    );
   }
 
   /**

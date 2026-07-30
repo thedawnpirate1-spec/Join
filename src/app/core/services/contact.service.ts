@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { SupabaseService } from '../services/supabase.service';
 import { Contact, NewContact } from '../models/contact.model';
 
+/** Manages CRUD operations for contacts with a stale-while-revalidate in-memory cache. */
 @Injectable({ providedIn: 'root' })
 export class ContactService {
   private supabase = inject(SupabaseService);
@@ -9,7 +10,16 @@ export class ContactService {
 
   private contactsCache: Contact[] | null = null;
 
-  async getContacts(onRevalidate?: (contacts: Contact[]) => void, forceRefresh = false): Promise<Contact[]> {
+  /**
+   * Returns cached contacts immediately (revalidating in the background), or fetches fresh.
+   *
+   * @param onRevalidate Called with fresh data if a background revalidation finds changes.
+   * @param forceRefresh Skips the cache and fetches fresh data synchronously.
+   */
+  async getContacts(
+    onRevalidate?: (contacts: Contact[]) => void,
+    forceRefresh = false,
+  ): Promise<Contact[]> {
     if (this.contactsCache && !forceRefresh) {
       if (onRevalidate) {
         this.revalidateContacts(onRevalidate);
@@ -22,10 +32,11 @@ export class ContactService {
     return this.contactsCache;
   }
 
+  /** Creates a contact and keeps the in-memory cache in sync. */
   async addContact(contact: NewContact): Promise<Contact> {
     const { data, error } = await this.table.insert(contact).select().single();
     if (error) throw error;
-    
+
     const newContact = data as Contact;
     if (this.contactsCache) {
       this.contactsCache.push(newContact);
@@ -34,10 +45,11 @@ export class ContactService {
     return newContact;
   }
 
+  /** Updates a contact and keeps the in-memory cache in sync. */
   async updateContact(id: string, changes: Partial<NewContact>): Promise<Contact> {
     const { data, error } = await this.table.update(changes).eq('id', id).select().single();
     if (error) throw error;
-    
+
     const updatedContact = data as Contact;
     if (this.contactsCache) {
       const idx = this.contactsCache.findIndex((c) => c.id === id);
@@ -49,19 +61,22 @@ export class ContactService {
     return updatedContact;
   }
 
+  /** Deletes a contact and keeps the in-memory cache in sync. */
   async deleteContact(id: string): Promise<void> {
     const { error } = await this.table.delete().eq('id', id);
     if (error) throw error;
-    
+
     if (this.contactsCache) {
       this.contactsCache = this.contactsCache.filter((c) => c.id !== id);
     }
   }
 
+  /** Drops the in-memory contacts cache, forcing the next read to hit the database. */
   clearCache() {
     this.contactsCache = null;
   }
 
+  /** Sorts contacts alphabetically by full name. */
   private sortContacts(contacts: Contact[]): Contact[] {
     return contacts.sort((a, b) => {
       const nameA = `${a.first_name || ''} ${a.last_name || ''}`.trim();
@@ -70,6 +85,10 @@ export class ContactService {
     });
   }
 
+  /**
+   * Fetches fresh contacts in the background and, if they differ from the cache, updates
+   * the cache and notifies the caller.
+   */
   private async revalidateContacts(onRevalidate: (contacts: Contact[]) => void): Promise<void> {
     try {
       const { data, error } = await this.table.select('*');

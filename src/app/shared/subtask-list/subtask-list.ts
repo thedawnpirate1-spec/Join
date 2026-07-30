@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+/** Minimal shape a subtask needs to be rendered/edited in this list. */
 export interface SubtaskListItem {
   id: string;
   title: string;
@@ -27,6 +28,7 @@ export class SubtaskList {
   editingId: string | null = null;
   editedTitle = '';
 
+  /** Emits the trimmed new-subtask title and clears the input, ignoring blank input. */
   addSubtask() {
     const title = this.newTitle.trim();
     if (!title) return;
@@ -34,21 +36,25 @@ export class SubtaskList {
     this.newTitle = '';
   }
 
+  /** Clears the new-subtask input. */
   clearInput() {
     this.newTitle = '';
   }
 
+  /** Enters edit mode for a subtask without letting the click bubble further. */
   startEdit(item: SubtaskListItem, event: MouseEvent) {
     event.stopPropagation();
     this.editingId = item.id;
     this.editedTitle = item.title;
   }
 
+  /** Leaves edit mode, discarding any in-progress edit. */
   cancelEdit() {
     this.editingId = null;
     this.editedTitle = '';
   }
 
+  /** Saves the edited title, or removes the subtask if the edit was cleared to blank. */
   saveEdit(id: string) {
     const title = this.editedTitle.trim();
     if (!title) {
@@ -59,6 +65,7 @@ export class SubtaskList {
     this.cancelEdit();
   }
 
+  /** Emits removal of a subtask, exiting edit mode first if it was being edited. */
   removeSubtask(id: string) {
     if (this.editingId === id) {
       this.cancelEdit();

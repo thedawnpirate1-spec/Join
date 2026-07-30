@@ -2,6 +2,7 @@ import { Contact, NewContact } from '../models/contact.model';
 
 const GOLDEN_ANGLE = 137.508;
 
+/** Builds a two-letter initials string (e.g. "SM") from a contact's name. */
 export function getContactInitials(contact: Contact | NewContact | null): string {
   if (!contact) return '';
   const firstname_initial = contact.first_name ? contact.first_name.charAt(0).toUpperCase() : '';
@@ -18,6 +19,11 @@ export function isOwnContact(contact: Contact | NewContact | null): boolean {
   );
 }
 
+/**
+ * Derives a stable avatar color for a contact.
+ * Saved contacts use their `color_index` on a golden-angle hue wheel;
+ * unsaved contacts (no id yet) fall back to a hash of their name.
+ */
 export function getContactColor(contact: Contact | NewContact | null): string {
   if (!contact) return `hsl(0, 70%, 50%)`;
   if ('color_index' in contact) {

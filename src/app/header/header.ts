@@ -15,6 +15,7 @@ export class Header implements OnInit {
   isMenuOpen = false;
   authService = inject(AuthService);
 
+  /** Hides the help button while on the /help page itself, on every subsequent navigation. */
   constructor(private readonly router: Router) {
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
@@ -23,6 +24,7 @@ export class Header implements OnInit {
       });
   }
 
+  /** Sets the initial help-button visibility for the page first loaded. */
   ngOnInit() {
     this.showHelpButton.set(this.router.url !== '/help');
   }
@@ -38,6 +40,7 @@ export class Header implements OnInit {
     this.isMenuOpen = false;
   }
 
+  /** Logs the user out and redirects to the login page. */
   async logout(): Promise<void> {
     this.closeMenu();
     await this.authService.logout();

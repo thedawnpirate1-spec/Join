@@ -7,6 +7,7 @@ import { Navbar } from './navbar/navbar';
 import { Header } from './header/header';
 import { Toast } from './shared/toast/toast';
 
+/** Root shell: hosts the routed page plus the navbar/header/toast chrome around it. */
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, Navbar, Header, CommonModule, Toast, CdkScrollable],
@@ -23,6 +24,7 @@ export class App {
     });
   }
 
+  /** Whether the current route is login/signup, which hide the navbar/header chrome. */
   get isAuthPage(): boolean {
     return this.router.url === '/login' || this.router.url === '/signup';
   }

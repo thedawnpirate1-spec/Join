@@ -10,17 +10,25 @@ import { ToastService } from './toast.service';
 export class GlobalErrorHandler implements ErrorHandler {
   private toastService = inject(ToastService);
 
+  /**
+   * Logs an uncaught error and shows a user-friendly toast notification for it.
+   *
+   * @param error The uncaught error, of unknown shape.
+   */
   handleError(error: unknown): void {
     console.error('Unhandled Application Error:', error);
+    this.toastService.showError(this.extractMessage(error));
+  }
 
-    let message = 'An unexpected error occurred. Please try again.';
-    if (error instanceof Error && error.message) {
-      message = error.message;
-    } else if (typeof error === 'string') {
-      message = error;
-    }
-
-    // Show clean user-friendly notification
-    this.toastService.showError(message);
+  /**
+   * Extracts a displayable message from an unknown error value.
+   *
+   * @param error The uncaught error.
+   * @returns An Error message, a string error, or a generic fallback.
+   */
+  private extractMessage(error: unknown): string {
+    if (error instanceof Error && error.message) return error.message;
+    if (typeof error === 'string') return error;
+    return 'An unexpected error occurred. Please try again.';
   }
 }

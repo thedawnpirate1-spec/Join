@@ -4,6 +4,7 @@ import { Contact, NewContact } from '../core/models/contact.model';
 import { Avatar } from '../shared/avatar/avatar';
 import { validateNameValue, validateEmailValue, validatePhoneValue } from '../core/utils/validation.utils';
 
+/** Add/edit form dialog for a single contact, with inline field validation. */
 @Component({
   selector: 'app-contact-dialog',
   standalone: true,
@@ -27,6 +28,7 @@ export class ContactDialog implements OnInit {
   emailError = '';
   phoneError = '';
 
+  /** Pre-fills the form fields from the bound contact when opened in edit mode. */
   ngOnInit(): void {
     if (this.mode === 'edit' && this.contact) {
       this.name = `${this.contact.first_name} ${this.contact.last_name}`.trim();
@@ -35,25 +37,30 @@ export class ContactDialog implements OnInit {
     }
   }
 
+  /** Closes the dialog without saving. */
   onClose(): void {
     this.close.emit();
   }
 
+  /** Validates the name field, updating `nameError`. */
   validateName(): boolean {
     this.nameError = validateNameValue(this.name);
     return !this.nameError;
   }
 
+  /** Validates the email field, updating `emailError`. */
   validateEmail(): boolean {
     this.emailError = validateEmailValue(this.email);
     return !this.emailError;
   }
 
+  /** Validates the phone field, updating `phoneError`. */
   validatePhone(): boolean {
     this.phoneError = validatePhoneValue(this.phone);
     return !this.phoneError;
   }
 
+  /** In edit mode, deletes the contact; in add mode, closes the dialog. */
   onSecondaryAction(): void {
     if (this.mode === 'edit') {
       this.deleted.emit();
@@ -62,6 +69,7 @@ export class ContactDialog implements OnInit {
     }
   }
 
+  /** Validates all fields and, if valid, emits the contact payload to be saved. */
   onSave(): void {
     const isNameValid = this.validateName();
     const isEmailValid = this.validateEmail();

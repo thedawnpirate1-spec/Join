@@ -21,6 +21,7 @@ import { ContactAssignDropdown } from '../shared/contact-assign-dropdown/contact
 import { getTodayIsoString, formatDueDate } from '../core/utils/date.utils';
 import { getCategoryDisplayLabel, getPriorityDisplayLabel } from '../core/utils/task.utils';
 
+/** Task detail dialog: view mode plus an in-place edit mode for the same task. */
 @Component({
   selector: 'app-edit-task',
   imports: [FormsModule, Avatar, SubtaskList, PrioritySelector, ContactAssignDropdown],
@@ -70,14 +71,17 @@ export class EditTask implements OnInit {
     }
   }
 
+  /** Today's date, used as the due-date input's minimum in edit mode. */
   get todayIso(): string {
     return getTodayIsoString();
   }
 
+  /** Human-readable label for the task's category. */
   get categoryLabel(): string {
     return getCategoryDisplayLabel(this.task?.category || null);
   }
 
+  /** Human-readable label for the task's priority. */
   get priorityLabel(): string {
     if (!this.task) return '';
     return getPriorityDisplayLabel(this.task.priority);
@@ -91,6 +95,7 @@ export class EditTask implements OnInit {
     return formatDueDate(this.task.due_date);
   }
 
+  /** Closes the assigned-contacts dropdown if open, otherwise closes the whole dialog. */
   onClose() {
     if (this.isAssignedDropdownOpen) {
       this.isAssignedDropdownOpen = false;
@@ -145,6 +150,7 @@ export class EditTask implements OnInit {
     this.loadAllContacts();
   }
 
+  /** Fetches all contacts, needed to populate the assign-contacts dropdown in edit mode. */
   private async loadAllContacts() {
     try {
       this.allContacts = await this.contactService.getContacts();

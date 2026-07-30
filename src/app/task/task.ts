@@ -7,6 +7,7 @@ import { SubtaskService } from '../core/services/subtask.service';
 import { TaskService } from '../core/services/task.service';
 import { Avatar } from '../shared/avatar/avatar';
 
+/** Board card for a single task: shows its category, progress, and assigned contacts. */
 @Component({
   selector: 'app-task',
   imports: [Avatar],
@@ -24,6 +25,7 @@ export class Task implements OnChanges, OnInit, OnDestroy {
   subtasks: Subtask[] = [];
   assignedContacts: Contact[] = [];
 
+  /** Subscribes to subtask changes so this card's progress stays in sync with edits elsewhere. */
   ngOnInit() {
     this.subtaskSub = this.subtaskService.subtasksChanged.subscribe((taskId) => {
       if (this.task && taskId === this.task.id) {
@@ -36,11 +38,13 @@ export class Task implements OnChanges, OnInit, OnDestroy {
     this.subtaskSub?.unsubscribe();
   }
 
+  /** Reloads subtasks and assigned contacts whenever the bound task input changes. */
   ngOnChanges() {
     this.loadSubtasks();
     this.loadAssignedContacts();
   }
 
+  /** Fetches this task's subtasks and refreshes the view. */
   private async loadSubtasks() {
     if (!this.task) return;
     try {
@@ -51,6 +55,7 @@ export class Task implements OnChanges, OnInit, OnDestroy {
     }
   }
 
+  /** Fetches this task's assigned contacts and refreshes the view. */
   private async loadAssignedContacts() {
     if (!this.task) return;
     try {

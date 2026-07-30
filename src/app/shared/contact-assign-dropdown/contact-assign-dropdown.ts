@@ -26,6 +26,7 @@ export class ContactAssignDropdown {
 
   searchTerm = '';
 
+  /** Contacts matching the current search term, by name or email. */
   get filteredContacts(): Contact[] {
     if (!this.searchTerm) return this.contacts;
     const term = this.searchTerm.toLowerCase();
@@ -35,30 +36,37 @@ export class ContactAssignDropdown {
     });
   }
 
+  /** The contacts currently selected, in badge-row order. */
   get selectedContacts(): Contact[] {
     return this.contacts.filter((c) => this.selectedIds.includes(c.id));
   }
 
+  /** Whether a contact is among the currently selected ids. */
   isSelected(contact: Contact): boolean {
     return this.selectedIds.includes(contact.id);
   }
 
+  /** Whether a contact is the demo "logged in" contact, shown with a "(You)" label. */
   isOwnContact(contact: Contact): boolean {
     return isOwnContact(contact);
   }
 
+  /** Opens the dropdown. */
   openDropdown() {
     this.isOpenChange.emit(true);
   }
 
+  /** Toggles the dropdown open/closed. */
   toggleDropdown() {
     this.isOpenChange.emit(!this.isOpen);
   }
 
+  /** Closes the dropdown. */
   closeDropdown() {
     this.isOpenChange.emit(false);
   }
 
+  /** Toggles a contact's selection state without letting the click bubble to the dropdown. */
   toggleContact(contact: Contact, event: Event) {
     event.stopPropagation();
     const next = this.isSelected(contact)

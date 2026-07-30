@@ -12,6 +12,7 @@ export class PrioritySelector {
   @Input() priority: Priority = 'medium';
   @Output() priorityChange = new EventEmitter<Priority>();
 
+  /** Emits the newly chosen priority. */
   select(priority: Priority) {
     this.priorityChange.emit(priority);
   }

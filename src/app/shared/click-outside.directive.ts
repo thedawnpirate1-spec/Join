@@ -10,6 +10,7 @@ export class ClickOutsideDirective {
 
   @Output() appClickOutside = new EventEmitter<MouseEvent>();
 
+  /** Emits `appClickOutside` when the click target is outside the host element. */
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;

@@ -66,10 +66,12 @@ export class AddTask implements OnInit {
     category: false,
   };
 
+  /** Marks a field as touched so its validation error can be shown on blur. */
   markAsTouched(field: 'title' | 'due_date' | 'category') {
     this.touchedFields[field] = true;
   }
 
+  /** Whether a required field should currently show a validation error. */
   isFieldInvalid(field: 'title' | 'due_date' | 'category'): boolean {
     if (field === 'title') {
       return (this.touchedFields.title || this.showValidationErrors) && !this.title.trim();
@@ -83,6 +85,7 @@ export class AddTask implements OnInit {
     return false;
   }
 
+  /** Loads contacts, sets today's date as the due-date minimum, and applies a status query param. */
   ngOnInit() {
     this.loadContacts();
     this.today = getTodayIsoString();
@@ -93,6 +96,7 @@ export class AddTask implements OnInit {
     }
   }
 
+  /** Fetches the contacts available for assignment. */
   async loadContacts() {
     try {
       this.contacts = await this.contactService.getContacts();
@@ -101,6 +105,7 @@ export class AddTask implements OnInit {
     }
   }
 
+  /** Closes any open dropdown on backdrop click, or closes the whole dialog if none was open. */
   onBackdropClick() {
     if (this.isAssignedDropdownOpen || this.isCategoryDropdownOpen) {
       this.isAssignedDropdownOpen = false;
@@ -110,16 +115,19 @@ export class AddTask implements OnInit {
     this.close.emit();
   }
 
+  /** Syncs the assigned-contacts dropdown open state, closing the category dropdown if opening. */
   onAssignedDropdownOpenChange(open: boolean) {
     this.isAssignedDropdownOpen = open;
     if (open) this.isCategoryDropdownOpen = false;
   }
 
+  /** Toggles the category dropdown, closing the assigned-contacts dropdown. */
   toggleCategoryDropdown() {
     this.isCategoryDropdownOpen = !this.isCategoryDropdownOpen;
     this.isAssignedDropdownOpen = false;
   }
 
+  /** Selects a task category and closes the category dropdown. */
   selectCategory(cat: Category) {
     this.category = cat;
     this.touchedFields.category = true;
@@ -131,15 +139,18 @@ export class AddTask implements OnInit {
     return this.subtasks.map((s, i) => ({ id: String(i), title: s.title }));
   }
 
+  /** Adds a new subtask draft. */
   onAddSubtask(title: string) {
     this.subtasks.push({ title, done: false });
   }
 
+  /** Updates the title of a subtask draft, identified by its index-based id. */
   onUpdateSubtask(event: { id: string; title: string }) {
     const subtask = this.subtasks[Number(event.id)];
     if (subtask) subtask.title = event.title;
   }
 
+  /** Removes a subtask draft, identified by its index-based id. */
   onRemoveSubtask(id: string) {
     this.subtasks.splice(Number(id), 1);
   }
@@ -169,48 +180,50 @@ export class AddTask implements OnInit {
   /** Saves the task and all its subtasks. */
   async onSubmit() {
     this.showValidationErrors = true;
-
-    if (!this.isFormValid()) {
-      return;
-    }
+    if (!this.isFormValid()) return;
 
     try {
-      const newTask: NewTask = {
-        title: this.title.trim(),
-        description: this.description.trim() || null,
-        due_date: this.due_date || null,
-        priority: this.priority,
-        category: this.category,
-        status: this.initialStatus,
-      };
-
+      const newTask = this.buildNewTaskPayload();
       const created = await this.taskService.addTask(newTask, this.selectedContactIds);
-
-      if (this.subtasks.length > 0) {
-        for (const sub of this.subtasks) {
-          await this.subtaskService.addSubtask({
-            task_id: created.id,
-            title: sub.title,
-            done: false,
-          });
-        }
-      }
-
-      this.showSuccessToast = true;
-      this.cdr.detectChanges();
-
-      setTimeout(() => {
-        this.showSuccessToast = false;
-        this.cdr.detectChanges();
-        if (this.isDialog) {
-          this.close.emit();
-        } else {
-          this.router.navigate(['/board']);
-        }
-      }, 1500);
-
+      await this.persistSubtasks(created.id);
+      this.showSuccessAndClose();
     } catch (error) {
       console.error('Error saving task:', error);
     }
+  }
+
+  /** Builds the NewTask payload from the current form field values. */
+  private buildNewTaskPayload(): NewTask {
+    return {
+      title: this.title.trim(),
+      description: this.description.trim() || null,
+      due_date: this.due_date || null,
+      priority: this.priority,
+      category: this.category,
+      status: this.initialStatus,
+    };
+  }
+
+  /** Creates each locally-drafted subtask against the newly saved task. */
+  private async persistSubtasks(taskId: string): Promise<void> {
+    for (const sub of this.subtasks) {
+      await this.subtaskService.addSubtask({ task_id: taskId, title: sub.title, done: false });
+    }
+  }
+
+  /** Shows the success toast briefly, then closes the dialog or navigates back to the board. */
+  private showSuccessAndClose(): void {
+    this.showSuccessToast = true;
+    this.cdr.detectChanges();
+
+    setTimeout(() => {
+      this.showSuccessToast = false;
+      this.cdr.detectChanges();
+      if (this.isDialog) {
+        this.close.emit();
+      } else {
+        this.router.navigate(['/board']);
+      }
+    }, 1500);
   }
 }

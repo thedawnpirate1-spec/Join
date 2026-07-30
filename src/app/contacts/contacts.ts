@@ -34,10 +34,12 @@ export class Contacts implements OnInit {
   isMobileMenuOpen = false;
   showSuccessToast = false;
 
+  /** Whether a contact is the demo "logged in" contact, shown with a "(You)" label. */
   isOwnContact(contact: Contact | null): boolean {
     return checkIsOwnContact(contact);
   }
 
+  /** Resets the mobile detail/menu view whenever navigation returns to the plain /contacts route. */
   constructor() {
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
@@ -54,27 +56,29 @@ export class Contacts implements OnInit {
     this.loadContacts();
   }
 
+  /** Loads all contacts and re-groups the list whenever a background revalidation refreshes them. */
   async loadContacts() {
     try {
       const contacts = await this.contactService.getContacts((freshContacts) => {
         this.contacts = freshContacts;
         this.groupContacts();
-        if (this.selectedContact) {
-          const fresh = this.contacts.find((c) => c.id === this.selectedContact!.id);
-          this.selectedContact = fresh || null;
-        }
+        this.refreshSelectedContact();
         this.cdr.detectChanges();
       });
       this.contacts = contacts;
       this.groupContacts();
-      if (this.selectedContact) {
-        const fresh = this.contacts.find((c) => c.id === this.selectedContact!.id);
-        this.selectedContact = fresh || null;
-      }
+      this.refreshSelectedContact();
       this.cdr.detectChanges();
     } catch (e) {
       console.error('Error loading contacts:', e);
     }
+  }
+
+  /** Re-points the selected contact at its fresh copy after a reload, in case it changed. */
+  private refreshSelectedContact() {
+    if (!this.selectedContact) return;
+    const fresh = this.contacts.find((c) => c.id === this.selectedContact!.id);
+    this.selectedContact = fresh || null;
   }
 
   /** Groups contacts alphabetically. */
@@ -140,24 +144,13 @@ export class Contacts implements OnInit {
     this.cdr.detectChanges();
   }
 
+  /** Handles the dialog's save event for both add and edit modes. */
   async onDialogSaved(contactData: NewContact) {
     try {
       if (this.dialogMode === 'add') {
-        await this.contactService.addContact(contactData);
-        this.showSuccessToast = true;
-        setTimeout(() => {
-          this.showSuccessToast = false;
-          this.cdr.detectChanges();
-        }, 1500);
-      }
-
-      if (this.dialogMode === 'edit' && this.dialogContact) {
-        const updatedContact = await this.contactService.updateContact(
-          this.dialogContact.id,
-          contactData,
-        );
-
-        this.selectedContact = updatedContact;
+        await this.addContactFromDialog(contactData);
+      } else if (this.dialogContact) {
+        await this.updateContactFromDialog(this.dialogContact.id, contactData);
       }
 
       this.isDialogOpen = false;
@@ -166,6 +159,21 @@ export class Contacts implements OnInit {
     } catch (e) {
       console.error('Error saving contact:', e);
     }
+  }
+
+  /** Creates a contact and briefly shows a success toast. */
+  private async addContactFromDialog(contactData: NewContact): Promise<void> {
+    await this.contactService.addContact(contactData);
+    this.showSuccessToast = true;
+    setTimeout(() => {
+      this.showSuccessToast = false;
+      this.cdr.detectChanges();
+    }, 1500);
+  }
+
+  /** Updates a contact and refreshes the selected-contact detail view. */
+  private async updateContactFromDialog(id: string, contactData: NewContact): Promise<void> {
+    this.selectedContact = await this.contactService.updateContact(id, contactData);
   }
 
   /** Deletes the selected contact. */

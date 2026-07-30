@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/services/auth.guard';
 
+/** Top-level route table; all pages except login/signup/help/legal require authentication. */
 export const routes: Routes = [
   {
     path: '',
