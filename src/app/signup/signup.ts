@@ -163,7 +163,7 @@ export class Signup {
         error?.message?.includes('429');
 
       if (isDuplicate) {
-        this.emailError.set('Diese E-Mail-Adresse ist bereits registriert. Bitte einloggen oder Passwort zurücksetzen.');
+        this.emailError.set('This email address is already registered.');
       } else if (isRateLimit) {
         this.emailError.set('Too many requests. Please try again later.');
       } else {

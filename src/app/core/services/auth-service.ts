@@ -144,13 +144,13 @@ export class AuthService {
   async signUp(email: string, password: string, name: string): Promise<void> {
     const cleanEmail = email.trim();
 
-    const { data: existingContact } = await this.supabase.client
+    const { data: existingContacts } = await this.supabase.client
       .from('contacts')
       .select('id')
       .ilike('email', cleanEmail)
-      .maybeSingle();
+      .limit(1);
 
-    if (existingContact) {
+    if (existingContacts && existingContacts.length > 0) {
       throw new Error('EMAIL_EXISTS');
     }
 
@@ -164,7 +164,17 @@ export class AuthService {
       },
     });
 
-    if (error) throw error;
+    if (error) {
+      const errMsg = error.message?.toLowerCase() || '';
+      if (
+        errMsg.includes('already registered') ||
+        errMsg.includes('already in use') ||
+        errMsg.includes('user already exists')
+      ) {
+        throw new Error('EMAIL_EXISTS');
+      }
+      throw error;
+    }
 
     if (data.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
       throw new Error('EMAIL_EXISTS');
@@ -172,7 +182,20 @@ export class AuthService {
 
     const contact = this.createContactFromSignup(name, cleanEmail);
 
-    await this.contactService.addContact(contact);
+    try {
+      await this.contactService.addContact(contact);
+    } catch (addContactError: any) {
+      const errMsg = addContactError?.message?.toLowerCase() || '';
+      if (
+        errMsg.includes('duplicate') ||
+        errMsg.includes('unique') ||
+        errMsg.includes('already exists') ||
+        addContactError?.code === '23505'
+      ) {
+        throw new Error('EMAIL_EXISTS');
+      }
+      console.error('Error adding contact during signup:', addContactError);
+    }
   }
 
   /**
