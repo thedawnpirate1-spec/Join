@@ -8,7 +8,7 @@
   padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
   box-sizing: border-box;
   font-family: var(--font-family);
-  color: #000000;
+  color: var(--color-black);
   width: 100%;
 }
 
@@ -22,7 +22,7 @@
     font-size: 61px;
     font-weight: 700;
     margin: 0;
-    color: #000000;
+    color: var(--color-black);
   }
 }
 
@@ -55,13 +55,13 @@ h2 {
   font-size: 27px;
   font-weight: 700;
   margin: 40px 0 16px 0;
-  color: #000000;
+  color: var(--color-black);
 }
 
 p, .note-text, .contact-text {
   font-size: 16px;
   line-height: 1.6;
-  color: #2A3647;
+  color: var(--color-primary);
   margin: 0 0 16px 0;
 }
 
@@ -94,7 +94,7 @@ p, .note-text, .contact-text {
   .item-number {
     font-size: 20px;
     font-weight: 700;
-    color: #000000;
+    color: var(--color-black);
     line-height: 1.4;
   }
 
@@ -102,7 +102,7 @@ p, .note-text, .contact-text {
     h3 {
       font-size: 20px;
       font-weight: 700;
-      color: #000000;
+      color: var(--color-black);
       margin: 0 0 8px 0;
       line-height: 1.4;
     }

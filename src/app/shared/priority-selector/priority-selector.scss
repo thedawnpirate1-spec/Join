@@ -31,9 +31,9 @@
   font-size: 16px;
   font-weight: 500;
   font-family: var(--font-family);
-  color: #000000;
-  background-color: #ffffff;
-  border: 1px solid #d1d1d1;
+  color: var(--color-black);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border-light);
   border-radius: 10px;
   cursor: pointer;
   white-space: nowrap;
@@ -83,15 +83,15 @@
   }
 
   &.urgent .prio-icon {
-    color: #ff3d00;
+    color: var(--color-priority-urgent);
   }
 
   &.medium .prio-icon {
-    color: #ffa800;
+    color: var(--color-priority-medium);
   }
 
   &.low .prio-icon {
-    color: #7ae229;
+    color: var(--color-priority-low);
   }
 
   &:hover {
@@ -99,25 +99,25 @@
   }
 
   &.selected {
-    color: #ffffff;
+    color: var(--color-white);
     font-weight: 700;
     border-color: transparent;
 
     .prio-icon {
-      color: #ffffff;
+      color: var(--color-white);
     }
   }
 
   &.urgent.selected {
-    background-color: #ff3d00;
+    background-color: var(--color-priority-urgent);
   }
 
   &.medium.selected {
-    background-color: #ffa800;
+    background-color: var(--color-priority-medium);
   }
 
   &.low.selected {
-    background-color: #7ae229;
+    background-color: var(--color-priority-low);
   }
 }
 

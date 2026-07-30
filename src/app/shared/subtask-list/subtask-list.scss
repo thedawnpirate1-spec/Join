@@ -7,17 +7,17 @@
   padding: 12px 21px;
   font-size: 16px;
   font-family: var(--font-family);
-  border: 1px solid #d1d1d1;
+  border: 1px solid var(--color-border-light);
   border-radius: 10px;
-  background-color: #ffffff;
-  color: #000000;
+  background-color: var(--color-white);
+  color: var(--color-black);
   outline: none;
   transition:
     border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
 
   &::placeholder {
-    color: #d1d1d1;
+    color: var(--color-border-light);
   }
 
   &:focus {
@@ -34,7 +34,7 @@
     border-bottom-right-radius: 10px;
   }
   &::-webkit-scrollbar-thumb {
-    background: #a8a8a8;
+    background: var(--color-icon-muted);
     border-radius: 10px;
   }
   &::-webkit-scrollbar-thumb:hover {
@@ -46,9 +46,9 @@
   position: relative;
   display: flex;
   align-items: center;
-  border: 1px solid #d1d1d1;
+  border: 1px solid var(--color-border-light);
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--color-white);
   padding-right: 80px;
   min-height: 48px;
   transition: border-color 0.15s ease-in-out;
@@ -108,7 +108,7 @@
 .icon-divider {
   width: 1px;
   height: 20px;
-  background-color: #d1d1d1;
+  background-color: var(--color-border-light);
   margin: 0 4px;
 }
 
@@ -158,7 +158,7 @@
 
 .subtask-title-text {
   font-size: 16px;
-  color: #000000;
+  color: var(--color-black);
   word-break: break-all;
   padding-right: 70px;
 }
@@ -200,7 +200,7 @@
 .action-divider {
   width: 1px;
   height: 14px;
-  background-color: #d1d1d1;
+  background-color: var(--color-border-light);
   margin: 0 4px;
 }
 
@@ -209,7 +209,7 @@
   align-items: center;
   border: 1px solid var(--color-button-hover);
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: var(--color-white);
   padding: 4px 16px;
   width: 100%;
   position: relative;

@@ -1,0 +1,81 @@
+// Shared form-control building blocks, reused by login, signup, add-task,
+// edit-task, and contact-dialog to avoid duplicating the same input/icon/
+// error-message rules in every one of those files.
+
+/** Base text input/textarea look. Callers set their own height/box-sizing as needed. */
+@mixin text-field($font-size: 16px, $padding: 12px 21px, $focus-color: var(--color-button-hover)) {
+  width: 100%;
+  font-family: var(--font-family);
+  font-size: $font-size;
+  padding: $padding;
+  border: 1px solid var(--color-border-light);
+  border-radius: 10px;
+  color: var(--color-text-primary);
+  outline: none;
+
+  &::placeholder {
+    color: var(--color-border-light);
+  }
+
+  &:focus {
+    border-color: $focus-color;
+  }
+}
+
+/** Red border for a field carrying a validation error, on the given error class name. */
+@mixin input-error-border($error-class: 'input-error') {
+  &.#{$error-class} {
+    border-color: var(--color-error);
+
+    &:focus {
+      border-color: var(--color-error);
+    }
+  }
+}
+
+/** Positions an icon centered vertically inside a relatively-positioned field. */
+@mixin absolute-center-icon($size: 22px, $right: 18px) {
+  position: absolute;
+  right: $right;
+  top: 50%;
+  width: $size;
+  height: $size;
+  transform: translateY(-50%);
+}
+
+/** Icon-only button (e.g. show/hide password) centered inside a relatively-positioned field. */
+@mixin icon-button($size: 22px, $right: 18px) {
+  @include absolute-center-icon($size, $right);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/** Validation error text styled from the shared --error-* CSS variables. */
+@mixin error-message-text($align: center) {
+  font-family: var(--error-font-family);
+  font-size: var(--error-font-size);
+  font-weight: var(--error-font-weight);
+  line-height: var(--error-line-height);
+  color: var(--color-error);
+  text-align: $align;
+}
+
+/** Fixed-width wrapper reserving space below a field for its (absolutely positioned) error text. */
+@mixin auth-field-wrapper($min-height: 72px, $width: 422px) {
+  width: $width;
+  min-height: $min-height;
+  margin-bottom: 4px;
+  position: relative;
+}
+
+/** Relatively-positioned container for an auth input plus its trailing icon/toggle button. */
+@mixin auth-input-group($height: 48px) {
+  position: relative;
+  width: 100%;
+  height: $height;
+}

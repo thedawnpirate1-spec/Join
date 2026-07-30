@@ -74,7 +74,7 @@
     }
 
     .menu-text {
-      color: #ffffff;
+      color: var(--color-white);
     }
   }
 
@@ -86,7 +86,7 @@
     }
 
     .menu-text {
-      color: #ffffff;
+      color: var(--color-white);
     }
   }
 }
@@ -106,7 +106,7 @@
   padding-left: 48px;
   box-sizing: border-box;
 
-  color: #a8a8a8;
+  color: var(--color-icon-muted);
   font-family: var(--font-family);
   font-size: 16px;
   text-decoration: none;
@@ -121,7 +121,7 @@
 
   &.active {
     background-color: var(--color-button-active);
-    color: #ffffff;
+    color: var(--color-white);
   }
 }
 

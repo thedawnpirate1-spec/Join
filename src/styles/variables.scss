@@ -15,6 +15,16 @@ $global-max-width: 1440px;
   --font-family: 'Inter', sans-serif;
   --color-divider: #29abe2;
 
+  // Shared design tokens (dedupe raw hex literals repeated across component styles)
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-border-light: #d1d1d1;
+  --color-icon-muted: #a8a8a8;
+  --color-surface-hover: #f0f4f8;
+  --color-priority-urgent: #ff3d00;
+  --color-priority-medium: #ffa800;
+  --color-priority-low: #7ae229;
+
   // Global Error Message Variables
   --error-font-family: var(--font-family);
   --error-font-size: 16px;

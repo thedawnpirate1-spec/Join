@@ -27,7 +27,7 @@
 .board-title {
   font-size: 64px;
   font-weight: 700;
-  color: #000000;
+  color: var(--color-black);
   margin: 0;
 }
 
@@ -45,9 +45,9 @@
   width: 300px;
   max-width: 100%;
   padding: 12px 16px;
-  border: 1px solid #a8a8a8;
+  border: 1px solid var(--color-icon-muted);
   border-radius: 10px;
-  background: #ffffff;
+  background: var(--color-white);
 
   input {
     flex-grow: 1;
@@ -56,17 +56,17 @@
     outline: none;
     font-family: var(--font-family);
     font-size: 16px;
-    color: #000000;
+    color: var(--color-black);
 
     &::placeholder {
-      color: #a8a8a8;
+      color: var(--color-icon-muted);
     }
   }
 
   .search-divider {
     width: 1px;
     height: 24px;
-    background-color: #a8a8a8;
+    background-color: var(--color-icon-muted);
   }
 
   svg {
@@ -90,7 +90,7 @@
   align-items: center;
   gap: 16px;
   background-color: var(--color-primary);
-  color: #ffffff;
+  color: var(--color-white);
   font-size: 21px;
   font-weight: 700;
   border: none;
@@ -203,7 +203,7 @@
 }
 
 .add-task-collums {
-  color: #2a3647;
+  color: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -215,13 +215,13 @@
   transition: background-color 0.15s;
 
   img {
-    color: #2a3647;
+    color: var(--color-primary);
     width: 8px;
     height: 8px;
   }
 
   &:hover {
-    background-color: #f0f4f8;
+    background-color: var(--color-surface-hover);
   }
 }
 
@@ -235,21 +235,21 @@
   padding: 2px 12px 2px 2px;
   scrollbar-gutter: stable;
   scrollbar-width: auto;
-  scrollbar-color: #a8a8a8 #f0f4f8;
+  scrollbar-color: var(--color-icon-muted) var(--color-surface-hover);
 
   &::-webkit-scrollbar {
     width: 12px;
   }
 
   &::-webkit-scrollbar-track {
-    background: #f0f4f8;
+    background: var(--color-surface-hover);
     border-radius: 8px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: #a8a8a8;
+    background-color: var(--color-icon-muted);
     border-radius: 8px;
-    border: 3px solid #f0f4f8;
+    border: 3px solid var(--color-surface-hover);
   }
 }
 
@@ -271,12 +271,12 @@
     }
 
     &::-webkit-scrollbar-track {
-      background: #f0f4f8;
+      background: var(--color-surface-hover);
       border-radius: 4px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #a8a8a8;
+      background-color: var(--color-icon-muted);
       border-radius: 4px;
       border: none;
     }
@@ -300,9 +300,9 @@
   align-items: center;
   justify-content: center;
   min-height: 48px;
-  border: 1px dashed #a8a8a8;
+  border: 1px dashed var(--color-icon-muted);
   border-radius: 12px;
-  color: #a8a8a8;
+  color: var(--color-icon-muted);
   font-size: 16px;
   text-align: center;
   padding: 8px;

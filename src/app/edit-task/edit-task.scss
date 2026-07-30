@@ -1,4 +1,5 @@
 @use '../../styles/variables' as *;
+@use '../../styles/forms';
 
 @keyframes fadeIn {
   from {
@@ -51,7 +52,7 @@
   height: auto;
   max-height: min(850px, calc(100vh - 48px));
   overflow: hidden;
-  background: #ffffff;
+  background: var(--color-white);
   border-radius: 30px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
@@ -94,7 +95,7 @@
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background-color: #a8a8a8;
+    background-color: var(--color-icon-muted);
   }
 }
 
@@ -104,7 +105,7 @@
   justify-content: space-between;
   position: sticky;
   top: 0;
-  background-color: #ffffff;
+  background-color: var(--color-white);
   padding-top: 20px;
   padding-bottom: 12px;
   margin-bottom: 12px;
@@ -116,7 +117,7 @@
   justify-content: flex-end;
   position: sticky;
   top: 0;
-  background-color: #ffffff;
+  background-color: var(--color-white);
   padding-top: 20px;
   padding-bottom: 12px;
   margin-bottom: 12px;
@@ -128,7 +129,7 @@
   border-radius: 8px;
   font-size: 23px;
   font-weight: 400;
-  color: #ffffff;
+  color: var(--color-white);
 
   &.user-story {
     background-color: #0038ff;
@@ -157,14 +158,14 @@
   }
 
   &:hover {
-    background-color: #f0f4f8;
+    background-color: var(--color-surface-hover);
   }
 }
 
 .task-title {
   font-size: clamp(36px, 5vw, 61px);
   font-weight: 700;
-  color: #000000;
+  color: var(--color-black);
   margin: 0;
   line-height: 1.2;
   overflow-wrap: anywhere;
@@ -172,7 +173,7 @@
 
 .task-description {
   font-size: 20px;
-  color: #000000;
+  color: var(--color-black);
   margin: 0;
 }
 
@@ -189,7 +190,7 @@
 
 .detail-value {
   font-size: 16px;
-  color: #000000;
+  color: var(--color-black);
 }
 
 .priority-value {
@@ -202,15 +203,15 @@
     height: 14px;
 
     &.urgent {
-      color: #ff3d00;
+      color: var(--color-priority-urgent);
     }
 
     &.medium {
-      color: #ffa800;
+      color: var(--color-priority-medium);
     }
 
     &.low {
-      color: #7ae229;
+      color: var(--color-priority-low);
     }
   }
 }
@@ -239,8 +240,8 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  border: 2px solid #ffffff;
-  color: #ffffff;
+  border: 2px solid var(--color-white);
+  color: var(--color-white);
   font-size: 12px;
   font-weight: 600;
   display: flex;
@@ -251,7 +252,7 @@
 
 .assigned-name {
   font-size: 19px;
-  color: #000000;
+  color: var(--color-black);
 }
 
 .subtask-list {
@@ -271,7 +272,7 @@
   border-radius: 10px;
   font-family: var(--font-family);
   font-size: 16px;
-  color: #000000;
+  color: var(--color-black);
   text-align: left;
   cursor: pointer;
   transition: background-color 0.15s;
@@ -283,7 +284,7 @@
   }
 
   &:hover {
-    background-color: #f0f4f8;
+    background-color: var(--color-surface-hover);
   }
 }
 
@@ -294,7 +295,7 @@
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  background-color: #ffffff;
+  background-color: var(--color-white);
   padding-top: 12px;
   padding-bottom: 20px;
   margin-top: 12px;
@@ -329,7 +330,7 @@
 .footer-divider {
   width: 1px;
   height: 24px;
-  background-color: #d1d1d1;
+  background-color: var(--color-border-light);
 }
 
 .edit-form {
@@ -350,24 +351,8 @@
 }
 
 .form-input {
-  width: 100%;
-  border: 1px solid #d1d1d1;
-  border-radius: 10px;
-  padding: 12px 21px;
+  @include forms.text-field($font-size: 16px, $padding: 12px 21px, $focus-color: var(--color-divider));
   box-sizing: border-box;
-  font-family: var(--font-family);
-  font-size: 16px;
-  color: var(--color-text-primary);
-  outline: none;
-  transition: border-color 100ms ease-in-out;
-
-  &::placeholder {
-    color: #d1d1d1;
-  }
-
-  &:focus {
-    border-color: #29abe2;
-  }
 }
 
 .form-textarea {
@@ -380,7 +365,7 @@
   justify-content: flex-end;
   position: sticky;
   bottom: 0;
-  background-color: #ffffff;
+  background-color: var(--color-white);
   padding-top: 12px;
   padding-bottom: 20px;
   margin-top: 12px;
@@ -398,7 +383,7 @@
   font-family: var(--font-family);
   font-size: 16px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--color-white);
   cursor: pointer;
   white-space: nowrap;
   transition: background-color 0.15s;

@@ -1,3 +1,6 @@
+@use '../../styles/variables' as *;
+@use '../../styles/forms';
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -48,7 +51,7 @@
   max-width: calc(100vw - 32px);
   height: 594px;
   max-height: calc(100vh - 32px);
-  background: #ffffff;
+  background: var(--color-white);
   border-radius: 30px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   z-index: 1000;
@@ -75,7 +78,7 @@
 }
 
 .panel-title {
-  color: #ffffff;
+  color: var(--color-white);
   font-size: clamp(47px, 5vw, 61px);
   font-weight: 700;
   margin-bottom: 8px;
@@ -83,7 +86,7 @@
 }
 
 .panel-subtitle {
-  color: #ffffff;
+  color: var(--color-white);
   font-size: 27px;
   font-weight: 400;
   margin-bottom: 16px;
@@ -91,7 +94,7 @@
 }
 
 .panel-underline {
-  background-color: #29abe2;
+  background-color: var(--color-divider);
   width: 90px;
   height: 3px;
   border-radius: 2px;
@@ -128,7 +131,7 @@
   }
 
   &:hover {
-    background-color: #f0f4f8;
+    background-color: var(--color-surface-hover);
   }
 }
 
@@ -159,9 +162,9 @@
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 3px solid #ffffff;
+  border: 3px solid var(--color-white);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  color: #ffffff;
+  color: var(--color-white);
   font-size: 47px;
   font-weight: 500;
   display: grid;
@@ -192,27 +195,10 @@
 }
 
 .form-input {
-  width: 100%;
+  @include forms.text-field($font-size: 20px, $padding: 0 48px 0 20px);
   height: 50px;
-  background-color: #ffffff;
-  border: 1px solid #d1d1d1;
-  border-radius: 10px;
+  background-color: var(--color-white);
   box-sizing: border-box;
-  padding-left: 20px;
-  padding-right: 48px;
-  font-family: var(--font-family);
-  font-size: 20px;
-  color: var(--color-text-primary);
-  outline: none;
-  transition: border-color 100ms ease-in-out;
-
-  &::placeholder {
-    color: #d1d1d1;
-  }
-
-  &:focus {
-    border-color: #124658;
-  }
 }
 
 .form-input-invalid {
@@ -235,12 +221,8 @@
 }
 
 .input-icon {
-  position: absolute;
-  right: 18px;
+  @include forms.absolute-center-icon(24px);
   top: 25px;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
   pointer-events: none;
 }
 
@@ -270,7 +252,7 @@
 .btn-cancel {
   width: 126px;
   height: 56px;
-  background-color: #ffffff;
+  background-color: var(--color-white);
   border: 1px solid var(--color-primary);
   color: var(--color-primary);
 
@@ -292,7 +274,7 @@
   height: 57px;
   background-color: var(--color-primary);
   border: none;
-  color: #ffffff;
+  color: var(--color-white);
   font-weight: 700;
 
   .btn-icon {
@@ -313,7 +295,7 @@
   height: 56px;
   background-color: var(--color-primary);
   border: none;
-  color: #ffffff;
+  color: var(--color-white);
   font-weight: 700;
 
   .btn-icon {
@@ -396,13 +378,13 @@
   .avatar-container {
     margin-top: -60px;
     margin-bottom: 24px;
-    background-color: #ffffff;
+    background-color: var(--color-white);
     border-radius: 50%;
     z-index: 2;
   }
 
   .avatar-img {
-    border: 3px solid #ffffff;
+    border: 3px solid var(--color-white);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   }
 

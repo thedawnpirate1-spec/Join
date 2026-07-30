@@ -1,4 +1,5 @@
 @use '../../styles/variables' as *;
+@use '../../styles/forms';
 
 .add-task-container {
   padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
@@ -45,7 +46,7 @@
   width: calc(100vw - 16px);
   max-width: 1200px;
   max-height: calc(100vh - 16px);
-  background: #ffffff;
+  background: var(--color-white);
   border-radius: 30px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   z-index: 1000;
@@ -92,14 +93,14 @@
   }
 
   &:hover {
-    background-color: #f0f4f8;
+    background-color: var(--color-surface-hover);
   }
 }
 
 .page-title {
   font-size: 64px;
   font-weight: 700;
-  color: #000000;
+  color: var(--color-black);
   margin-bottom: 24px;
 
   @media (max-width: 812px) {
@@ -136,7 +137,7 @@
 
 .vertical-divider {
   width: 1px;
-  background-color: #d1d1d1;
+  background-color: var(--color-border-light);
   align-self: stretch;
 
   @media (max-width: 812px) {
@@ -165,30 +166,13 @@
 }
 
 .form-input {
-  width: 100%;
-  padding: 12px 21px;
-  font-size: 16px;
-  font-family: var(--font-family);
-  border: 1px solid #d1d1d1;
-  border-radius: 10px;
-  background-color: #ffffff;
-  color: #000000;
-  outline: none;
+  @include forms.text-field($font-size: 16px, $padding: 12px 21px);
+  @include forms.input-error-border;
+  background-color: var(--color-white);
+  color: var(--color-black);
   transition:
     border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
-
-  &::placeholder {
-    color: #d1d1d1;
-  }
-
-  &:focus {
-    border-color: var(--color-button-hover);
-  }
-
-  &.input-error {
-    border-color: var(--color-error);
-  }
 }
 
 .title-input {
@@ -197,26 +181,12 @@
 }
 
 .form-textarea {
-  width: 100%;
+  @include forms.text-field($font-size: 16px, $padding: 12px 21px);
   height: 96px;
-  padding: 12px 21px;
-  font-size: 16px;
-  font-family: var(--font-family);
-  border: 1px solid #d1d1d1;
-  border-radius: 10px;
-  background-color: #ffffff;
-  color: #000000;
-  outline: none;
+  background-color: var(--color-white);
+  color: var(--color-black);
   resize: none;
   transition: border-color 0.15s ease-in-out;
-
-  &::placeholder {
-    color: #d1d1d1;
-  }
-
-  &:focus {
-    border-color: var(--color-button-hover);
-  }
 }
 
 .date-input-wrapper {
@@ -275,8 +245,8 @@
   justify-content: space-between;
   width: 100%;
   padding: 12px 21px;
-  background-color: #ffffff;
-  border: 1px solid #d1d1d1;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border-light);
   border-radius: 10px;
   cursor: pointer;
   user-select: none;
@@ -311,7 +281,7 @@
 
 .selected-category-text {
   font-size: 16px;
-  color: #000000;
+  color: var(--color-black);
 }
 
 .dropdown-menu {
@@ -319,8 +289,8 @@
   top: calc(100% + 4px);
   left: 0;
   width: 100%;
-  background-color: #ffffff;
-  border: 1px solid #d1d1d1;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border-light);
   border-radius: 10px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
   z-index: 100;
@@ -334,12 +304,12 @@
 .dropdown-item {
   padding: 12px 21px;
   font-size: 16px;
-  color: #000000;
+  color: var(--color-black);
   cursor: pointer;
   transition: background-color 0.1s ease-in-out;
 
   &:hover {
-    background-color: #f6f7f8;
+    background-color: var(--color-background);
   }
 }
 
@@ -353,7 +323,7 @@
 
 .required-info-desktop {
   font-size: 16px;
-  color: #000000;
+  color: var(--color-black);
 
   @media (max-width: 812px) {
     display: none;
@@ -363,7 +333,7 @@
 .required-info-mobile {
   display: none;
   font-size: 16px;
-  color: #000000;
+  color: var(--color-black);
 
   @media (max-width: 812px) {
     display: block;
@@ -421,7 +391,7 @@
 
 .btn-primary {
   background-color: var(--color-primary);
-  color: #ffffff;
+  color: var(--color-white);
 
   &:hover:not(:disabled) {
     background-color: var(--color-button-hover);
@@ -476,8 +446,8 @@
 }
 
 .success-toast {
-  background-color: #2a3647;
-  color: #ffffff;
+  background-color: var(--color-primary);
+  color: var(--color-white);
   display: flex;
   align-items: center;
   gap: 24px;

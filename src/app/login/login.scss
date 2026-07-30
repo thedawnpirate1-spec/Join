@@ -1,4 +1,5 @@
 @use '../../styles/variables' as *;
+@use '../../styles/forms';
 
 :host {
   display: flex;
@@ -44,7 +45,7 @@
   gap: 28px;
 
   font-size: 16px;
-  color: #000000;
+  color: var(--color-black);
 }
 
 .signup-btn {
@@ -52,7 +53,7 @@
   padding: 0 18px;
 
   background-color: var(--color-primary);
-  color: #ffffff;
+  color: var(--color-white);
 
   border: none;
   border-radius: 8px;
@@ -93,7 +94,7 @@
   flex-direction: column;
   align-items: center;
 
-  background-color: #ffffff;
+  background-color: var(--color-white);
   border-radius: 30px;
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.12);
 
@@ -106,7 +107,7 @@
   font-size: 61px;
   font-weight: 700;
   line-height: 1.1;
-  color: #000000;
+  color: var(--color-black);
 }
 
 .title-underline {
@@ -115,7 +116,7 @@
   margin-top: 12px;
   margin-bottom: 32px;
 
-  background-color: #29abe2;
+  background-color: var(--color-divider);
   border-radius: 2px;
 }
 
@@ -128,81 +129,28 @@
 }
 
 .field-wrapper {
-  width: 422px;
-  min-height: 72px; /* 48px input + 24px error message space */
-  margin-bottom: 4px;
-  position: relative;
+  @include forms.auth-field-wrapper($min-height: 72px); // 48px input + 24px error message space
 }
 
 .input-group {
-  position: relative;
-  width: 100%;
-  height: 48px;
+  @include forms.auth-input-group;
 }
 
 .login-input {
-  width: 100%;
+  @include forms.text-field($font-size: 20px, $padding: 0 48px 0 20px, $focus-color: var(--color-divider));
+  @include forms.input-error-border;
   height: 100%;
-
-  padding: 0 48px 0 20px;
-
-  border: 1px solid #d1d1d1;
-  border-radius: 10px;
-
-  font-size: 20px;
   font-family: inherit;
-  color: var(--color-text-primary);
-
-  outline: none;
   box-sizing: border-box;
-
-  &::placeholder {
-    color: #d1d1d1;
-  }
-
-  &:focus {
-    border-color: #29abe2;
-  }
-}
-
-.login-input.input-error {
-  border-color: var(--color-error);
-}
-
-.login-input.input-error:focus {
-  border-color: var(--color-error);
 }
 
 .input-icon {
-  position: absolute;
-  right: 18px;
-  top: 50%;
-
-  width: 22px;
-  height: 22px;
-
-  transform: translateY(-50%);
+  @include forms.absolute-center-icon(22px);
   pointer-events: none;
 }
 
 .password-toggle-btn {
-  position: absolute;
-  right: 18px;
-  top: 50%;
-
-  width: 22px;
-  height: 22px;
-
-  transform: translateY(-50%);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: pointer;
+  @include forms.icon-button(22px);
 }
 
 .password-toggle-icon {
@@ -212,18 +160,12 @@
 }
 
 .error-message {
+  @include forms.error-message-text(center);
   position: absolute;
   top: 52px; /* Just below the input */
   left: 0;
   width: 100%;
   margin: 0;
-
-  font-family: var(--error-font-family);
-  font-size: var(--error-font-size);
-  font-weight: var(--error-font-weight);
-  line-height: var(--error-line-height);
-  color: var(--color-error);
-  text-align: center;
 }
 
 .button-row {
@@ -261,7 +203,7 @@
 
 .login-btn {
   background-color: var(--color-primary);
-  color: #ffffff;
+  color: var(--color-white);
   border: none;
 
   &:hover {
@@ -277,7 +219,7 @@
 }
 
 .guest-btn {
-  background-color: #ffffff;
+  background-color: var(--color-white);
   color: var(--color-primary);
   border: 1px solid var(--color-primary);
 
@@ -299,7 +241,7 @@
   transform: translateX(-50%);
 
   a {
-    color: #a8a8a8;
+    color: var(--color-icon-muted);
     font-size: 16px;
     text-decoration: none;
     transition: color 100ms ease-in-out;
@@ -465,7 +407,7 @@
     gap: 24px;
 
     font-size: 20px;
-    color: #000000;
+    color: var(--color-black);
   }
 
   .signup-btn {
