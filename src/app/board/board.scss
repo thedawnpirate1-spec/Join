@@ -76,7 +76,6 @@
 
 @media (max-width: 350px) {
   .search-box {
-    width: 220px;
     gap: 10px;
     padding: 8px 12px;
 
@@ -116,37 +115,47 @@
   }
 }
 
-@media (max-width: 580px) {
+@media (max-width: 768px) {
   .board-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
     gap: 16px;
+    width: 100%;
+  }
+
+  .board-title {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: clamp(36px, 8vw, 47px);
   }
 
   .board-actions {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .search-box {
-    flex: 1 1 auto;
-    min-width: 0;
-    width: auto;
+    display: contents;
   }
 
   .add-task-btn {
-    flex-shrink: 0;
+    grid-column: 2;
+    grid-row: 1;
     width: 40px;
     height: 40px;
     padding: 0;
     gap: 0;
     border-radius: 10px;
     justify-content: center;
+    align-self: center;
 
     .add-task-label {
       display: none;
     }
+  }
+
+  .search-box {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
 
