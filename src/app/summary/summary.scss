@@ -1,5 +1,8 @@
 @use '../../styles/variables' as *;
-@use './summary.responsive';
+// @use hoists a module's own CSS above the file that uses it, so the responsive
+// overrides are wrapped in a mixin and @include-d at the bottom of this file
+// (see end) to preserve their original cascade position after the base rules.
+@use './summary.responsive' as summaryResponsive;
 
 .summary-container {
   display: flex;
@@ -258,3 +261,5 @@
     margin: 0;
   }
 }
+
+@include summaryResponsive.styles;
