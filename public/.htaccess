@@ -1,0 +1,19 @@
+# .htaccess für Single-Page-Application-Routing (Angular Router)
+# Aktiviert die Rewrite-Engine von Apache
+RewriteEngine On
+
+# Diese .htaccess liegt im Unterordner /join/ (projects.kevin-schumacher.de/join/)
+RewriteBase /join/
+
+# Prüft, ob die angeforderte Datei existiert und keine Größe von 0 Byte hat (-s)
+# oder ein symbolischer Link ist (-l) oder ein existierendes Verzeichnis ist (-d)
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+
+# Wenn eine der obigen Bedingungen zutrifft, wird die Anfrage unverändert durchgelassen
+RewriteRule ^.*$ - [NC,L]
+
+# Andernfalls (Route existiert nicht als echte Datei) auf /join/index.html umleiten,
+# damit der Angular Router das Routing clientseitig übernimmt
+RewriteRule ^(.*) /join/index.html [NC,L]
