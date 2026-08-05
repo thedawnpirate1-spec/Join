@@ -39,6 +39,9 @@
             ],
             "styles": [
               "src/styles.scss"
+            ],
+            "externalDependencies": [
+              "Assets/*"
             ]
           },
           "configurations": {
